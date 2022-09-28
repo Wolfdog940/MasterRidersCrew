@@ -10,7 +10,6 @@ from flask_jwt_extended import (
     create_access_token,get_jwt
 )
 
-
 api = Blueprint('api', __name__)
 
 
@@ -22,6 +21,7 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
 
 
 @api.route("/signup", methods=["POST"])
@@ -59,3 +59,4 @@ def login():
 
     access_token = create_access_token(identity=user.id)
     return jsonify({"token": access_token, "user_id": user.id}), 200
+
