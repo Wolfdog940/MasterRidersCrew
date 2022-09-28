@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 
+
 api = Blueprint('api', __name__)
 
 
@@ -16,3 +17,26 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route("/signup", methods=["POST"])
+def register():
+    data = request.get_json()
+    email = data["email"]
+    password = data["password"]
+
+    user = User.query.filter_by(email=data.get("email")).first()
+    if user is not None:
+        return jsonify({"message": "El usuario ya existe"}), 400
+    if not email:
+        return jsonify({"message": "Escriba un Email"}), 400
+    elif not password:
+        return jsonify({"message": "Escriba una Contraseña"}), 400
+
+    new_user = User(
+        email=data.get("email"),
+        password=data.get("password"),
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify(new_user.serialize()), 200
