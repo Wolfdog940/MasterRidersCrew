@@ -26,11 +26,11 @@ def register():
 
     user = User.query.filter_by(email=data.get("email")).first()
     if user is not None:
-        return jsonify({"message": "El usuario ya existe"}), 400
+        return jsonify({"message": "El usuario ya existe"}), 409
     if not email:
-        return jsonify({"message": "Escriba un Email"}), 400
+        return jsonify({"message": "Escriba un Email"}), 404
     elif not password:
-        return jsonify({"message": "Escriba una Contraseña"}), 400
+        return jsonify({"message": "Escriba una Contraseña"}), 404
 
     new_user = User(
         email=data.get("email"),
