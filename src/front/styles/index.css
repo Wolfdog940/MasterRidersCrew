@@ -1,3 +1,16 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+body {
+  background-image: url("https://i.postimg.cc/kgntGNgM/montana-glenorchy-en-nueva-zelanda-3840x2160-xtrafondos-com-1.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.registro {
+  font-family: fantasy;
+  font-size: 1cm;
+  -webkit-text-stroke: 0.5px gray;
+  color: rgba(0, 0, 0, 0.548);
+}
+.input::-webkit-input-placeholder {
+  color: black;
+}
