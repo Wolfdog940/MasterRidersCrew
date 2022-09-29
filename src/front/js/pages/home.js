@@ -1,26 +1,73 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import { useNavigate, Link } from "react-router-dom";
 import "../../styles/home.css";
 
-export const Home = () => {
-	const { store, actions } = useContext(Context);
+const Login = () => {
+  const [datos, setDatos] = useState({});
+  const { store, actions } = useContext(Context);
+  const nav = useNavigate();
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+  function handleInputChange(e) {
+    setDatos({ ...datos, [e.target.type]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    actions.loguearUsuario(datos);
+    /*setTimeout(()=>{
+        if (store.token !== null){
+            console.log("se logueo correctamente")
+            //nav('/products');
+        }
+        else console.log("Algo salio mal al loguear")
+        },500)*/
+  }
+
+  return (
+    <section className="container">
+      <div className="row justify-content-center">
+        <div className="co-xs-6 col-sm-6 col-md-6 col-lg-4">
+          <h3 className="text-center my-5 py-5">
+            Entrar
+          </h3>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                onChange={handleInputChange}
+                type="email"
+                className="form-control rounded-pill bg-transparent my-2 text-center"
+                placeholder="email"
+                required=""
+              />
+            </div>
+            <div className="form-group">
+              <input
+                onChange={handleInputChange}
+                type="password"
+                className="form-control rounded-pill bg-transparent my-2 text-center"
+                placeholder="Password"
+                required=""
+              />
+            </div>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="form-control btn btn-light submit rounded-pill"
+              >
+                Entrar
+              </button>
+            </div>
+            <div className="form-group d-flex justify-content-center">
+              <div className="w-50 mt-2 text-center">
+                <Link to="/" className="text-secondary">Todavia no estas registrado?</Link>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
 };
+
+export default Login;

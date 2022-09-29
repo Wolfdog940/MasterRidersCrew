@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: null,
 			message: null,
 			demo: [
 				{
@@ -46,6 +47,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			loguearUsuario: async(datos) => {
+				try{
+					const resp = await fetch(process.env.BACKEND_URL + "/api/login" , {
+						method: 'POST',
+						headers: {
+							"content-type": "application/json"
+						},
+						body: JSON.stringify(datos)
+					});
+					const data = await resp.json();
+					if (resp.status === 401)
+						throw new Error(data.msg);
+					else if (resp.status !== 200)
+						throw new Error("Ingreso Invalido");
+					else if (resp.status === 200){
+						sessionStorage.setItem("token", data.token);
+						sessionStorage.setItem("user_id", data.user_id);
+						setStore({token: data.token})
+					}
+				}
+				catch (error) {
+					console.log("Error al loguear el usuario", error);
+				}
 			}
 		}
 	};
