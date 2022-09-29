@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <section className="container">
       <div className="row justify-content-center">
-        <div className="co-xs-6 col-sm-6 col-md-6 col-lg-4">
+        <div className="col-8  col-md-6 col-lg-4">
           <h3 className="text-center my-5 py-5">
             Entrar
           </h3>
