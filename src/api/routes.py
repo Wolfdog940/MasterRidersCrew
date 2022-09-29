@@ -5,10 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from sqlalchemy.sql import text
-from flask_jwt_extended import (
-    JWTManager, jwt_required, get_jwt_identity,
-    create_access_token,get_jwt
-)
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, get_jwt
 
 api = Blueprint('api', __name__)
 
@@ -22,25 +19,24 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-
-
 @api.route("/signup", methods=["POST"])
 def register():
-    data = request.get_json()
-    email = data["email"]
-    password = data["password"]
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
 
-    user = User.query.filter_by(email=data.get("email")).first()
+    if email is None:
+        return jsonify({"msg": "Email is missing, write one, please!"}), 404
+    if password is None:
+        return jsonify({"msg": "Password is missing, write one, please!"}), 404
+
+    user = User.query.filter_by(email = email).first()
+
     if user is not None:
-        return jsonify({"message": "El usuario ya existe"}), 409
-    if not email:
-        return jsonify({"message": "Escriba un Email"}), 404
-    elif not password:
-        return jsonify({"message": "Escriba una Contraseña"}), 404
+        return jsonify({"msg": "Sorry. User already exist!"}), 409
 
     new_user = User(
-        email=data.get("email"),
-        password=data.get("password"),
+        email = email,
+        password = password,
     )
 
     db.session.add(new_user)
