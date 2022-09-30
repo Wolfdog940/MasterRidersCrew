@@ -1,7 +1,6 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
-body{
+
+
+body {
     margin: 0;
     padding: 0;
     background-image: url("https://i.postimg.cc/kgntGNgM/montana-glenorchy-en-nueva-zelanda-3840x2160-xtrafondos-com-1.jpg");
@@ -11,8 +10,19 @@ body{
     font-family: fantasy
 }
 
-form{
+form {
     margin: 5rem auto;
     -webkit-text-stroke: 0.5px gray;
     color: rgba(0, 0, 0, 0.5);
+}
+
+.registro {
+  font-family: fantasy;
+  font-size: 1cm;
+  -webkit-text-stroke: 0.5px gray;
+  color: rgba(0, 0, 0, 0.548);
+}
+
+.input::-webkit-input-placeholder {
+  color: black;
 }
