@@ -1,8 +1,19 @@
+
+
 body {
-  background-image: url("https://i.postimg.cc/kgntGNgM/montana-glenorchy-en-nueva-zelanda-3840x2160-xtrafondos-com-1.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+    margin: 0;
+    padding: 0;
+    background-image: url("https://i.postimg.cc/kgntGNgM/montana-glenorchy-en-nueva-zelanda-3840x2160-xtrafondos-com-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: fantasy
+}
+
+form {
+    margin: 5rem auto;
+    -webkit-text-stroke: 0.5px gray;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .registro {
@@ -11,6 +22,7 @@ body {
   -webkit-text-stroke: 0.5px gray;
   color: rgba(0, 0, 0, 0.548);
 }
+
 .input::-webkit-input-placeholder {
   color: black;
 }
