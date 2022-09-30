@@ -17,6 +17,7 @@ const signUp = () => {
   function handleSubmit(e) {
     e.preventDefault();
     console.log(valores);
+    console.log(process.env.BACKEND_URL);
     actions.signup(valores);
   }
 
@@ -53,17 +54,19 @@ const signUp = () => {
                 </div>
 
                 <div className="form-group">
-                  <button
-                    type="submit"
-                    className="form-control btn btn-light submit border rounded-pill px-6"
-                  >
-                    Registrate
-                  </button>
+                  <Link to="/">
+                    <button
+                      type="submit"
+                      className="form-control btn btn-light submit border rounded-pill px-6"
+                    >
+                      Registrate
+                    </button>
+                  </Link>
                 </div>
                 <div className="form-group d-md-flex d-flex justify-content-center">
                   <div className="w-50 text-md-right  mt-2 fs-5 fw-bolder text-center">
                     <Link to="/">
-                      <a className="text-white">Ya estas registrado?</a>
+                      <span className="text-white">Ya estas registrado?</span>
                     </Link>
                   </div>
                 </div>

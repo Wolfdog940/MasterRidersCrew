@@ -1,6 +1,3 @@
-
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import React, { useState, useContext } from "react";
 
 import { Context } from "../store/appContext";
@@ -32,9 +29,7 @@ const Login = () => {
     <section className="container">
       <div className="row justify-content-center">
         <div className="col-8  col-md-6 col-lg-4">
-          <h3 className="text-center my-5 py-5">
-            Entrar
-          </h3>
+          <h3 className="text-center my-5 py-5">Entrar</h3>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
@@ -64,7 +59,9 @@ const Login = () => {
             </div>
             <div className="form-group d-flex justify-content-center">
               <div className="w-50 mt-2 text-center">
-                <Link to="/" className="text-secondary">Todavia no estas registrado?</Link>
+                <Link to="/signup" className="text-secondary">
+                  Todavia no estas registrado?
+                </Link>
               </div>
             </div>
           </form>
