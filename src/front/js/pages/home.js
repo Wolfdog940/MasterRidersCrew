@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
 import "../../styles/home.css";
@@ -26,10 +27,11 @@ const Login = () => {
 
   return (
     <section className="d-flex justify-content-center align-items-center">
-      <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
-        <h3 className="text-white my-3">
-          Login
-        </h3>
+      <form
+        onSubmit={handleSubmit}
+        className="d-flex flex-column align-items-center"
+      >
+        <h3 className="text-white my-3">Login</h3>
         <div className="form-group w-75 my-2">
           <input
             onChange={handleInputChange}
@@ -58,7 +60,9 @@ const Login = () => {
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3">
-            <Link to="/" className="text-white link">Todavia no estas registrado?</Link>
+            <Link to="/" className="text-white link">
+              Todavia no estas registrado?
+            </Link>
           </div>
         </div>
       </form>
