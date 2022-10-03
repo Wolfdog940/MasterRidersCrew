@@ -6,7 +6,7 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
-import Login from "./pages/login";
+import Login from "./pages/home";
 
 //create your first component
 const Layout = () => {

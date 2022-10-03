@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
-import "../../styles/login.css";
+import "../../styles/home.css";
 
 const Login = () => {
   const [datos, setDatos] = useState({});
