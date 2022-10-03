@@ -1,28 +1,35 @@
-
-
 body {
-    margin: 0;
-    padding: 0;
-    background-image: url("https://i.postimg.cc/kgntGNgM/montana-glenorchy-en-nueva-zelanda-3840x2160-xtrafondos-com-1.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    font-family: fantasy
+  font-family: "Reenie Beanie", cursive;
+  margin: 0;
+  padding: 0;
+  background-image: url("https://i.ibb.co/hZc9bJH/pizarra.jpg%22%22");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+section {
+  width: 100vw;
+  height: 100vh;
 }
 
 form {
-    margin: 5rem auto;
-    -webkit-text-stroke: 0.5px gray;
-    color: rgba(0, 0, 0, 0.5);
+  margin: auto auto;
+  color: white(0, 0, 0, 0.5);
+  border: 2px groove white;
+  border-radius: 5%;
+  width: 300px;
+  height: 350px;
 }
 
-.registro {
-  font-family: fantasy;
-  font-size: 1cm;
-  -webkit-text-stroke: 0.5px gray;
-  color: rgba(0, 0, 0, 0.548);
+.input {
+  border: none;
 }
 
 .input::-webkit-input-placeholder {
-  color: black;
+  color: white;
+}
+
+.link {
+  text-decoration: none;
 }
