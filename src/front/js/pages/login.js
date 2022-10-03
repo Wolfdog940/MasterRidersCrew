@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate, Link } from "react-router-dom";
-import "../../styles/home.css";
+import "../../styles/login.css";
 
 const Login = () => {
   const [datos, setDatos] = useState({});
@@ -28,7 +28,7 @@ const Login = () => {
     <section className="d-flex justify-content-center align-items-center">
       <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
         <h3 className="text-white my-3">
-          Entrar
+          Login
         </h3>
         <div className="form-group w-75 my-2">
           <input
