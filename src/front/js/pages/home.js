@@ -26,47 +26,46 @@ const Login = () => {
   }
 
   return (
-    <section className="container">
-      <div className="row justify-content-center">
-        <div className="col-8  col-md-6 col-lg-4">
-          <h3 className="text-center my-5 py-5">Entrar</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                onChange={handleInputChange}
-                type="email"
-                className="form-control rounded-pill bg-transparent my-2 text-center"
-                placeholder="email"
-                required=""
-              />
-            </div>
-            <div className="form-group">
-              <input
-                onChange={handleInputChange}
-                type="password"
-                className="form-control rounded-pill bg-transparent my-2 text-center"
-                placeholder="Password"
-                required=""
-              />
-            </div>
-            <div className="form-group">
-              <button
-                type="submit"
-                className="form-control btn btn-light submit rounded-pill"
-              >
-                Entrar
-              </button>
-            </div>
-            <div className="form-group d-flex justify-content-center">
-              <div className="w-50 mt-2 text-center">
-                <Link to="/signup" className="text-secondary">
-                  Todavia no estas registrado?
-                </Link>
-              </div>
-            </div>
-          </form>
+    <section className="d-flex justify-content-center align-items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="d-flex flex-column align-items-center"
+      >
+        <h3 className="text-white my-3">Login</h3>
+        <div className="form-group w-75 my-2">
+          <input
+            onChange={handleInputChange}
+            type="email"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white"
+            placeholder="email"
+            required=""
+          />
         </div>
-      </div>
+        <div className="form-group w-75 mb-2">
+          <input
+            onChange={handleInputChange}
+            type="password"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white"
+            placeholder="Password"
+            required=""
+          />
+        </div>
+        <div className="form-group w-25 my-2">
+          <button
+            type="submit"
+            className="form-control btn btn-light submit rounded-pill bg-transparent text-white"
+          >
+            Entrar
+          </button>
+        </div>
+        <div className="form-group d-flex justify-content-center">
+          <div className="mt-3">
+            <Link to="/" className="text-white link">
+              Todavia no estas registrado?
+            </Link>
+          </div>
+        </div>
+      </form>
     </section>
   );
 };
