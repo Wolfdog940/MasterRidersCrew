@@ -29,17 +29,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
-
-
     user_data = db.relationship('User_Data', backref='user', lazy=True, uselist=False) #necesito uselist = false porque es una relacion 1 a 1
     image_id = db.relationship('Image', backref='user', lazy=True)
-
-
-
-
-    group_participation = db.relationship('Group', secondary=group_participation, lazy='subquery',
-                                          backref=db.backref('users', lazy=True))
-
     group = db.relationship('Group', backref='user', lazy=True)
 
     def __repr__(self):
@@ -60,6 +51,8 @@ class Group(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
     private = db.Column(db.Boolean(), unique=True)
+    group_participation = db.relationship('Users', secondary=group_participation, lazy='subquery',
+                         backref=db.backref('group', lazy=True))
 
     def __repr__(self):
         return f'<Group {self.name}>'
