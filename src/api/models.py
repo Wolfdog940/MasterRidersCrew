@@ -15,6 +15,14 @@ event_participant = db.Table('event_participant',
                                  'event.id'), primary_key=True)
                              )
 
+friend = db.Table('friend',
+                  db.Column('user_id1', db.Integer, db.ForeignKey(
+                      'user.id'), primary_key=True),
+                  db.Column("user_id2", db.Integer, db.ForeignKey(
+                      "user.id"), primary_key=True),
+                  db.Column("is_favorite", db.Boolean, default=False)
+                 )
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
