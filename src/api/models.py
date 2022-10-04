@@ -21,7 +21,14 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
-    # necesito uselist = false porque es una relacion 1 a 1
+
+
+    user_data = db.relationship('User_Data', backref='user', lazy=True, uselist=False) #necesito uselist = false porque es una relacion 1 a 1
+    image_id = db.relationship('Image', backref='user', lazy=True)
+
+
+
+
     group_participation = db.relationship('Group', secondary=group_participation, lazy='subquery',
                                           backref=db.backref('users', lazy=True))
 
@@ -55,12 +62,12 @@ class Group(db.Model):
             "name": self.email,
             "owner_id": self.owner_id,
             "private": self.private
-
         }
 
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
     start = db.Column(db.String(), unique=False, nullable=False)
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
@@ -71,7 +78,6 @@ class Event(db.Model):
     description = db.Column(db.String(), unique=False, nullable=False)
     participants = db.relationship('User', secondary=event_participant, lazy='subquery',
                                    backref=db.backref('events', lazy=True))
-
     def serialize(self):
         return {
             "id": self.id,
@@ -82,4 +88,40 @@ class Event(db.Model):
             "private": self.private,
             "slug": self.slug,
             "description": self.description
+        }
+                                   
+                                   
+  class User_Data(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=False, nullable=False)
+    last_name = db.Column(db.String(120), unique=False, nullable=False)
+    address = db.Column(db.String(120), unique=False, nullable=False)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
+    profile_picture = db.Column(db.Integer(), db.ForeignKey('image.id'), nullable=True)
+    
+
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "last_name": self.last_name,
+            "address": self.address,
+            "user_id": self.user_id,
+            "profile_picture": self.profile_picture
+        }
+
+
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(), unique=False, nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_data_id = db.relationship('User_Data', backref='image', lazy=True)
+    
+       def serialize(self):
+        return {
+            "id": self.id,
+            "image": self.image,
+            "owner_id": self.owner_id
         }
