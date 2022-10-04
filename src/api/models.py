@@ -11,8 +11,11 @@ group_participation = db.Table("group_participation",
                                )
 
 friend = db.Table('friend',
-                  db.Column('user_id', db.Integer, db.ForeignKey(
-                      'user.id'), primary_key=True))
+                  db.Column('user_id1', db.Integer, db.ForeignKey(
+                      'user.id'), primary_key=True),
+                  db.Column("user_id2", db.Integer, db.ForeignKey(
+                      "user.id"), primary_key=True),
+                  db.Column("is_favorite", db.Boolean, default=False))
 
 
 class User(db.Model):
