@@ -11,16 +11,12 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
-    posts = db.relationship('Post', backref='user', lazy= True)
-
-    def __repr__(self):
-        return f'<User {self.email}>'
+    posts = db.relationship('Post', foreign_keys='Post.user_id', backref='user', lazy='dynamic', cascade='all, delete-orphan')
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
 
 class Post(db.Model):
@@ -30,12 +26,3 @@ class Post(db.Model):
     image = db.Column(db.String(5000), unique=False, nullable=True)
     datetime = db.Column(DateTime, nullable=False, default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "text": self.text,
-            "image": self.image,
-            "datetime": self.datetime,
-            "user_id": self.user_id,
-        }
