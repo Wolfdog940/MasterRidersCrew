@@ -11,12 +11,16 @@ group_participation = db.Table("group_participation",
                                    'group.id'), primary_key=True)
                                )
 
+
 event_participant = db.Table('event_participant',
                              db.Column("participant_id", db.Integer, db.ForeignKey(
                                  "user.id"), primary_key=True),
                              db.Column('event_id', db.Integer, db.ForeignKey(
                                  'event.id'), primary_key=True)
                              )
+
+
+
 
 friend = db.Table('friend',
                   db.Column('user_id1', db.Integer, db.ForeignKey(
