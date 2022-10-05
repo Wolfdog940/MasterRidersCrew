@@ -63,7 +63,7 @@ class Group(db.Model):
     # One-to-Many Relationships
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
-    private = db.Column(db.Boolean(), unique=True)
+    private = db.Column(db.Boolean(), unique=False)
     group_participation = db.relationship('User', secondary=group_participation, lazy='subquery',
                                           backref=db.backref('group_participation', lazy=True))
 
@@ -73,7 +73,7 @@ class Group(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.email,
+            "name": self.name,
             "owner_id": self.owner_id,
             "private": self.private
         }
