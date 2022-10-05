@@ -98,3 +98,13 @@ def update_user_data():
     db.session.commit()
     return jsonify(current_user.serialize()),200
 
+@api.route("/deleteuserdata", methods=["DELETE"])
+@jwt_required()
+def delete_user_data():
+    current_user_id = get_jwt_identity()
+    current_user = User_Data.query.filter_by(user_id = current_user_id).first()
+    if current_user is None:
+        return jsonify({"msg":"no user data to delete"}),400
+    db.session.delete(current_user)
+    db.session.commit()
+    return jsonify({"msg":"data has been erased"}),200
