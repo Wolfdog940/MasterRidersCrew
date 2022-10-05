@@ -20,38 +20,36 @@ event_participant = db.Table('event_participant',
                              )
 
 
-
-
 friend = db.Table('friend',
                   db.Column('user_id1', db.Integer, db.ForeignKey(
                       'user.id'), primary_key=True),
                   db.Column("user_id2", db.Integer, db.ForeignKey(
                       "user.id"), primary_key=True),
                   db.Column("is_favorite", db.Boolean, default=False)
-                 )
+                  )
+
 
 class User(db.Model):
-    __tablename__='user'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
-    posts = db.relationship('Post', foreign_keys='Post.user_id', backref='user', lazy='dynamic', cascade='all, delete-orphan')
-    user_data = db.relationship('User_Data', backref='user', lazy=True, uselist=False) #necesito uselist = false porque es una relacion 1 a 1
+    posts = db.relationship('Post', foreign_keys='Post.user_id',
+                            backref='user', lazy='dynamic', cascade='all, delete-orphan')
+    # necesito uselist = false porque es una relacion 1 a 1
+    user_data = db.relationship(
+        'User_Data', backref='user', lazy=True, uselist=False)
     image_id = db.relationship('Image', backref='user', lazy=True)
     group = db.relationship('Group', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
 
-
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
-
-
-
+            "email": self.email
         }
 
 
@@ -62,8 +60,8 @@ class Group(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
     private = db.Column(db.Boolean(), unique=True)
-    group_participation = db.relationship('Users', secondary=group_participation, lazy='subquery',
-                         backref=db.backref('group', lazy=True))
+    group_participation = db.relationship('User', secondary=group_participation, lazy='subquery',
+                                          backref=db.backref('group_participation', lazy=True))
 
     def __repr__(self):
         return f'<Group {self.name}>'
@@ -90,6 +88,7 @@ class Event(db.Model):
     description = db.Column(db.String(), unique=False, nullable=False)
     participants = db.relationship('User', secondary=event_participant, lazy='subquery',
                                    backref=db.backref('events', lazy=True))
+
     def serialize(self):
         return {
             "id": self.id,
@@ -101,17 +100,17 @@ class Event(db.Model):
             "slug": self.slug,
             "description": self.description
         }
-                                   
-                                   
-  class User_Data(db.Model):
+
+
+class User_Data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     last_name = db.Column(db.String(120), unique=False, nullable=False)
     address = db.Column(db.String(120), unique=False, nullable=False)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    profile_picture = db.Column(db.Integer(), db.ForeignKey('image.id'), nullable=True)
-    
-
+    user_id = db.Column(db.Integer(), db.ForeignKey(
+        'user.id'), nullable=False)
+    profile_picture = db.Column(
+        db.Integer(), db.ForeignKey('image.id'), nullable=True)
 
     def serialize(self):
         return {
@@ -129,8 +128,8 @@ class Image(db.Model):
     image = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user_data_id = db.relationship('User_Data', backref='image', lazy=True)
-    
-       def serialize(self):
+
+    def serialize(self):
         return {
             "id": self.id,
             "image": self.image,
@@ -138,10 +137,12 @@ class Image(db.Model):
 
         }
 
+
 class Post(db.Model):
-    __tablename__='post'
+    __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(5000), unique=False, nullable=True)
     image = db.Column(db.String(5000), unique=False, nullable=True)
-    datetime = db.Column(DateTime, nullable=False, default=datetime.datetime.utcnow())
+    datetime = db.Column(DateTime, nullable=False,
+                         default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
