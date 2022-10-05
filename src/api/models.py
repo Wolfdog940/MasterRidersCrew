@@ -134,7 +134,6 @@ class Image(db.Model):
             "id": self.id,
             "image": self.image,
             "owner_id": self.owner_id
-
         }
 
 

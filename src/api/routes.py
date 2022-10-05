@@ -54,6 +54,10 @@ def login():
     access_token = create_access_token(identity=user.id)
     return jsonify({"token": access_token, "user_id": user.id}), 200
 
+################################################################################
+#                           CRUD de User_Data                                  #
+################################################################################
+
 @api.route("/userdatainfo", methods=["GET"])
 @jwt_required()
 def get_user_data():
@@ -108,3 +112,7 @@ def delete_user_data():
     db.session.delete(current_user)
     db.session.commit()
     return jsonify({"msg":"data has been erased"}),200
+
+################################################################################
+#                           CRUD de Image                                      #
+################################################################################
