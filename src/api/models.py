@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 import datetime
 
 db = SQLAlchemy()
+
 group_participation = db.Table("group_participation",
                                db.Column("participant_id", db.Integer, db.ForeignKey(
                                    "user.id"), primary_key=True),
@@ -49,7 +50,10 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+
+
+
         }
 
 
@@ -107,8 +111,7 @@ class User_Data(db.Model):
     name = db.Column(db.String(120), unique=False, nullable=False)
     last_name = db.Column(db.String(120), unique=False, nullable=False)
     address = db.Column(db.String(120), unique=False, nullable=False)
-    user_id = db.Column(db.Integer(), db.ForeignKey(
-        'user.id'), nullable=False)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     profile_picture = db.Column(
         db.Integer(), db.ForeignKey('image.id'), nullable=True)
 
