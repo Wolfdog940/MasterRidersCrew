@@ -99,13 +99,13 @@ def update_group():
     private = request.json.get("private", None)
     owner_id = get_jwt_identity(),
     group = Group.query.filter_by(owner_id=owner_id).first()
-    if data["name"] is not None:
+    if data["name"] is not None:        #name ya lo tenes en una variable que lo pediste en la linea 97, no ncesitas hacer data["name"]. Personalmente voy a usarlo de una forma o de otra, pero los dos no
         group.name = data["name"]
-    if data["private"] is not None:
+    if data["private"] is not None:     #lo mismo que name
         group.private = data["private"]
 
     db.session.commit()
-    return jsonify(group.serialize()), 200
+    return jsonify(group.serialize()), 200  #en principio deberia estar bien
 
 
 @api.route('/group', methods=['GET'])
