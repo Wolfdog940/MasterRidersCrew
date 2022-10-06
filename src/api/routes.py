@@ -108,6 +108,13 @@ def update_group():
     return jsonify(group.serialize()), 200
 
 
+@api.route('/group', methods=['GET'])
+def get_groups():
+    groups = Group.query.all()
+    serializer = list(map(lambda x: x.serialize(), groups))
+    return jsonify({"data": serializer}), 200
+
+
 @api.route("/group/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_group(id):
