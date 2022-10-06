@@ -65,6 +65,7 @@ def post_group():
     private = request.json.get("private", None)
 
     group = Group.query.filter_by(name=name).first()
+
     owner_id = get_jwt_identity()  # aqui ya tengo el token
 
     if group is not None:
@@ -88,6 +89,23 @@ def post_group():
     db.session.add(new_group)
     db.session.commit()
     return jsonify(new_group.serialize()), 200
+
+
+@api.route("/group", methods=["PUT"])
+@jwt_required()
+def update_group():
+    name = request.json.get("name", None)
+    data = request.get_json()
+    private = request.json.get("private", None)
+    owner_id = get_jwt_identity(),
+    group = Group.query.filter_by(owner_id=owner_id).first()
+    if data["name"] is not None:
+        group.name = data["name"]
+    if data["private"] is not None:
+        group.private = data["private"]
+
+    db.session.commit()
+    return jsonify(group.serialize()), 200
 
 
 @api.route("/group/<int:id>", methods=["DELETE"])
