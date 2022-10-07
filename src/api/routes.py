@@ -2,9 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-
-from api.models import db, User, Event, User_Data, Group, Image
-
+from api.models import db, User, Event, User_Data, Group, Image, Post
 from api.utils import generate_sitemap, APIException
 from sqlalchemy.sql import text
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, get_jwt
@@ -242,6 +240,98 @@ def update_event():
 
     db.session.commit()
     return jsonify(event.serialize()), 200
+
+################################################################################
+#                           POST CRUD                                          #
+################################################################################
+
+@api.route("/all_posts", methods=["GET"])
+@jwt_required()
+def get_all_post():
+
+    post_array = []
+    
+    all_post = Post.query.all()
+
+    if all_post is None:
+        return jsonify({"msg": "There is not post"}), 404
+    
+    for post in all_post:
+       post_array.append(post)
+
+    return jsonify([Post.serialize(post) for post in all_post]),200
+
+@api.route("/all_user_posts", methods=["GET"])
+@jwt_required()
+def get_by_user():
+    current_user_id = get_jwt_identity()
+    post_array = []
+    
+    all_post = Post.query.filter_by(user_id = current_user_id)
+
+    if all_post is None:
+        return jsonify({"msg": "You don't have any posts"}), 404
+    
+    for post in all_post:
+       post_array.append(post)
+
+    return jsonify([Post.serialize(post) for post in all_post]),200
+
+
+@api.route("/create_post", methods=["POST"])
+@jwt_required()
+def create_post():
+    text =  request.json.get("text", None)
+    image =  request.json.get("image", None)
+    current_user_id = get_jwt_identity()
+
+    new_post = Post(
+        text = text,
+        image = image,
+        user_id = current_user_id
+    )
+    db.session.add(new_post)
+    db.session.commit()
+    return jsonify(Post.serialize(new_post)),200
+
+@api.route("/update_post", methods=["PUT"])
+@jwt_required()
+def update_post():
+    current_user_id = get_jwt_identity()
+    id =  request.json.get("id", None)
+    text =  request.json.get("text", None)
+    image =  request.json.get("image", None)
+
+    post_exist = Post.query.filter_by(id = id).first()
+
+    if post_exist is None:
+         return jsonify({"msg": "The post doesn't exist!"}), 404
+
+    if text is not None:
+       post_exist.text = text
+    if image is not None:
+        post_exist.image = image
+
+    db.session.commit()
+    return jsonify(Post.serialize(post_exist)),200
+
+@api.route("/delete_post", methods=["DELETE"])
+@jwt_required()
+def delete_post():
+    post_id = request.json.get("id", None)
+    current_user_id = get_jwt_identity()
+
+    if post_id is None:
+        return jsonify({"msg": "Post ID is required!"}), 404
+
+    post_deleted = Post.query.filter_by(user_id = current_user_id).first()
+
+    if post_deleted is None:
+        return jsonify({"msg": "The post is already deleted!"}), 404
+
+    db.session.delete(post_deleted)
+    db.session.commit()
+    return jsonify({"msg":"post deleted"}),200
 
 ################################################################################
 #                           CRUD de User_Data                                  #
