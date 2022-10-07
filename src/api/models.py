@@ -141,7 +141,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(5000), unique=False, nullable=True)
     image = db.Column(db.String(5000), unique=False, nullable=True)
-    datetime = db.Column(DateTime, nullable=False,
+    created_at = db.Column(DateTime, nullable=False,
                          default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
@@ -150,5 +150,5 @@ class Post(db.Model):
             "id": self.id,
             "text": self.text,
             "image": self.image,
-            "date": self.datetime
+            "date": self.created_at
         }
