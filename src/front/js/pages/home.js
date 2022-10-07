@@ -34,6 +34,9 @@ const Login = () => {
         <h3 className="text-white my-3">Login</h3>
         <div className="form-group w-75 my-2">
           <input
+            pattern="/
+            ^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$
+            /gm"
             onChange={handleInputChange}
             type="email"
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"

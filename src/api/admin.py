@@ -10,6 +10,7 @@ def setup_admin(app):
     app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
     admin = Admin(app, name='4Geeks Admin', template_mode='bootstrap3')
 
+
     class MyModel(ModelView):
         column_display_pk = True
 
