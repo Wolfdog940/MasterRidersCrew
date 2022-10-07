@@ -78,7 +78,7 @@ class Group(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
+    name = db.Column(db.String(120), unique=True, nullable=False)
     start = db.Column(db.String(), unique=False, nullable=False)
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
