@@ -50,10 +50,7 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
-
-
-
+            "email": self.email
         }
 
 
@@ -80,7 +77,7 @@ class Group(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
+    name = db.Column(db.String(120), unique=True, nullable=False)
     start = db.Column(db.String(), unique=False, nullable=False)
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
@@ -136,7 +133,6 @@ class Image(db.Model):
             "id": self.id,
             "image": self.image,
             "owner_id": self.owner_id
-
         }
 
 
