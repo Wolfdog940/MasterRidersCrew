@@ -57,10 +57,9 @@ class User(db.Model):
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    # One-to-Many Relationships
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
-    private = db.Column(db.Boolean(), unique=True)
+    private = db.Column(db.Boolean(), unique=False)
     group_participation = db.relationship('User', secondary=group_participation, lazy='subquery',
                                           backref=db.backref('group_participation', lazy=True))
 
@@ -70,7 +69,7 @@ class Group(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.email,
+            "name": self.name,
             "owner_id": self.owner_id,
             "private": self.private
         }
@@ -139,10 +138,17 @@ class Image(db.Model):
 
 
 class Post(db.Model):
-    __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(5000), unique=False, nullable=True)
     image = db.Column(db.String(5000), unique=False, nullable=True)
-    datetime = db.Column(DateTime, nullable=False,
+    created_at = db.Column(DateTime, nullable=False,
                          default=datetime.datetime.utcnow())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "text": self.text,
+            "image": self.image,
+            "date": self.created_at
+        }

@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const signUp = () => {
   const { store, actions } = useContext(Context);
   const [valores, setValores] = useState({});
+  const nav = useNavigate();
 
   const handleInputChange = (event) => {
     setValores({
@@ -15,10 +16,11 @@ const signUp = () => {
   };
 
   function handleSubmit(e) {
+    validarEmail(email);
+
     e.preventDefault();
-    console.log(valores);
-    console.log(process.env.BACKEND_URL);
     actions.signup(valores);
+    nav("/");
   }
 
   return (
@@ -32,8 +34,12 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="email"
+            pattern="/
+            ^((?!.)[\w_.]*[^.])(@\w+)(.\w+(.\w+)?[^.\W])$
+            /gm"
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="email"
+            id="email"
             required=""
           />
         </div>
@@ -43,19 +49,24 @@ const signUp = () => {
             type="password"
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="Password"
+            id="password"
             required=""
           />
         </div>
+        <div>
+          <span className="d-none text-warning">
+            Checks that a password has a minimum of 6 characters, at least 1
+            uppercase letter, 1 lowercase letter, and 1 number with no spaces.
+          </span>
+        </div>
 
         <div className="form-group w-50 my-2">
-          <Link to="/">
-            <button
-              type="submit"
-              className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
-            >
-              Registrate
-            </button>
-          </Link>
+          <button
+            type="submit"
+            className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
+          >
+            Registrate
+          </button>
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3">
