@@ -63,7 +63,9 @@ def login():
     access_token = create_access_token(identity=user.id)
     return jsonify({"token": access_token, "user_id": user.id}), 200
 
-
+################################################################################
+#                            CRUD de Post                                      #
+################################################################################
 
 @api.route("/group", methods=["POST"])
 @jwt_required()
@@ -102,8 +104,9 @@ def post_group():
 @jwt_required()
 def update_group(id):
     data = request.get_json()
-    owner_id = get_jwt_identity(),
-    group = Group.query.filter_by(owner_id=owner_id).first()
+    owner_id = get_jwt_identity()
+    ##Hacer un if para comprobar que el owner_id sea el mismo que me viene en el token
+    group = Group.query.get(id)
     if data["name"] is not None:
         group.name = data["name"]
     if data["private"] is not None:
@@ -253,7 +256,7 @@ def get_all_post():
     
     all_post = Post.query.all()
 
-    if all_post is None:
+    if len(all_post) == 0:
         return jsonify({"msg": "There is not post"}), 404
     
     for post in all_post:
@@ -266,10 +269,8 @@ def get_all_post():
 def get_by_user():
     current_user_id = get_jwt_identity()
     post_array = []
-    
-    all_post = Post.query.filter_by(user_id = current_user_id)
-
-    if all_post is None:
+    all_post = Post.query.filter_by(user_id = current_user_id).all()
+    if len(all_post) == 0:
         return jsonify({"msg": "You don't have any posts"}), 404
     
     for post in all_post:
@@ -345,8 +346,10 @@ def get_user_data():
     current_user_id = get_jwt_identity()
     current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if current_user is None:
-        return jsonify({"msg": "The user does not exist"}), 400
-    return jsonify(current_user.serialize()), 200
+
+      
+        return jsonify({"msg": "The user data does not exist"}), 400
+    return jsonify(current_user.serialize()),200
 
 
 @api.route("/user/data", methods=["POST"])
@@ -381,6 +384,7 @@ def update_user_data():
         current_user.address = data["address"]
     if "profile_picture" in keys:
         current_user.profile_picture = data["profile_picture"]
+    print(data["profile_picture"])
     db.session.commit()
     return jsonify(current_user.serialize()), 200
 
