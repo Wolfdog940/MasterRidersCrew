@@ -16,7 +16,7 @@ const signUp = () => {
   };
 
   function handleSubmit(e) {
-    validarEmail(email);
+    //validarEmail(email);
 
     e.preventDefault();
     actions.signup(valores);
@@ -34,9 +34,7 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="email"
-            pattern="/
-            ^((?!.)[\w_.]*[^.])(@\w+)(.\w+(.\w+)?[^.\W])$
-            /gm"
+            /*pattern="/            ^((?!.)[\w_.]*[^.])(@\w+)(.\w+(.\w+)?[^.\W])$            /"*/
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="email"
             id="email"
