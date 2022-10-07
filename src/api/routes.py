@@ -58,7 +58,7 @@ def login():
 #                           CRUD de User_Data                                  #
 ################################################################################
 
-@api.route("/userdatainfo", methods=["GET"])
+@api.route("/user/data/info", methods=["GET"])
 @jwt_required()
 def get_user_data():
     current_user_id = get_jwt_identity()
@@ -67,7 +67,7 @@ def get_user_data():
         return jsonify({"msg": "The user does not exist"}), 400
     return jsonify(current_user.serialize()),200
 
-@api.route("/setuserdata", methods=["POST"])
+@api.route("/user/data", methods=["POST"])
 @jwt_required()
 def post_user_data():
     data = request.get_json()
@@ -83,7 +83,7 @@ def post_user_data():
     db.session.commit()
     return jsonify(new_user_data.serialize()),200
 
-@api.route("/updateuserdata", methods=["PUT"])
+@api.route("/user/data/update", methods=["PUT"])
 @jwt_required()
 def update_user_data():
     data = request.get_json()
@@ -101,7 +101,7 @@ def update_user_data():
     db.session.commit()
     return jsonify(current_user.serialize()),200
 
-@api.route("/deleteuserdata", methods=["DELETE"])
+@api.route("/user/data/delete", methods=["DELETE"])
 @jwt_required()
 def delete_user_data():
     current_user_id = get_jwt_identity()
@@ -116,7 +116,7 @@ def delete_user_data():
 #                           CRUD de Image                                      #
 ################################################################################
 
-@api.route("/allimagesuser", methods=["GET"])
+@api.route("/user/image/all", methods=["GET"])
 @jwt_required()
 def get_all_image_user():
     current_user_id = get_jwt_identity()
@@ -126,9 +126,8 @@ def get_all_image_user():
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}),200
 
-
 ## Estoy asumiendo que la image ya me viene en base64 y es lo que estoy guardando
-@api.route("/setimageuser", methods=["POST"])
+@api.route("/user/image", methods=["POST"])
 @jwt_required()
 def post_image():
     current_user_id = get_jwt_identity()
@@ -143,7 +142,7 @@ def post_image():
     db.session.commit()
     return jsonify({"msg": "the picture has been uploaded"}),200
 
-@api.route("/deleteimageuser/<int:id>", methods=["DELETE"])
+@api.route("/user/image/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_image(id):
     image = Image.query.get(id)
