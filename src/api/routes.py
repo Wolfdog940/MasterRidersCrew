@@ -62,6 +62,7 @@ def login():
 #                           CRUD de Event                                      #
 ################################################################################
 
+
 @api.route("/event", methods=["POST"])
 @jwt_required()
 def add_event():
@@ -78,9 +79,9 @@ def add_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    date = request.json.get("date", None)
+    """ date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401 """
     private = request.json.get("private", None)
     if private is None:
         return jsonify({"msg": "Undeclared group privacy"}), 401
@@ -92,7 +93,6 @@ def add_event():
         start=start,
         end=end,
         owner_id=owner_id,
-        date=date,
         private=private,
         slug=slug,
         description=description
@@ -144,9 +144,9 @@ def update_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    date = request.json.get("date", None)
+    """ date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401 """
     private = request.json.get("private", None)
     if private is None:
         return jsonify({"msg": "Undeclared group privacy"}), 401
@@ -157,7 +157,7 @@ def update_event():
     event["start"] = start,
     event["end"] = end,
     event["owner_id"] = owner_id,
-    event["date"] = date,
+    """ event["date"] = date, """
     event["private"] = private,
     event["slug"] = slug,
     event["description"] = description
@@ -169,14 +169,16 @@ def update_event():
 #                           CRUD de User_Data                                  #
 ################################################################################
 
+
 @api.route("/userdatainfo", methods=["GET"])
 @jwt_required()
 def get_user_data():
     current_user_id = get_jwt_identity()
-    current_user = User_Data.query.filter_by(user_id = current_user_id).first()
+    current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if current_user is None:
         return jsonify({"msg": "The user does not exist"}), 400
-    return jsonify(current_user.serialize()),200
+    return jsonify(current_user.serialize()), 200
+
 
 @api.route("/setuserdata", methods=["POST"])
 @jwt_required()
@@ -184,24 +186,25 @@ def post_user_data():
     data = request.get_json()
     current_user_id = get_jwt_identity()
     new_user_data = User_Data(
-        name = data["name"],
-        last_name = data["last_name"],
-        address = data["address"],
-        user_id = current_user_id,
-        profile_picture = None
+        name=data["name"],
+        last_name=data["last_name"],
+        address=data["address"],
+        user_id=current_user_id,
+        profile_picture=None
     )
     if data["profile_picture"] is not None:
         new_user_data["profile_picture"] = data["profile_picture"]
     db.session.add(new_user_data)
     db.session.commit()
-    return jsonify(new_user_data.serialize()),200
+    return jsonify(new_user_data.serialize()), 200
+
 
 @api.route("/updateuserdata", methods=["PUT"])
 @jwt_required()
 def update_user_data():
     data = request.get_json()
     current_user_id = get_jwt_identity()
-    current_user = User_Data.query.filter_by(user_id = current_user_id).first()
+    current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if data["name"] is not None:
         current_user.name = data["name"]
     if data["last_name"] is not None:
@@ -211,20 +214,20 @@ def update_user_data():
     if data["profile_picture"] is not None:
         current_user.profile_picture = data["profile_picture"]
     db.session.commit()
-    return jsonify(current_user.serialize()),200
+    return jsonify(current_user.serialize()), 200
+
 
 @api.route("/deleteuserdata", methods=["DELETE"])
 @jwt_required()
 def delete_user_data():
     current_user_id = get_jwt_identity()
-    current_user = User_Data.query.filter_by(user_id = current_user_id).first()
+    current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if current_user is None:
-        return jsonify({"msg":"no user data to delete"}),400
+        return jsonify({"msg": "no user data to delete"}), 400
     db.session.delete(current_user)
     db.session.commit()
-    return jsonify({"msg":"data has been erased"}),200
+    return jsonify({"msg": "data has been erased"}), 200
 
 ################################################################################
 #                           CRUD de Image                                      #
 ################################################################################
-
