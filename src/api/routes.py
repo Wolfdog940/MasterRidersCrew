@@ -112,7 +112,7 @@ def update_group(id):
     keys = list(data.keys())
     group_ = Group.query.get(id)
 
-    if owner_id != group:
+    if owner_id != group.owner_id:
         return jsonify({"msg": "you can´t upgrade this group"}), 404
 
     else:
