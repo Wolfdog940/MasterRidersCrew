@@ -16,11 +16,10 @@ const signUp = () => {
   };
 
   function handleSubmit(e) {
+    validarEmail(email);
+
     e.preventDefault();
-
     actions.signup(valores);
-
-    //agregar condicion para link login
     nav("/");
   }
 
@@ -35,8 +34,12 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="email"
+            pattern="/
+            ^((?!.)[\w_.]*[^.])(@\w+)(.\w+(.\w+)?[^.\W])$
+            /gm"
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="email"
+            id="email"
             required=""
           />
         </div>
@@ -46,8 +49,15 @@ const signUp = () => {
             type="password"
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="Password"
+            id="password"
             required=""
           />
+        </div>
+        <div>
+          <span className="d-none text-warning">
+            Checks that a password has a minimum of 6 characters, at least 1
+            uppercase letter, 1 lowercase letter, and 1 number with no spaces.
+          </span>
         </div>
 
         <div className="form-group w-50 my-2">
