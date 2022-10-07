@@ -60,7 +60,7 @@ const Login = () => {
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3">
-            <Link to="/" className="text-white link">
+            <Link to="/signup" className="text-white link">
               Todavia no estas registrado?
             </Link>
           </div>
