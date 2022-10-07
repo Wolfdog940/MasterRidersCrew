@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const signUp = () => {
   const { store, actions } = useContext(Context);
   const [valores, setValores] = useState({});
+  const nav = useNavigate();
 
   const handleInputChange = (event) => {
     setValores({
@@ -16,9 +17,11 @@ const signUp = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(valores);
-    console.log(process.env.BACKEND_URL);
+
     actions.signup(valores);
+
+    //agregar condicion para link login
+    nav("/");
   }
 
   return (
@@ -48,14 +51,12 @@ const signUp = () => {
         </div>
 
         <div className="form-group w-50 my-2">
-          <Link to="/">
-            <button
-              type="submit"
-              className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
-            >
-              Registrate
-            </button>
-          </Link>
+          <button
+            type="submit"
+            className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
+          >
+            Registrate
+          </button>
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3">

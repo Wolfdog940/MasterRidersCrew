@@ -91,24 +91,23 @@ def post_group():
     return jsonify(new_group.serialize()), 200
 
 
-@api.route("/group", methods=["PUT"])
+@api.route("/group/<int:id>", methods=["PUT"])
 @jwt_required()
-def update_group():
-    name = request.json.get("name", None)
+def update_group(id):
     data = request.get_json()
-    private = request.json.get("private", None)
     owner_id = get_jwt_identity(),
     group = Group.query.filter_by(owner_id=owner_id).first()
-    if data["name"] is not None:        
+    if data["name"] is not None:
         group.name = data["name"]
-    if data["private"] is not None:     
+    if data["private"] is not None:
         group.private = data["private"]
 
     db.session.commit()
-    return jsonify(group.serialize()), 200  
+    return jsonify(group.serialize()), 200
 
 
 @api.route('/group', methods=['GET'])
+@jwt_required()
 def get_groups():
     groups = Group.query.all()
     serializer = list(map(lambda x: x.serialize(), groups))
@@ -118,7 +117,6 @@ def get_groups():
 @api.route("/group/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_group(id):
-    ##HACER PUT Y GET ##
 
     group = Group.query.get(id)
     owner_id = get_jwt_identity()
