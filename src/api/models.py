@@ -82,7 +82,8 @@ class Event(db.Model):
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), nullable=False)
-    date = db.Column(db.Date(), unique=False, nullable=False)
+    date = db.Column(DateTime, nullable=False,
+                     default=datetime.datetime.utcnow())
     private = db.Column(db.Boolean(), unique=True)
     slug = db.Column(db.String(), unique=False, nullable=False)
     description = db.Column(db.String(), unique=False, nullable=False)
