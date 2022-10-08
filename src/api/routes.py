@@ -30,6 +30,7 @@ def handle_hello():
 def register():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
+
     if email is None:
         return jsonify({"msg": "Email is missing, write one, please!"}), 404
     if password is None:
@@ -110,16 +111,15 @@ def update_group(id):
     data = request.get_json()
     owner_id = get_jwt_identity()
     keys = list(data.keys())
-    group_ = Group.query.get(id)
+    group = Group.query.get(id)
 
     if owner_id != group.owner_id:
         return jsonify({"msg": "you can´t upgrade this group"}), 404
 
-    else:
-        if "name" in keys:
-            owner_id.name = data["name"]
-        if "private" in keys:
-            owner_id.private = data["private"]
+    if "name" in keys:
+        group.name = data["name"]
+    if "private" in keys:
+        group.private = data["private"]
 
     return jsonify(group.serialize()), 200
 
@@ -140,6 +140,8 @@ def delete_group(id):
     owner_id = get_jwt_identity()
     if owner_id != group.owner_id:
         return jsonify({"msg": "you can´t delete this group"}), 404
+    if group is None:
+        return jsonify({"msg": "Group does not exist"}), 402
     db.session.delete(group)
     db.session.commit()
 
