@@ -39,6 +39,8 @@ const signUp = () => {
             placeholder="email"
             id="email"
             required=""
+            pattern="[a-zA-Z0-9]{0,}([.]?[a-zA-Z0-9]{1,})[@](gmail.com|hotmail.com|yahoo.com)"
+            title="Tienes que introducir un direccion de correo valida ej: hola@hotmail.com,hola@gmail.com,hola@yahoo.com "
           />
         </div>
         <div className="form-group d-flex justify-content-center">
@@ -49,7 +51,15 @@ const signUp = () => {
             placeholder="Password"
             id="password"
             required=""
+            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.\-_*])([a-zA-Z0-9@#$%^&+=*.\-_]){3,}$"
+            title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula ,y un numero sin espacios."
           />
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+          <label class="form-check-label" for="exampleCheck1">
+            Check me out
+          </label>
         </div>
         <div>
           <span className="d-none text-warning">
