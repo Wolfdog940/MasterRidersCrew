@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const signUp = () => {
   const { store, actions } = useContext(Context);
+  const [showpwd, setShowpwd] = useState(false);
   const [valores, setValores] = useState({});
   const nav = useNavigate();
 
@@ -45,7 +46,7 @@ const signUp = () => {
         <div className="form-group d-flex justify-content-center">
           <input
             onChange={handleInputChange}
-            type="password"
+            type={showpwd ? "text" : "password"}
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="Password"
             id="password"
@@ -54,9 +55,17 @@ const signUp = () => {
             title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula ,y un numero sin espacios."
           />
         </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">
+        <div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="exampleCheck1"
+            onClick={() => setShowpwd(!showpwd)}
+          />
+          <label
+            className="form-check-label text-white"
+            htmlFor="exampleCheck1"
+          >
             Check me out
           </label>
         </div>
