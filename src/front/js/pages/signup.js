@@ -34,7 +34,6 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="email"
-            /*pattern="/            ^((?!.)[\w_.]*[^.])(@\w+)(.\w+(.\w+)?[^.\W])$            /"*/
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="email"
             id="email"
