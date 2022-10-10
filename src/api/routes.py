@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Event, User_Data, Group, Image, Post
 from api.utils import generate_sitemap, APIException
@@ -64,7 +65,8 @@ def login():
     user = User.query.filter_by(email=email, password=password).first()
     if user is None:
         return jsonify({"msg": "Bad username or password"}), 401
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(
+        identity=user.id, expires_delta=datetime.timedelta(days=10))
     return jsonify({"token": access_token, "user_id": user.id}), 200
 
 ################################################################################

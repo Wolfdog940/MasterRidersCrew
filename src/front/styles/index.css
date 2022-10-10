@@ -2,37 +2,42 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-    font-family: "Reenie Beanie", cursive;
-    margin: 0;
-    padding: 0;
-    background-image: url("https://i.ibb.co/hZc9bJH/pizarra.jpg%22");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-  }
-  
-section{
-    width: 100vw;
-    height: 100vh;
+  font-family: "Reenie Beanie", cursive;
+  margin: 0;
+  padding: 0;
+  background-image: url("https://image.shutterstock.com/shutterstock/photos/753509062/display_1500/stock-vector-black-and-white-vector-city-map-of-madrid-with-well-organized-separated-layers-753509062.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+section {
+  width: 100vw;
+  height: 100vh;
 }
 
 form {
-    margin: auto auto;
-    color: white(0, 0, 0, 0.5);
-    border: 2px groove white;
-    border-radius: 5%;
-    width: 300px;
-    height: 350px;
+  margin: auto auto;
+  color: white(0, 0, 0, 0.5);
+  border: 2px groove white;
+  border-radius: 5%;
+  width: 300px;
+  height: 375px;
+  background-color: black;
 }
 
-.input{
-    border: none;
+.input {
+  border: none;
 }
 
 .input::-webkit-input-placeholder {
-    color: white;
+  color: white;
 }
 
-.link{
-    text-decoration: none;
+.link {
+  text-decoration: none;
+}
+
+input[type="checkbox"]:checked {
+  background-color: black;
 }
