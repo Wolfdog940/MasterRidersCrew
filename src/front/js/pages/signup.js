@@ -7,6 +7,8 @@ const signUp = () => {
   const { store, actions } = useContext(Context);
   const [showpwd, setShowpwd] = useState(false);
   const [valores, setValores] = useState({});
+  const [validado, setValidado] = useState(false);
+
   const nav = useNavigate();
 
   const handleInputChange = (event) => {
@@ -14,14 +16,21 @@ const signUp = () => {
       ...valores,
       [event.target.type]: event.target.value,
     });
+    console.log(valores);
   };
 
   function handleSubmit(e) {
-    //validarEmail(email);
-
     e.preventDefault();
     actions.signup(valores);
     nav("/");
+  }
+
+  function validarPwd() {
+    let input1 = document.getElementById("password1");
+    let input2 = document.getElementById("password2");
+    if (input1 != null && input2 != null) {
+      if (input1.value == input2.value) setValidado(true);
+    }
   }
 
   return (
@@ -49,12 +58,28 @@ const signUp = () => {
             type={showpwd ? "text" : "password"}
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="Password"
-            id="password"
+            id="password1"
             required=""
             pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.\-_*])([a-zA-Z0-9@#$%^&+=*.\-_]){3,}$"
-            title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula ,y un numero sin espacios."
+            title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula ,un numero sin espacios y un simbolo."
           />
         </div>
+        <div className="form-group d-flex justify-content-center">
+          <input
+            onChange={handleInputChange}
+            type={showpwd ? "text" : "password"}
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white"
+            placeholder="Password"
+            id="password2"
+            required=""
+            pattern={valores.password}
+            onBlur={validarPwd}
+            title={
+              !validado ? "las contraseñas no coinciden" : "password correcto"
+            }
+          />
+        </div>
+
         <div className="mb-3 form-check">
           <input
             type="checkbox"
