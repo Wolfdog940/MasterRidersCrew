@@ -16,7 +16,6 @@ const signUp = () => {
       ...valores,
       [event.target.type]: event.target.value,
     });
-    console.log(valores);
   };
 
   function handleSubmit(e) {
@@ -69,7 +68,7 @@ const signUp = () => {
             onChange={handleInputChange}
             type={showpwd ? "text" : "password"}
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
-            placeholder="Password"
+            placeholder="validar Password"
             id="password2"
             required=""
             pattern={valores.password}
@@ -90,6 +89,7 @@ const signUp = () => {
           <label
             className="form-check-label text-white"
             htmlFor="exampleCheck1"
+            id="cheack"
           >
             Check me out
           </label>
