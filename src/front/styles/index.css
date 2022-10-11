@@ -40,5 +40,7 @@ form {
 
 input[type="checkbox"]:checked {
   background-color: black;
-    border: black;
+  border: black;
+}
+.logo {
 }

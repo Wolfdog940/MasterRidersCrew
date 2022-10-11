@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: null,
       message: null,
+      listaGrupos: [],
       demo: [
         {
           title: "FIRST",
@@ -46,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             body: JSON.stringify(datos),
           });
           const data = await resp.json();
+
           if (resp.status === 401) throw new Error(data.msg);
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");
           else if (resp.status === 200) {
@@ -55,6 +57,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log("Error al loguear el usuario", error);
+        }
+      },
+
+      getGrupos: async () => {
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + "/api/group", {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+          });
+          const data = await resp.json();
+          if (resp.status === 401) throw new Error(data.msg);
+          else if (resp.status !== 200) throw new Error("Ingreso Invalido");
+          else if (resp.status === 200) {
+            let grupos = data.data;
+            console.log(grupos);
+            setStore({
+              listaGrupos: grupos.map((g) => g.name),
+            });
+          }
+        } catch (error) {
+          console.log("Error al cargar lista de grupos", error);
         }
       },
     },
