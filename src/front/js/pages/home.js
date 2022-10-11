@@ -16,6 +16,7 @@ const Login = () => {
   function handleSubmit(e) {
     e.preventDefault();
     actions.loguearUsuario(datos);
+    nav("/userHome");
     /*setTimeout(()=>{
         if (store.token !== null){
             console.log("se logueo correctamente")
