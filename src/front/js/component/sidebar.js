@@ -57,8 +57,6 @@ const SideBar = () => {
                 className="dropdown-menu bg-warning "
                 aria-labelledby="dropdownMenuButton1"
               >
-                {console.log(store.listaGrupos)}
-
                 {store.listaGrupos && store.listaGrupos.length > 0
                   ? store.listaGrupos.map((datos, index) => (
                       <li className="" key={index}>
