@@ -79,7 +79,7 @@ def login():
 def post_group():
     name = request.json.get("name", None)
     private = request.json.get("private", None)
-
+    user = User.query.get(id)
     group = Group.query.filter_by(name=name).first()
 
     owner_id = get_jwt_identity()  # aqui ya tengo el token
@@ -101,7 +101,7 @@ def post_group():
         name=name,
         private=private,
     )
-
+    print(new_group)
     db.session.add(new_group)
     db.session.commit()
     return jsonify(new_group.serialize()), 200
@@ -131,6 +131,20 @@ def update_group(id):
 def get_groups():
     groups = Group.query.all()
     serializer = list(map(lambda x: x.serialize(), groups))
+
+    return jsonify({"data": serializer}), 200
+
+
+@api.route('/user/group', methods=['GET'])
+@jwt_required()
+def get_group_by_user_id():
+    owner_id = get_jwt_identity()
+    group = Group.query.filter_by(owner_id=owner_id).all()
+  
+    print(group)
+
+    serializer = list(map(lambda x: x.serialize(), group))##esto me da los grupos que ha creado el usuario
+    print(serializer)
     return jsonify({"data": serializer}), 200
 
 

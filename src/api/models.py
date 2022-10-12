@@ -6,7 +6,7 @@ import datetime
 db = SQLAlchemy()
 
 group_participation = db.Table("group_participation",
-                               db.Column("participant_id", db.Integer, db.ForeignKey(
+                               db.Column("user_id", db.Integer, db.ForeignKey(
                                    "user.id"), primary_key=True),
                                db.Column('group_id', db.Integer, db.ForeignKey(
                                    'group.id'), primary_key=True)
@@ -64,7 +64,7 @@ class Group(db.Model):
                                           backref=db.backref('group_participation', lazy=True))
 
     def __repr__(self):
-        return f'<Group {self.name}>'
+        return f'<Group {self.name}>'##representacion de la clase
 
     def serialize(self):
         return {
