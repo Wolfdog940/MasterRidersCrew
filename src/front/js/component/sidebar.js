@@ -7,6 +7,10 @@ const SideBar = () => {
 
   useEffect(() => {
     actions.getGrupos();
+    actions.createPost();
+    // actions.getPosts();
+    // actions.getPostByUser();
+    console.log(store);
   }, []);
 
   return (

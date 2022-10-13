@@ -82,6 +82,91 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
+
+      getPosts: async () => {
+        // Obtiene todos los posts
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + '/api/all_posts', {
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            }
+          });
+          const data = await resp.json();
+          console.log('Datos de los posts', data);
+        } catch (error) {
+          console.log('Error al obtener todos los posts', error);
+        }
+      },
+      getPostByUser: async () => {
+        // Obtiene todos los posts creados por el usuario actual logueado.
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + '/api/all_user_posts', {
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            }
+          });
+          const data = await resp.json();
+          console.log('Posts del usuario actual conectado', data)
+        } catch (error) {
+          console.log('Error al obtener los posts del usuario actual', error);
+        }
+      },
+      createPost: async(post) => {
+        // Crea un nuevo post
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + '/api/create_post', {
+            method: 'POST',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            },
+            body: {
+              post
+            }
+          });
+          const data = await resp.json();
+          console.log('Se ha creado un post', data);
+        } catch (error) {
+          console.log('Error al crear un post', error);
+        }
+      },
+      updatePost: async(post) => {
+        // Actualiza o Edita un post
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + '/api/update_post', {
+            method: 'PUT',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            },
+            body: {
+              post
+            }
+          });
+          const data = await resp.json();
+          console.log('Se ha actualizado el post', data);
+        } catch (error) {
+          console.log('Error al actualizar un post', error);
+        }
+      },
+      deletePost: async(post_id) => {
+        // Elimina un post
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + '/api/delete_post', {
+            method: 'DELETE',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            },
+            body: {
+              post_id
+            }
+          });
+          const data = await resp.json();
+          console.log('Se ha eliminado el post', data);
+        } catch (error) {
+          console.log('Error al eliminar un post', error);
+        }
+      }
     },
   };
 };
