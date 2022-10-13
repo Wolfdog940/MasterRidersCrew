@@ -42,5 +42,14 @@ input[type="checkbox"]:checked {
   background-color: black;
   border: black;
 }
-.logo {
+.dropdown-toggle {
+  border: none;
+  color: white;
+}
+.dropdown-menu {
+  font-size: small;
+}
+.top-side {
+  position: absolute;
+  top: 55px;
 }

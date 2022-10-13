@@ -139,19 +139,20 @@ def get_groups():
 @jwt_required()
 def get_group_by_user_id():
     owner_id = get_jwt_identity()
-    group = Group.query.filter_by(owner_id=owner_id).all()
-  
-    print(group)
-
-    serializer = list(map(lambda x: x.serialize(), group))##esto me da los grupos que ha creado el usuario
-    print(serializer)
+    group_query = Group.query.filter_by(owner_id=owner_id).all()
+    participation = Group.query.filter(Group.participation).all()
+    print(participation)
+    print(group_query)
+    mygrups =participation + group_query
+    serializer = list(map(lambda x: x.serialize(), mygrups))##esto me da los grupos que ha creado el usuario
+    
     return jsonify({"data": serializer}), 200
 
 
 @api.route("/group/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_group(id):
-
+   
     group = Group.query.get(id)
     owner_id = get_jwt_identity()
     if owner_id != group.owner_id:

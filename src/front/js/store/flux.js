@@ -54,6 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             sessionStorage.setItem("token", data.token);
             sessionStorage.setItem("user_id", data.user_id);
             setStore({ token: data.token });
+            console.log(store.token);
           }
         } catch (error) {
           console.log("Error al loguear el usuario", error);
@@ -62,12 +63,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       getGrupos: async () => {
         try {
-          const resp = await fetch(process.env.BACKEND_URL + "/api/group", {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-            },
-          });
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/group",
+            {
+              method: "GET",
+              headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("token"),
+              },
+            }
+          );
           const data = await resp.json();
           if (resp.status === 401) throw new Error(data.msg);
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");

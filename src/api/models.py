@@ -42,7 +42,7 @@ class User(db.Model):
     user_data = db.relationship(
         'User_Data', backref='user', lazy=True, uselist=False)
     image_id = db.relationship('Image', backref='user', lazy=True)
-    group = db.relationship('Group', backref='user', lazy=True)
+    participant = db.relationship('Group', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -50,17 +50,18 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+            "participant":self.group
         }
 
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(10), unique=True, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
     private = db.Column(db.Boolean(), unique=False)
-    group_participation = db.relationship('User', secondary=group_participation, lazy='subquery',
+    participation = db.relationship('User', secondary=group_participation, lazy='subquery',
                                           backref=db.backref('group_participation', lazy=True))
 
     def __repr__(self):
@@ -71,8 +72,9 @@ class Group(db.Model):
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
-            "private": self.private
-        }
+            "private": self.private,
+            "participation":self.participation        
+            }
 
 
 class Event(db.Model):
