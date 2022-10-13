@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SideBar = () => {
   const { store, actions } = useContext(Context);

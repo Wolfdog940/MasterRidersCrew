@@ -37,7 +37,7 @@ export const Navbar = () => {
             </svg>
           </button>
           <div className="collapse navbar-collapse " id="navbarNavDropdown">
-            <ul className="navbar-nav ">
+            <ol className="navbar-nav ">
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">
                   Home
@@ -63,7 +63,7 @@ export const Navbar = () => {
                 >
                   Dropdown link
                 </a>
-                <ul className="dropdown-menu">
+                <ol className="dropdown-menu">
                   <li>
                     <a className="dropdown-item" href="#">
                       Action
@@ -79,9 +79,9 @@ export const Navbar = () => {
                       Something else here
                     </a>
                   </li>
-                </ul>
+                </ol>
               </li>
-            </ul>
+            </ol>
           </div>
         </div>
       </nav>

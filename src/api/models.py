@@ -51,7 +51,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "participant":self.group
+            ##"participant":self.group
         }
 
 
@@ -68,12 +68,16 @@ class Group(db.Model):
         return f'<Group {self.name}>'##representacion de la clase
 
     def serialize(self):
+        
+        lista_participantes = list(map(lambda x :x.serialize(),self.participation))
+        id_participantes= [list(map(lambda x :x["id"],lista_participantes))]
         return {
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
             "private": self.private,
-            "participation":self.participation        
+            "participation":lista_participantes   
+            #participation es un objeto Usuario y tengo que serializarlo   
             }
 
 
