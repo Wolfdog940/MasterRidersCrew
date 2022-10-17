@@ -140,48 +140,44 @@ def get_groups():
 def get_group_by_user_id():
     owner_id = get_jwt_identity()
     group_query = Group.query.filter_by(owner_id=owner_id).all()
-    participation = Group.query.filter(Group.participation).all()
-    
-    mygrups =participation + group_query
-    serializer = list(map(lambda x: x.serialize(), participation))##esto me da los grupos que ha creado el usuario
+    # esto me da los grupos que ha creado el usuario
+    serializer = list(map(lambda x: x.serialize(), group_query))
 
-    
     return jsonify({"data": serializer}), 200
 
 
-
-@api.route('/user/participation',methods=['PUT'])##esto es para apuntarme un grupo 
+# esto es para apuntarme un grupo
+@api.route('/user/participation', methods=['PUT'])
 @jwt_required()
 def join_group():
-    user_id =get_jwt_identity()
+    user_id = get_jwt_identity()
     group_query = Group.query.filter_by(owner_id=user_id).all()
     participation = Group.query.filter(Group.participation).all()
-    user=User.query.get(user_id)
+    user = User.query.get(user_id)
 
     data = request.get_json()
     if "group_id" not in data:
-        return jsonify({"msg":"no has enviado ningun grupo"}),401
+        return jsonify({"msg": "no has enviado ningun grupo"}), 401
 
     group = Group.query.get(data["group_id"])
 
     if group is None:
-        return jsonify({"msg":"no se ha encontrado grupo con ese id"}),401 
-    
+        return jsonify({"msg": "no se ha encontrado grupo con ese id"}), 401
+
     group.participation.append(user)
 
-    
     db.session.commit()
 
-    return jsonify({"msg":"te has apuntado a un grupo"})
+    return jsonify({"msg": "te has apuntado a un grupo"})
 
 
-## enpoint que haga una busqueda de todos mis grupos ,
+# enpoint que haga una busqueda de todos mis grupos ,
 
 
 @api.route("/group/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_group(id):
-   
+
     group = Group.query.get(id)
     owner_id = get_jwt_identity()
     if owner_id != group.owner_id:
