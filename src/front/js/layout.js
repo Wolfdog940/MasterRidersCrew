@@ -11,6 +11,7 @@ import { Footer } from "./component/footer";
 import SignUp from "./pages/signup";
 import Login from "./pages/home";
 import UserHome from "./pages/userHome";
+import { ShowPost } from "./component/post/showPosts";
 
 //create your first component
 const Layout = () => {
@@ -28,6 +29,7 @@ const Layout = () => {
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
             <Route element={<UserHome />} path="/userHome" />
+            <Route element={<ShowPost />} path="/userHome/post" />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>

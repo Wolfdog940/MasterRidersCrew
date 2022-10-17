@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const { store, actions } = useContext(Context);
+  const nav = useNavigate();
 
   useEffect(() => {
     actions.getGrupos();
-    actions.createPost();
-    // actions.getPosts();
-    // actions.getPostByUser();
-    console.log(store);
   }, []);
+
+  const handlePost = () => {
+    nav("/userHome/post");
+  };
 
   return (
     <div className="sidebar ">
@@ -72,6 +74,7 @@ const SideBar = () => {
                   : console.log("error")}
               </ul>
             </div>
+            <button onClick={ handlePost } className="btn btn-secondary" type="button">Post</button>
           </div>
           <button
             type="button"

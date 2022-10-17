@@ -4,18 +4,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: null,
       message: null,
       listaGrupos: [],
-      demo: [
-        {
-          title: "FIRST",
-          background: "white",
-          initial: "white",
-        },
-        {
-          title: "SECOND",
-          background: "white",
-          initial: "white",
-        },
-      ],
+      allPosts: [],
+      postByUser: []
     },
     actions: {
       signup: (valores) => {
@@ -47,7 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             body: JSON.stringify(datos),
           });
           const data = await resp.json();
-
           if (resp.status === 401) throw new Error(data.msg);
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");
           else if (resp.status === 200) {
@@ -88,12 +77,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const resp = await fetch(process.env.BACKEND_URL + '/api/all_posts', {
             method: 'GET',
-            headers: {
-              Authorization: 'Bearer ' + sessionStorage.getItem('token')
-            }
+            headers: { "content-type": "application/json", Authorization: 'Bearer ' + sessionStorage.getItem('token')}
           });
           const data = await resp.json();
-          console.log('Datos de los posts', data);
+          setStore({ allPosts: data });
+          return data;
         } catch (error) {
           console.log('Error al obtener todos los posts', error);
         }
@@ -103,12 +91,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const resp = await fetch(process.env.BACKEND_URL + '/api/all_user_posts', {
             method: 'GET',
-            headers: {
-              Authorization: 'Bearer ' + sessionStorage.getItem('token')
-            }
+            headers: {"content-type": "application/json", Authorization: 'Bearer ' + sessionStorage.getItem('token')}
           });
           const data = await resp.json();
-          console.log('Posts del usuario actual conectado', data)
+          setStore({ postByUser: data });
+          return data;
         } catch (error) {
           console.log('Error al obtener los posts del usuario actual', error);
         }
@@ -119,11 +106,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           const resp = await fetch(process.env.BACKEND_URL + '/api/create_post', {
             method: 'POST',
             headers: {
+              "content-type": "application/json",
               Authorization: 'Bearer ' + sessionStorage.getItem('token')
             },
-            body: {
-              post
-            }
+            body: JSON.stringify(post)
           });
           const data = await resp.json();
           console.log('Se ha creado un post', data);
@@ -137,14 +123,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           const resp = await fetch(process.env.BACKEND_URL + '/api/update_post', {
             method: 'PUT',
             headers: {
+              "content-type": "application/json",
               Authorization: 'Bearer ' + sessionStorage.getItem('token')
             },
-            body: {
-              post
-            }
+            body: JSON.stringify(post)
           });
           const data = await resp.json();
-          console.log('Se ha actualizado el post', data);
+          const actions = getActions();
+          actions.getPosts();
+          return data;
         } catch (error) {
           console.log('Error al actualizar un post', error);
         }
@@ -154,15 +141,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const resp = await fetch(process.env.BACKEND_URL + '/api/delete_post', {
             method: 'DELETE',
-            headers: {
-              Authorization: 'Bearer ' + sessionStorage.getItem('token')
-            },
-            body: {
-              post_id
-            }
+            headers: { "content-type": "application/json", Authorization: 'Bearer ' + sessionStorage.getItem('token')},
+            body: JSON.stringify(post_id)
           });
           const data = await resp.json();
-          console.log('Se ha eliminado el post', data);
+          return data;
         } catch (error) {
           console.log('Error al eliminar un post', error);
         }
