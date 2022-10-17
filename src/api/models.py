@@ -73,26 +73,35 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+            # "participant":self.group
         }
 
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(10), unique=True, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
     private = db.Column(db.Boolean(), unique=False)
 
     def __repr__(self):
-        return f'<Group {self.name}>'
+        return f'<Group {self.name}>'  # representacion de la clase
 
     def serialize(self):
+
         return {
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
-            "private": self.private
+            "private": self.private,
+
+            # participation es un objeto Usuario y tengo que serializarlo
+        }
+
+    def serialize_name(self):
+        return {
+            "name": self.name
         }
 
 
