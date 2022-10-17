@@ -6,7 +6,6 @@ import datetime
 db = SQLAlchemy()
 
 
-
 class Group_participation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
@@ -68,7 +67,6 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
 
-
     def __repr__(self):
         return f'<User {self.email}>'
 
@@ -76,7 +74,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            ##"participant":self.group
+            # "participant":self.group
         }
 
 
@@ -87,22 +85,24 @@ class Group(db.Model):
                          nullable=False)
     private = db.Column(db.Boolean(), unique=False)
 
-
     def __repr__(self):
-        return f'<Group {self.name}>'##representacion de la clase
+        return f'<Group {self.name}>'  # representacion de la clase
 
     def serialize(self):
-        
-        lista_participantes = list(map(lambda x :x.serialize(),self.participation))
-        id_participantes= [list(map(lambda x :x["id"],lista_participantes))]
+
         return {
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
             "private": self.private,
-            "participation":lista_participantes   
-            #participation es un objeto Usuario y tengo que serializarlo   
-            }
+
+            # participation es un objeto Usuario y tengo que serializarlo
+        }
+
+    def serialize_name(self):
+        return {
+            "name": self.name
+        }
 
 
 class Event(db.Model):

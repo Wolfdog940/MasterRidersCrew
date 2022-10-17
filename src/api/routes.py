@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Event, User_Data, Group, Image, Post
+from api.models import db, User, Event, User_Data, Group, Image, Post, Group_participation, Event_participation, Form_friendship
 from api.utils import generate_sitemap, APIException
 from sqlalchemy.sql import text
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, get_jwt
@@ -79,7 +79,6 @@ def login():
 def post_group():
     name = request.json.get("name", None)
     private = request.json.get("private", None)
-    user = User.query.get(id)
     group = Group.query.filter_by(name=name).first()
 
     owner_id = get_jwt_identity()  # aqui ya tengo el token
@@ -139,36 +138,39 @@ def get_groups():
 @jwt_required()
 def get_group_by_user_id():
     owner_id = get_jwt_identity()
-    group_query = Group.query.filter_by(owner_id=owner_id).all()
-    # esto me da los grupos que ha creado el usuario
-    serializer = list(map(lambda x: x.serialize(), group_query))
+    my_groups = Group.query.filter_by(
+        owner_id=owner_id).all()  # lista de objetos
+    all_my_groups = Group_participation.query.filter_by(
+        user_id=owner_id).all()
+    all_my_groups = list(
+        map(lambda x: Group.query.get(x.group_id), all_my_groups))  # lista all_my groups y ejecuta el lamda
+    all_groups = my_groups + all_my_groups
+
+    serializer = list(map(lambda x: x.serialize_name(), all_groups))
 
     return jsonify({"data": serializer}), 200
 
 
 # esto es para apuntarme un grupo
-@api.route('/user/participation', methods=['PUT'])
+@api.route('/user/participation', methods=['POST'])
 @jwt_required()
 def join_group():
     user_id = get_jwt_identity()
-    group_query = Group.query.filter_by(owner_id=user_id).all()
-    participation = Group.query.filter(Group.participation).all()
-    user = User.query.get(user_id)
 
     data = request.get_json()
     if "group_id" not in data:
         return jsonify({"msg": "no has enviado ningun grupo"}), 401
 
-    group = Group.query.get(data["group_id"])
+    new_participant = Group_participation(
+        user_id=user_id,
+        group_id=data["group_id"]
 
-    if group is None:
-        return jsonify({"msg": "no se ha encontrado grupo con ese id"}), 401
-
-    group.participation.append(user)
+    )
+    db.session.add(new_participant)
 
     db.session.commit()
 
-    return jsonify({"msg": "te has apuntado a un grupo"})
+    return jsonify(new_participant.serialize())
 
 
 # enpoint que haga una busqueda de todos mis grupos ,
