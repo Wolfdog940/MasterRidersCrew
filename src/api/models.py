@@ -150,5 +150,6 @@ class Post(db.Model):
             "id": self.id,
             "text": self.text,
             "image": self.image,
-            "date": self.created_at
+            "date": self.created_at,
+            "user_id": self.user_id
         }
