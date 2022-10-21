@@ -101,14 +101,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       createPost: async(post) => {
+        console.log('Post to create', post);
+        console.log('Token', sessionStorage.getItem('token'));
         // Crea un nuevo post
         try {
           const resp = await fetch(process.env.BACKEND_URL + '/api/create_post', {
             method: 'POST',
-            headers: {
-              "content-type": "application/json",
-              Authorization: 'Bearer ' + sessionStorage.getItem('token')
-            },
+            headers: { "content-type": "application/json", Authorization: 'Bearer ' + sessionStorage.getItem('token')},
             body: JSON.stringify(post)
           });
           const data = await resp.json();
