@@ -14,16 +14,17 @@ const signUp = () => {
   const handleInputChange = (event) => {
     setValores({
       ...valores,
-      [event.target.type]: event.target.value,
+      [event.target.id]: event.target.value,
     });
   };
 
   function handleSubmit(e) {
     e.preventDefault();
     actions.signup(valores);
+
     nav("/");
   }
-
+  console.log(store.userData);
   function validarPwd() {
     let input1 = document.getElementById("password1");
     let input2 = document.getElementById("password2");
@@ -33,43 +34,63 @@ const signUp = () => {
   }
 
   return (
-    <section className="d-flex justify-content-center align-items-center">
+    <section className="d-flex justify-content-center align-items-center border-bottom">
       <form
         onSubmit={handleSubmit}
         className="d-flex flex-column align-items-center"
       >
-        <h3 className="text-white my-3">Sign Up</h3>
+        <div className="div_logo">
+          <h1 className="text-white my-3 logo">R|C</h1>
+        </div>
+        <h3 className="text-white my-3 signup">Sign Up</h3>
+        <h4 className="text-white border-bottom">Crea una nueva cuenta</h4>
+        <div className="form-group d-flex justify-content-center">
+          <input
+            onChange={handleInputChange}
+            type="name"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white me-2"
+            placeholder="nombre"
+            id="name"
+            required=""
+          />
+          <input
+            onChange={handleInputChange}
+            type="last_name"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white"
+            placeholder="apellido"
+            id="last_name"
+            required=""
+          />
+        </div>
         <div className="form-group d-flex justify-content-center">
           <input
             onChange={handleInputChange}
             type="email"
-            className="form-control rounded-pill bg-transparent my-2 text-center text-white"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white me-2"
             placeholder="email"
             id="email"
             required=""
             pattern="[a-zA-Z0-9]{0,}([.]?[a-zA-Z0-9]{1,})[@](gmail.com|hotmail.com|yahoo.com)"
             title="Tienes que introducir un direccion de correo valida ej: hola@hotmail.com,hola@gmail.com,hola@yahoo.com "
           />
-        </div>
-        <div className="form-group d-flex justify-content-center">
           <input
             onChange={handleInputChange}
             type={showpwd ? "text" : "password"}
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="Password"
-            id="password1"
+            id="password"
             required=""
-            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.\-_*])([a-zA-Z0-9@#$%^&+=*.\-_]){3,}$"
-            title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula ,un numero sin espacios y un simbolo."
+            pattern="^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$"
+            title="El password tiene que tener un minimo de 6 caracteres , por lo menos una mayuscula , 1 minuscula  y un numero sin espacios ."
           />
         </div>
+
         <div className="form-group d-flex justify-content-center">
           <input
-            onChange={handleInputChange}
+            /* onChange={handleInputChange} */
             type={showpwd ? "text" : "password"}
             className="form-control rounded-pill bg-transparent my-2 text-center text-white"
             placeholder="validar Password"
-            id="password2"
             required=""
             pattern={valores.password}
             onBlur={validarPwd}
@@ -105,9 +126,13 @@ const signUp = () => {
           <button
             type="submit"
             className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
+            /*  onClick={() => {
+              if (showpwd) setShowpwd(!showpwd);
+            }} */
           >
             Registrate
           </button>
+          {console.log(valores)}
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3">

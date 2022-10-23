@@ -4,9 +4,8 @@ import SideBar from "../component/sidebar";
 
 const UserHome = () => {
   return (
-    <div className="home ">
+    <div className="home">
       <Navbar />
-      <SideBar />
     </div>
   );
 };

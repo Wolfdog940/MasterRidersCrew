@@ -408,16 +408,15 @@ def get_user_data():
     return jsonify(current_user.serialize()), 200
 
 
-@api.route("/user/data", methods=["POST"])
-@jwt_required()
-def post_user_data():
+@api.route("/user/<int:id>/data", methods=["POST"])
+def post_user_data(id):
     data = request.get_json()
-    current_user_id = get_jwt_identity()
+
     new_user_data = User_Data(
         name=data["name"],
         last_name=data["last_name"],
-        address=data["address"],
-        user_id=current_user_id,
+        address=None,
+        user_id=id,
         profile_picture=None  # Por defecto dejo se crea sin profile_picture
     )
     db.session.add(new_user_data)
