@@ -1,18 +1,23 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import UserHome from "../pages/userHome";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  //if (store.token != null)
-  console.log(store.token);
+  const nav = useNavigate();
+  const borrar_token = () => {
+    actions.borrar_token();
+    nav("/");
+  };
+
   return (
-    <div className="nav d-flex justify-content-end bg-dark">
-      <nav className="navbar navbar-expand-lg    ">
+    <div className="container nav d-flex justify-content-evenly border-bottom ">
+      <div className="">
+        <h4 className="text-white mt-3 me-5 logo">R|C</h4>
+      </div>
+      <nav className="navbar navbar-expand-lg  ">
         <div className="container  ">
-          <a className="navbar-brand" href="#">
-            Navbar
-          </a>
           <button
             className="navbar-toggler"
             type="button"
@@ -31,43 +36,55 @@ export const Navbar = () => {
               viewBox="0 0 16 16"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
               />
             </svg>
           </button>
           <div className="collapse navbar-collapse " id="navbarNavDropdown">
-            <ol className="navbar-nav ">
+            <ol className="navbar-nav  ">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link className="nav-link text-light" to="/userHome">
+                  {" "}
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Features
+                <a className="nav-link text-light" href="#">
+                  Noticias
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Pricing
-                </a>
-              </li>
+
               <li className="nav-item dropdown">
                 <a
-                  className="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle "
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Dropdown link
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-person-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                    />
+                  </svg>
                 </a>
                 <ol className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
+                    <Link className="nav-link text-light" to="/userprofile">
+                      <a className="dropdown-item" href="#">
+                        perfil
+                      </a>
+                    </Link>
                   </li>
                   <li>
                     <a className="dropdown-item" href="#">
@@ -75,9 +92,12 @@ export const Navbar = () => {
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
+                    <button
+                      className=" dropdown-item  btn btn-danger"
+                      onClick={borrar_token}
+                    >
+                      logout
+                    </button>
                   </li>
                 </ol>
               </li>
