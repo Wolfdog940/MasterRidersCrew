@@ -5,12 +5,20 @@ import ScrollToTop from "./component/scrollToTop";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
+<<<<<<< HEAD
 import { SideBar } from "./component/sidebar";
+=======
+
+>>>>>>> c40f908 (Creating events functionality)
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import SignUp from "./pages/signup";
 import Login from "./pages/home";
+<<<<<<< HEAD
 import UserHome from "./pages/userHome";
+=======
+import NewEvent from "./component/Events/newEvent.jsx";
+>>>>>>> c40f908 (Creating events functionality)
 
 //create your first component
 const Layout = () => {
@@ -23,7 +31,7 @@ const Layout = () => {
       <BrowserRouter basename={basename}>
         <ScrollToTop>
           <Routes>
-            <Route element={<Login />} path="/" />
+            <Route element={<NewEvent />} path="/" />
             <Route element={<SignUp />} path="/signup" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />

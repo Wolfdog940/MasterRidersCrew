@@ -86,6 +86,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
+
+      newEvent: async (data) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify(data),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
     },
   };
 };
