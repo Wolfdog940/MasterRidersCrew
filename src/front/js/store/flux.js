@@ -55,7 +55,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user_id", data.user_id);
             setStore({ token: data.token });
-            console.log(store.token);
           }
         } catch (error) {
           console.log("Error al loguear el usuario", error);
@@ -208,6 +207,27 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      updateProfile: async (datos) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/update", {
+            method: 'PUT',
+            headers:{
+              "content-type": "application/json",
+              "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(datos)
+          });
+          const data = await resp.json();
+          if (resp.status === 200){
+            setStore({userData: data})
+            alert("Los datos se actualizaron correctamente")
+          }
+          else throw new Error("Invalid Update")
+        }
+        catch(error){
+          console.log(error);
+        }
+      }
     },
   };
 };

@@ -2,16 +2,28 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "./navbar";
 import "../../styles/userProfile.css";
+import Modal from "./modal.jsx";
 
 export const UserProfile = () => {
   const { store, actions } = useContext(Context);
+  const [datos, setDatos] = useState(null);
+  const [mostrarModal, setMostrarModal] = useState(false);//revisar como agregar el modal
 
   useEffect(() => {
     actions.getProfile();
-    setTimeout(()=>{
+    /* setTimeout(()=>{
       actions.getProfilePicture(store.userData.profile_picture).then(image=>setImagen({image:image}));
-    },250)
+    },250) */
   }, []);
+
+  function handleInputChange(e) {
+    setDatos({ ...datos, [e.target.id]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    actions.updateProfile(datos);
+  }
 
   return (
     <div>
@@ -34,7 +46,65 @@ export const UserProfile = () => {
             </svg>
           )}
         </div>
-        <div className="userData d-flex"></div>
+        <div className="userData">
+          <h2 className="mt-5 ms-3 d-inline-block">Tu datos:</h2>
+          <form
+            className="d-flex flex-column"
+            onSubmit={handleSubmit}
+          >
+            <div className="mt-3 mb-4 d-flex flex-column">
+              <div className="form-group">
+                <label htmlFor="name">Nombre:</label>
+                <input
+                  id="name"
+                  placeholder={
+                    store?.userData?.name ?? "Todavía no esta definido"
+                  }
+                  defaultValue={store?.userData?.name || null}
+                  onChange={handleInputChange}
+                  className="form-control rounded-pill"
+                ></input>
+              </div>
+              <div className="form-group">
+                <label htmlFor="last_name">Apellido:</label>
+                <input
+                  id="last_name"
+                  placeholder={
+                    store?.userData?.last_name ?? "Todavía no esta definido"
+                  }
+                  defaultValue={store?.userData?.last_name || null}
+                  onChange={handleInputChange}
+                  className="form-control rounded-pill"
+                ></input>
+              </div>
+              <div className="form-group">
+                <label htmlFor="address">Dirección:</label>
+                <input
+                  id="address"
+                  placeholder={
+                    store?.userData?.address ?? "Todavía no esta definido"
+                  }
+                  defaultValue={store?.userData?.address || null}
+                  onChange={handleInputChange}
+                  className="form-control rounded-pill"
+                ></input>
+              </div>
+            </div>
+            <div className="form-group d-flex">
+              <button
+                type="submit"
+                className="form-control btn btn-primary submit rounded-pill"
+              >
+                Actualizar Datos
+              </button>
+              <button
+                className="btn btn-primary rounded-pill"
+              >
+                Cambiar imagen
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

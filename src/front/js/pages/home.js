@@ -16,14 +16,13 @@ const Login = () => {
   function handleSubmit(e) {
     e.preventDefault();
     actions.loguearUsuario(datos);
-    nav("/userHome");
-    /*setTimeout(()=>{
+    setTimeout(()=>{
         if (store.token !== null){
             console.log("se logueo correctamente")
-            //nav('/products');
+            nav("/userHome");
         }
         else console.log("Algo salio mal al loguear")
-        },500)*/
+        },500)
   }
 
   return (

@@ -438,7 +438,6 @@ def update_user_data():
         current_user.address = data["address"]
     if "profile_picture" in keys:
         current_user.profile_picture = data["profile_picture"]
-    print(data["profile_picture"])
     db.session.commit()
     return jsonify(current_user.serialize()), 200
 
