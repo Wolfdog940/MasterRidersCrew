@@ -411,7 +411,6 @@ def get_user_data():
 @api.route("/user/<int:id>/data", methods=["POST"])
 def post_user_data(id):
     data = request.get_json()
-
     new_user_data = User_Data(
         name=data["name"],
         last_name=data["last_name"],
@@ -469,6 +468,14 @@ def get_all_image_user():
         return jsonify({"msg": "this user has not images yet"}), 400
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
+
+@api.route("/user/image/<int:id>", methods=["GET"])
+@jwt_required()
+def get_profile_picture(id):
+    image_profile_user = Image.query.get(id)
+    if image_profile_user is None:
+        return jsonify({"msg": "this user has not profile picture yet"}), 400
+    return jsonify({"data": image_profile_user.serialize()}), 200
 
 # Estoy asumiendo que la image ya me viene en base64 y es lo que estoy guardando
 

@@ -1,0 +1,12 @@
+.window {
+    margin: 2rem auto;
+    max-width: 80%;
+    height: auto;
+    background-color: #ccc;
+  }
+
+.imagen{
+  width: 300px;
+  height: 300px;
+  border: 2px solid white;
+}

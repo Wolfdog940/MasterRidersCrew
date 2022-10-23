@@ -12,6 +12,7 @@ import SignUp from "./pages/signup";
 import Login from "./pages/home";
 import UserHome from "./pages/userHome";
 import { UserProfile } from "./component/userprofile";
+import Image from "./pages/image";
 
 //create your first component
 const Layout = () => {
@@ -30,6 +31,7 @@ const Layout = () => {
             <Route element={<h1>Not found!</h1>} />
             <Route element={<UserHome />} path="/userHome" />
             <Route element={<UserProfile />} path="/userprofile" />
+            <Route element={<Image />} path="/image" />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>

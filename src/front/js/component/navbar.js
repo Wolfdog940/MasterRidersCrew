@@ -80,16 +80,20 @@ export const Navbar = () => {
                 </a>
                 <ol className="dropdown-menu">
                   <li>
-                    <Link className="nav-link text-light" to="/userprofile">
-                      <a className="dropdown-item" href="#">
-                        perfil
-                      </a>
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/userprofile"
+                    >
+                      perfil
                     </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/userprofile"
+                    >
+                      asd
+                    </Link>
                   </li>
                   <li>
                     <button

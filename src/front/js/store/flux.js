@@ -28,9 +28,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         })
           .then((resp) => {
-            console.log(resp.ok); // Será true (verdad) si la respuesta es exitosa.
-            console.log(resp.status); // el código de estado = 200 o código = 400 etc.
-            console.log(process.env.BACKEND_URL);
             return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
           })
           .then((data) => {
@@ -145,6 +142,70 @@ const getState = ({ getStore, getActions, setStore }) => {
           else throw new Error("No se pudo actualizar/Unable to update");
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
+        }
+      },
+      uploadImage: async (image) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/image", {
+            method: 'POST',
+            headers: {
+              "content-type": "application/json",
+              "authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(image)
+          });
+          const data = await resp.json();
+          if (resp.status !== 200)
+            throw new Error(data.msg);
+          else console.log(data.msg);
+        }
+        catch(error){
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+      getProfilePicture: async (id)=>{
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + '/api/user/image/' + id,{
+            method: 'GET',
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          });
+          const {data} = await resp.json();
+          if (resp.status === 400) 
+            console.log(data.msg)//throw new Error(data.msg);
+          else if (resp.status !== 200) 
+            console.log("otro problema")//throw new Error("Invalid Request");
+          else if (resp.status === 200){
+            return data.image;
+          }
+        }
+        catch (error){
+          console.log("Invalid Request", error)
+        }
+      },
+      getProfile: async (token) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/info", {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token ? token : localStorage.getItem("token")}`
+            }
+          });
+          const data = await resp.json();
+          if (resp.status === 400){
+            alert("Todavia no guardaste tus datos, por favor, llenalos ahora");
+            throw new Error(data.msg)
+          }
+          else if (resp.status !== 200)
+            throw new Error("Peticion invalida/Invalid request")
+          else if (resp.status === 200)
+            setStore({userData: data});
+        }
+        catch (error){
+          console.log(error);
         }
       },
     },
