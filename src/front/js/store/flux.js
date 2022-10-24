@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       message: null,
       listaGrupos: [],
       userData: {},
+      newsPage: [],
       demo: [
         {
           title: "FIRST",
@@ -223,6 +224,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           if (resp.status === 200) setStore({ userData: data });
           else throw new Error("No se pudo actualizar/Unable to update");
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+      setNews: async () => {
+        try {
+          const resp = await fetch(
+            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports"
+          );
+          const data = await resp.json();
+          if (resp.status === 200) {
+            setStore({ newsPage: data.results });
+          } else throw new Error("No se pudo actualizar/Unable to update");
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
