@@ -10,7 +10,7 @@ export const NewsCard = ({ item }) => {
 
       <div className="card-body">
         <div className="card-text ">
-          <a href={item.link} target="_blank">
+          <a id="link" href={item.link} target="_blank">
             <h4 className="text-dark link-title">{item.title}</h4>
           </a>
           <div className="text-dark">{item.description} </div>
