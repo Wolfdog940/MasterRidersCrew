@@ -1,13 +1,19 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const SideBar = () => {
   const { store, actions } = useContext(Context);
+  const nav = useNavigate();
 
   useEffect(() => {
     actions.getGrupos();
   }, []);
+
+  const handlePost = () => {
+    nav("/userHome/post");
+  };
 
   return (
     <div className="row">
@@ -68,11 +74,24 @@ const SideBar = () => {
                 </ul>
               </div>
             </div>
-            <button
+            <button onClick={ handlePost } className="btn btn-secondary" type="button">Post</button>
+          </div>
+          <button
+            type="button"
+            className="btn-close  position-absolute top-50 start-100 "
+            data-bs-dismiss="offcanvas"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-arrow-bar-left bg-white "
+              viewBox="0 0 16 16"
               type="button"
               className="btn-close  position-absolute top-50 start-100 "
               data-bs-dismiss="offcanvas"
-            >
+            />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -95,7 +114,7 @@ const SideBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

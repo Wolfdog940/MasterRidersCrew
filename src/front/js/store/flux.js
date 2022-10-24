@@ -5,6 +5,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       event: {},
       message: null,
       listaGrupos: [],
+      allPosts: [],
+      postByUser: [],
       userData: {},
       newsPage: [],
       demo: [
@@ -53,7 +55,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             body: JSON.stringify(datos),
           });
           const data = await resp.json();
-
           if (resp.status === 401) throw new Error(data.msg);
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");
           else if (resp.status === 200) {
@@ -73,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           await fetch(process.env.BACKEND_URL + "/api/logout", {
             method: "DELETE",
             headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
               "content-type": "application/json",
             },
           });
@@ -111,13 +113,113 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
-
+      getPosts: async () => {
+        // Obtiene todos los posts
+        try {
+          const resp = await fetch(process.env.BACKEND_URL + "/api/all_posts", {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          });
+          const data = await resp.json();
+          setStore({ allPosts: data });
+          return data;
+        } catch (error) {
+          console.log("Error al obtener todos los posts", error);
+        }
+      },
+      getPostByUser: async () => {
+        // Obtiene todos los posts creados por el usuario actual logueado.
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/all_user_posts",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const data = await resp.json();
+          setStore({ postByUser: data });
+          return data;
+        } catch (error) {
+          console.log("Error al obtener los posts del usuario actual", error);
+        }
+      },
+      createPost: async (post) => {
+        console.log("Post to create", post);
+        console.log("Token", localStorage.getItem("token"));
+        // Crea un nuevo post
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/create_post",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(post),
+            }
+          );
+          const data = await resp.json();
+          console.log("Se ha creado un post", data);
+        } catch (error) {
+          console.log("Error al crear un post", error);
+        }
+      },
+      updatePost: async (post) => {
+        // Actualiza o Edita un post
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/update_post",
+            {
+              method: "PUT",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(post),
+            }
+          );
+          const data = await resp.json();
+          const actions = getActions();
+          actions.getPosts();
+          return data;
+        } catch (error) {
+          console.log("Error al actualizar un post", error);
+        }
+      },
+      deletePost: async (post_id) => {
+        // Elimina un post
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/delete_post",
+            {
+              method: "DELETE",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(post_id),
+            }
+          );
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.log("Error al eliminar un post", error);
+        }
+      },
       newEvent: async (name, start, end, description, date) => {
         const opts = {
           method: "POST",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             name: name,
@@ -148,7 +250,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "PUT",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             name: name,
@@ -176,7 +278,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getEvent: async (eventId) => {
         const opts = {
           headers: {
-            Authorization: "Bearer " + sessionStorage.token,
+            Authorization: "Bearer " + localStorage.token,
           },
         };
         try {
@@ -189,6 +291,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
+        }},
 
       createGroup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/group", {

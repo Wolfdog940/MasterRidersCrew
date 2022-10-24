@@ -376,7 +376,7 @@ def delete_post():
     if post_id is None:
         return jsonify({"msg": "Post ID is required!"}), 404
 
-    post_deleted = Post.query.filter_by(user_id=current_user_id).first()
+    post_deleted = Post.query.filter_by(id = post_id).first()
 
     if post_deleted is None:
         return jsonify({"msg": "The post is already deleted!"}), 404
