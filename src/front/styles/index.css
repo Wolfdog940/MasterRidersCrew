@@ -2,45 +2,82 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-  font-family: "Reenie Beanie", cursive;
+  font-family: "Bebas Neue";
   margin: 0;
-  padding: 0;
-  background-image: url("https://image.shutterstock.com/shutterstock/photos/753509062/display_1500/stock-vector-black-and-white-vector-city-map-of-madrid-with-well-organized-separated-layers-753509062.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  width: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(252, 97, 13, 1) 11%,
+    rgba(181, 104, 61, 1) 50%,
+    rgba(52, 117, 148, 1) 75%,
+    rgba(7, 121, 179, 1) 83%,
+    rgba(7, 121, 179, 1) 84%
+  );
+  background-blend-mode: normal;
 }
 
 section {
   width: 100vw;
   height: 100vh;
+  border: 1px solid black;
 }
 
 form {
   margin: auto auto;
   color: white(0, 0, 0, 0.5);
-  border: 2px groove white;
+
   border-radius: 5%;
   width: 300px;
   height: 375px;
-  background-color: black;
-}
-
-.input {
-  border: none;
-}
-
-.input::-webkit-input-placeholder {
-  color: white;
 }
 
 .link {
   text-decoration: none;
 }
 
-input[type="checkbox"]:checked {
-  background-color: black;
-  border: black;
+input[type="email"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="password"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="name"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="last_name"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+
+.dropdown-toggle {
+  border: none;
+  color: white;
+}
+.dropdown-menu {
+  font-size: small;
+}
+.top-side {
+  position: absolute;
+  top: 55px;
+}
+.div-container {
+  width: 100%;
+  height: 100%;
+}
+.login,
+.signup {
+  font-family: "Bebas Neue";
 }
 .logo {
+  font-family: "Monoton";
+}
+.nav {
+  background: transparent;
 }

@@ -5,29 +5,59 @@ import datetime
 
 db = SQLAlchemy()
 
-group_participation = db.Table("group_participation",
-                               db.Column("participant_id", db.Integer, db.ForeignKey(
-                                   "user.id"), primary_key=True),
-                               db.Column('group_id', db.Integer, db.ForeignKey(
-                                   'group.id'), primary_key=True)
-                               )
+
+class Group_participation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'),
+                         nullable=False)
+
+    def __repr__(self):
+        return f'<Group_participation {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "group_id": self.group_id
+        }
 
 
-event_participant = db.Table('event_participant',
-                             db.Column("participant_id", db.Integer, db.ForeignKey(
-                                 "user.id"), primary_key=True),
-                             db.Column('event_id', db.Integer, db.ForeignKey(
-                                 'event.id'), primary_key=True)
-                             )
+class Event_participation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'),
+                         nullable=False)
+
+    def __repr__(self):
+        return f'<Event_participation {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "event_id": self.event_id
+        }
 
 
-friend = db.Table('friend',
-                  db.Column('user_id1', db.Integer, db.ForeignKey(
-                      'user.id'), primary_key=True),
-                  db.Column("user_id2", db.Integer, db.ForeignKey(
-                      "user.id"), primary_key=True),
-                  db.Column("is_favorite", db.Boolean, default=False)
-                  )
+class Form_friendship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    main_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                               nullable=False)
+    secondary_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                                    nullable=False)
+
+    def __repr__(self):
+        return f'<Form_friendship {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "main_friend_id": self.main_friend_id,
+            "secondary_friend_id": self.secondary_friend_id
+        }
 
 
 class User(db.Model):
@@ -36,13 +66,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, default=True)
-    posts = db.relationship('Post', foreign_keys='Post.user_id',
-                            backref='user', lazy='dynamic', cascade='all, delete-orphan')
-    # necesito uselist = false porque es una relacion 1 a 1
-    user_data = db.relationship(
-        'User_Data', backref='user', lazy=True, uselist=False)
-    image_id = db.relationship('Image', backref='user', lazy=True)
-    group = db.relationship('Group', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -50,28 +73,35 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+            # "participant":self.group
         }
 
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(10), unique=True, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'),
                          nullable=False)
     private = db.Column(db.Boolean(), unique=False)
-    group_participation = db.relationship('User', secondary=group_participation, lazy='subquery',
-                                          backref=db.backref('group_participation', lazy=True))
 
     def __repr__(self):
-        return f'<Group {self.name}>'
+        return f'<Group {self.name}>'  # representacion de la clase
 
     def serialize(self):
+
         return {
             "id": self.id,
             "name": self.name,
             "owner_id": self.owner_id,
-            "private": self.private
+            "private": self.private,
+
+            # participation es un objeto Usuario y tengo que serializarlo
+        }
+
+    def serialize_name(self):
+        return {
+            "name": self.name
         }
 
 
@@ -82,17 +112,15 @@ class Event(db.Model):
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), nullable=False)
-    date = db.Column(DateTime, nullable=False,
-                     default=datetime.datetime.utcnow())
-    private = db.Column(db.Boolean(), unique=True)
+    date = db.Column(db.Date, nullable=False)
+    private = db.Column(db.Boolean(), unique=False)
     slug = db.Column(db.String(), unique=False, nullable=False)
     description = db.Column(db.String(), unique=False, nullable=False)
-    participants = db.relationship('User', secondary=event_participant, lazy='subquery',
-                                   backref=db.backref('events', lazy=True))
 
     def serialize(self):
         return {
             "id": self.id,
+            "name" : self.name,
             "start": self.start,
             "end": self.end,
             "owner_id": self.owner_id,
@@ -107,7 +135,7 @@ class User_Data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     last_name = db.Column(db.String(120), unique=False, nullable=False)
-    address = db.Column(db.String(120), unique=False, nullable=False)
+    address = db.Column(db.String(120), unique=False, nullable=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     profile_picture = db.Column(
         db.Integer(), db.ForeignKey('image.id'), nullable=True)
@@ -142,7 +170,7 @@ class Post(db.Model):
     text = db.Column(db.String(5000), unique=False, nullable=True)
     image = db.Column(db.String(), unique=False, nullable=True)
     created_at = db.Column(DateTime, nullable=False,
-                         default=datetime.datetime.utcnow())
+                           default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def serialize(self):

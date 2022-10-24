@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Event, User_Data, Group, Image, Post
+from api.models import db, User, Event, User_Data, Group, Image, Post, Group_participation, Event_participation, Form_friendship
 from api.utils import generate_sitemap, APIException
 from sqlalchemy.sql import text
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, get_jwt
@@ -79,7 +79,6 @@ def login():
 def post_group():
     name = request.json.get("name", None)
     private = request.json.get("private", None)
-
     group = Group.query.filter_by(name=name).first()
 
     owner_id = get_jwt_identity()  # aqui ya tengo el token
@@ -101,7 +100,7 @@ def post_group():
         name=name,
         private=private,
     )
-
+    print(new_group)
     db.session.add(new_group)
     db.session.commit()
     return jsonify(new_group.serialize()), 200
@@ -131,7 +130,50 @@ def update_group(id):
 def get_groups():
     groups = Group.query.all()
     serializer = list(map(lambda x: x.serialize(), groups))
+
     return jsonify({"data": serializer}), 200
+
+
+@api.route('/user/group', methods=['GET'])
+@jwt_required()
+def get_group_by_user_id():
+    owner_id = get_jwt_identity()
+    my_groups = Group.query.filter_by(
+        owner_id=owner_id).all()  # lista de objetos
+    all_my_groups = Group_participation.query.filter_by(
+        user_id=owner_id).all()
+    all_my_groups = list(
+        map(lambda x: Group.query.get(x.group_id), all_my_groups))  # lista all_my groups y ejecuta el lamda
+    all_groups = my_groups + all_my_groups
+
+    serializer = list(map(lambda x: x.serialize_name(), all_groups))
+
+    return jsonify({"data": serializer}), 200
+
+
+# esto es para apuntarme un grupo
+@api.route('/user/participation', methods=['POST'])
+@jwt_required()
+def join_group():
+    user_id = get_jwt_identity()
+
+    data = request.get_json()
+    if "group_id" not in data:
+        return jsonify({"msg": "no has enviado ningun grupo"}), 401
+
+    new_participant = Group_participation(
+        user_id=user_id,
+        group_id=data["group_id"]
+
+    )
+    db.session.add(new_participant)
+
+    db.session.commit()
+
+    return jsonify(new_participant.serialize())
+
+
+# enpoint que haga una busqueda de todos mis grupos ,
 
 
 @api.route("/group/<int:id>", methods=["DELETE"])
@@ -170,12 +212,9 @@ def add_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    """ date = request.json.get("date", None)
+    date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401 """
-    private = request.json.get("private", None)
-    if private is None:
-        return jsonify({"msg": "Undeclared group privacy"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401    
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -184,7 +223,8 @@ def add_event():
         start=start,
         end=end,
         owner_id=owner_id,
-        private=private,
+        private=False,
+        date=date,
         slug=slug,
         description=description
     )
@@ -199,7 +239,7 @@ def get_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
-    return jsonify(user.serialize()), 200
+    return jsonify(event.serialize()), 200
 
 
 @api.route("/event/<int:event_id>", methods=["DELETE"])
@@ -235,21 +275,16 @@ def update_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    """ date = request.json.get("date", None)
+    date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401 """
-    private = request.json.get("private", None)
-    if private is None:
-        return jsonify({"msg": "Undeclared group privacy"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401    
     slug = slugify(name)
     description = request.json.get("description", None)
 
     event["name"] = name,
     event["start"] = start,
     event["end"] = end,
-    event["owner_id"] = owner_id,
-    """ event["date"] = date, """
-    event["private"] = private,
+    event["date"] = date,
     event["slug"] = slug,
     event["description"] = description
 
@@ -366,16 +401,15 @@ def get_user_data():
     return jsonify(current_user.serialize()), 200
 
 
-@api.route("/user/data", methods=["POST"])
-@jwt_required()
-def post_user_data():
+@api.route("/user/<int:id>/data", methods=["POST"])
+def post_user_data(id):
     data = request.get_json()
-    current_user_id = get_jwt_identity()
+
     new_user_data = User_Data(
         name=data["name"],
         last_name=data["last_name"],
-        address=data["address"],
-        user_id=current_user_id,
+        address=None,
+        user_id=id,
         profile_picture=None  # Por defecto dejo se crea sin profile_picture
     )
     db.session.add(new_user_data)

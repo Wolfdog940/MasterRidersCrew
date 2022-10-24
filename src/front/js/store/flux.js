@@ -2,10 +2,24 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       token: null,
+      event: {},
       message: null,
       listaGrupos: [],
       allPosts: [],
       postByUser: [],
+      userData: {},
+      demo: [
+        {
+          title: "FIRST",
+          background: "white",
+          initial: "white",
+        },
+        {
+          title: "SECOND",
+          background: "white",
+          initial: "white",
+        },
+      ],
     },
     actions: {
       signup: (valores) => {
@@ -21,6 +35,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log(resp.status); // el código de estado = 200 o código = 400 etc.
             console.log(process.env.BACKEND_URL);
             return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+          })
+          .then((data) => {
+            getActions().setProfile(valores, data.id);
           })
           .catch((error) => {
             console.log("Error al registar el usuario", error);
@@ -43,20 +60,44 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user_id", data.user_id);
             setStore({ token: data.token });
+            console.log(store.token);
           }
         } catch (error) {
           console.log("Error al loguear el usuario", error);
         }
       },
 
-      getGrupos: async () => {
+      borrar_token: async () => {
+        const store = getStore();
         try {
-          const resp = await fetch(process.env.BACKEND_URL + "/api/group", {
-            method: "GET",
+          await fetch(process.env.BACKEND_URL + "/api/logout", {
+            method: "DELETE",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
+              "content-type": "application/json",
             },
           });
+          if (store.token != null) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+            setStore({ token: null });
+          }
+        } catch (error) {
+          console.log("Error al deslogear el usuario", error);
+        }
+      },
+
+      getGrupos: async () => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/group",
+            {
+              method: "GET",
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
           const data = await resp.json();
           if (resp.status === 401) throw new Error(data.msg);
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");
@@ -71,7 +112,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
-
       getPosts: async () => {
         // Obtiene todos los posts
         try {
@@ -171,6 +211,120 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log("Error al eliminar un post", error);
+      newEvent: async (name, start, end, description, date) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            name: name,
+            start: start,
+            end: end,
+            description: description,
+            date: date,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+
+      editEvent: async (name, start, end, description, date) => {
+        const opts = {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            name: name,
+            start: start,
+            end: end,
+            description: description,
+            date: date,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+      getEvent: async (eventId) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event/" + eventId,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+
+      createGroup: (valores) => {
+        fetch(process.env.BACKEND_URL + "/api/group", {
+          method: "POST",
+          body: JSON.stringify(valores),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+          .then((resp) => {
+            console.log(resp.ok); // Será true (verdad) si la respuesta es exitosa.
+            console.log(resp.status); // el código de estado = 200 o código = 400 etc.
+            console.log(process.env.BACKEND_URL);
+            return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+          })
+          .catch((error) => {
+            console.log("Error al registar el grupo", error);
+          });
+      },
+      setProfile: async (valores, id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/" + id + "/data",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(valores),
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) setStore({ userData: data });
+          else throw new Error("No se pudo actualizar/Unable to update");
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
         }
       },
     },
