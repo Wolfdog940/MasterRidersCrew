@@ -1,11 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 
-const NewEvent = () => {
+const EditEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { store, actions } = useContext(Context);
+  const [event, setEvent] = useState({});
+  const params = useParams();
+
+  useEffect(() => {
+    actions.getEvent(params.eventId);
+  }, []);
+
+  useEffect(() => {
+    setEvent(store.event);
+    setStartDate(store.event.date);
+  }, [store.event]);
 
   const submitEvent = () => {
     var name = document.getElementById("nameInput").value;
@@ -13,11 +24,17 @@ const NewEvent = () => {
     var end = document.getElementById("endInput").value;
     var description = document.getElementById("descriptionInput").value;
     var date = startDate;
-    actions.newEvent(name, start, end, description, isPrivate, date);
+    actions.editEvent(name, start, end, description, date);
   };
 
   return (
     <form onSubmit={submitEvent}>
+      <div className="mb-3">
+        <label htmlFor="date" className="form-label">
+          Nombre
+        </label>
+        <span>{event.date}</span>
+      </div>
       <div>
         <Calendar onChange={setStartDate} value={startDate} />
       </div>
@@ -30,6 +47,7 @@ const NewEvent = () => {
           className="form-control"
           id="nameInput"
           aria-describedby="nameHelp"
+          defaultValue={event?.name || null}
         />
       </div>
       <div className="mb-3">
@@ -41,6 +59,7 @@ const NewEvent = () => {
           className="form-control"
           id="startInput"
           aria-describedby="startHelp"
+          defaultValue={event?.start || null}
         />
       </div>
       <div className="mb-3">
@@ -52,6 +71,7 @@ const NewEvent = () => {
           className="form-control"
           id="endInput"
           aria-describedby="endHelp"
+          defaultValue={event?.end || null}
         />
       </div>
       <div className="mb-3">
@@ -63,6 +83,7 @@ const NewEvent = () => {
           className="form-control"
           id="descriptionInput"
           aria-describedby="descriptionHelp"
+          defaultValue={event?.description || null}
         />
       </div>
       <button type="submit" className="btn btn-primary">
@@ -72,4 +93,4 @@ const NewEvent = () => {
   );
 };
 
-export default NewEvent;
+export default EditEvent;

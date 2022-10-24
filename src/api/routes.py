@@ -212,12 +212,9 @@ def add_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    """ date = request.json.get("date", None)
+    date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401 """
-    private = request.json.get("private", None)
-    if private is None:
-        return jsonify({"msg": "Undeclared group privacy"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401    
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -226,7 +223,8 @@ def add_event():
         start=start,
         end=end,
         owner_id=owner_id,
-        private=private,
+        private=False,
+        date=date,
         slug=slug,
         description=description
     )
@@ -241,7 +239,7 @@ def get_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
-    return jsonify(user.serialize()), 200
+    return jsonify(event.serialize()), 200
 
 
 @api.route("/event/<int:event_id>", methods=["DELETE"])
@@ -277,21 +275,16 @@ def update_event():
     if end is None:
         return jsonify({"msg": "Need an end to register an event"}), 401
     owner_id = get_jwt_identity()
-    """ date = request.json.get("date", None)
+    date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401 """
-    private = request.json.get("private", None)
-    if private is None:
-        return jsonify({"msg": "Undeclared group privacy"}), 401
+        return jsonify({"msg": "Need a date to register an event"}), 401    
     slug = slugify(name)
     description = request.json.get("description", None)
 
     event["name"] = name,
     event["start"] = start,
     event["end"] = end,
-    event["owner_id"] = owner_id,
-    """ event["date"] = date, """
-    event["private"] = private,
+    event["date"] = date,
     event["slug"] = slug,
     event["description"] = description
 
