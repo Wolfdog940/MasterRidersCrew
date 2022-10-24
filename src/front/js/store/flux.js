@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       token: null,
+      event: {},
       message: null,
       listaGrupos: [],
       userData: {},
@@ -109,6 +110,85 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
+
+      newEvent: async (name, start, end, description, date) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            name: name,
+            start: start,
+            end: end,
+            description: description,
+            date: date,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+
+      editEvent: async (name, start, end, description, date) => {
+        const opts = {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            name: name,
+            start: start,
+            end: end,
+            description: description,
+            date: date,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+      getEvent: async (eventId) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event/" + eventId,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+
       createGroup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/group", {
           method: "POST",
