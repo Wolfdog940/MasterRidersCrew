@@ -135,7 +135,7 @@ class User_Data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     last_name = db.Column(db.String(120), unique=False, nullable=False)
-    address = db.Column(db.String(120), unique=False, nullable=False)
+    address = db.Column(db.String(120), unique=False, nullable=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     profile_picture = db.Column(
         db.Integer(), db.ForeignKey('image.id'), nullable=True)

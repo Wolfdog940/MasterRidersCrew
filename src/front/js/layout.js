@@ -14,6 +14,9 @@ import UserHome from "./pages/userHome";
 import NewEvent from "./component/Events/newEvent.jsx";
 import EditEvent from "./component/Events/editEvent.jsx";
 import ShowEvent from "./component/Events/showEvent.jsx";
+import { UserProfile } from "./component/userprofile";
+
+
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -33,6 +36,7 @@ const Layout = () => {
             <Route element={<EditEvent />} path="/editevent/:eventId" />
             <Route element={<ShowEvent />} path="/showevent/:eventId" />
             <Route element={<NewEvent />} path="/newevent" />
+            <Route element={<UserProfile />} path="/userprofile" />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>
