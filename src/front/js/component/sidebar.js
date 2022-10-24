@@ -88,11 +88,10 @@ const SideBar = () => {
               fill="currentColor"
               className="bi bi-arrow-bar-left bg-white "
               viewBox="0 0 16 16"
-            <button
               type="button"
               className="btn-close  position-absolute top-50 start-100 "
               data-bs-dismiss="offcanvas"
-            >
+            />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -115,7 +114,7 @@ const SideBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

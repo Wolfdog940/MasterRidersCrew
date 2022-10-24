@@ -211,12 +211,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log("Error al eliminar un post", error);
+        }
+      },
       newEvent: async (name, start, end, description, date) => {
         const opts = {
           method: "POST",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             name: name,
@@ -247,7 +249,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "PUT",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             name: name,
@@ -275,7 +277,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getEvent: async (eventId) => {
         const opts = {
           headers: {
-            Authorization: "Bearer " + sessionStorage.token,
+            Authorization: "Bearer " + localStorage.token,
           },
         };
         try {
@@ -288,6 +290,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
+        }},
 
       createGroup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/group", {
