@@ -291,7 +291,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
-        }},
+        }
+      },
 
       createGroup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/group", {
@@ -334,7 +335,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       setNews: async () => {
         try {
           const resp = await fetch(
-            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports"
+            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports,entertainment"
           );
           const data = await resp.json();
           if (resp.status === 200) {
