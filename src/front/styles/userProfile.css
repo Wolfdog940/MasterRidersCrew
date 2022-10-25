@@ -67,3 +67,34 @@
     height: auto;
   }
 }
+
+.picture{
+    margin: auto;
+    width: 194px;
+    height: 194px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media screen and (max-width:510px){
+
+    .infoUser{
+        width: 90%;
+        height: auto;
+    }
+
+    .backgroundColor{
+        height: 150px;
+        background-color: rgba(26, 126, 184,0.3);
+    }
+
+    .profilePicture{
+        margin-top: -150px;
+        margin-bottom: -50px;
+    }
+
+    form{
+        width: 70%;
+        height: auto;
+    }
+}
