@@ -1,70 +1,69 @@
-.infoUser{
-    margin: 1rem auto;
-    width: 70%;
-    max-width: 700px;
-    height: 650px;
-    border: 1px solid white;
-    border-radius: 2rem;
-    overflow: hidden;
+.infoUser {
+  margin: 1rem auto;
+  width: 70%;
+  max-width: 700px;
+  height: 650px;
+  border: 1px solid white;
+  border-radius: 2rem;
+  overflow: hidden;
 }
 
-.backgroundColor{
-    width: 100%;
-    height: 200px;
-    background-color: rgba(26, 126, 184,0.3);
+.backgroundColor {
+  width: 100%;
+  height: 200px;
+  background-color: rgba(26, 126, 184, 0.3);
 }
 
-.profilePicture{
-    margin: auto;
-    width: 200px;
-    height: 200px;
-    border: 3px solid white;
-    border-radius: 50%;
-    background-color: #eee;
-    margin-top: -100px;
-    margin-bottom: -100px;
-    z-index: 1;
+.profilePicture {
+  margin: auto;
+  width: 200px;
+  height: 200px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #eee;
+  margin-top: -100px;
+  margin-bottom: -100px;
+  z-index: 1;
 }
 
-.userData{
-    width: 100%;
-    height: 450px;
-    background-color: rgba(255, 255, 255,0.3);
+.userData {
+  width: 100%;
+  height: 450px;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
-form{
-    margin: auto auto;
-    width: 60%;
+form {
+  margin: auto auto;
+  width: 60%;
+  height: auto;
+}
+
+.picture {
+  margin: auto;
+  width: 194px;
+  height: 194px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 510px) {
+  .infoUser {
+    width: 90%;
     height: auto;
-}
+  }
 
-.picture{
-    margin: auto;
-    width: 200px;
-    height: 194px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+  .backgroundColor {
+    height: 150px;
+    background-color: rgba(26, 126, 184, 0.3);
+  }
 
-@media screen and (max-width:510px){
+  .profilePicture {
+    margin-top: -150px;
+    margin-bottom: -50px;
+  }
 
-    .infoUser{
-        width: 90%;
-        height: auto;
-    }
-
-    .backgroundColor{
-        height: 150px;
-        background-color: rgba(26, 126, 184,0.3);
-    }
-
-    .profilePicture{
-        margin-top: -150px;
-        margin-bottom: -50px;
-    }
-
-    form{
-        width: 70%;
-        height: auto;
-    }
+  form {
+    width: 70%;
+    height: auto;
+  }
 }
