@@ -483,16 +483,16 @@ def get_profile_picture(id):
 @jwt_required()
 def post_image():
     current_user_id = get_jwt_identity()
-    image = request.json.get("image", None)
-    if image is None:
+    data = request.get_json()
+    if data is None:
         return jsonify({"msg": "no picture to upload"}), 400
     current_image = Image(
         owner_id=current_user_id,
-        image=image
+        image=data
     )
     db.session.add(current_image)
     db.session.commit()
-    return jsonify({"msg": "the picture has been uploaded"}), 200
+    return jsonify({"data": current_image.serialize()}), 200
 
 
 @api.route("/user/image/delete/<int:id>", methods=["DELETE"])

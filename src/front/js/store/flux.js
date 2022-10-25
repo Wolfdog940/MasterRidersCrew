@@ -153,10 +153,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             body: JSON.stringify(image)
           });
-          const data = await resp.json();
+          const {data} = await resp.json();
           if (resp.status !== 200)
             throw new Error(data.msg);
-          else console.log(data.msg);
+          else return(data.id);
         }
         catch(error){
           console.log("Peticion invalida/Invalid request");
@@ -219,10 +219,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
           const data = await resp.json();
           if (resp.status === 200){
-            setStore({userData: data})
-            alert("Los datos se actualizaron correctamente")
+            setStore({userData: data});
+            return true;
+            //alert("Los datos se actualizaron correctamente")
           }
-          else throw new Error("Invalid Update")
+          else return false;//throw new Error("Invalid Update")
         }
         catch(error){
           console.log(error);

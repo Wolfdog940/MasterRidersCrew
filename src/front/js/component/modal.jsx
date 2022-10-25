@@ -16,12 +16,12 @@ const Modal = ({ cambiarModo, texto }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <p>La cuenta regresiva ha llegado a su fin!!!</p>
+            <p>Tus datos se actualizaron correctamente!</p>
           </div>
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-danger"
               onClick={() => {
                 cambiarModo(false);
               }}
