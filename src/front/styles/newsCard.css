@@ -26,10 +26,10 @@ a:hover {
     font-size: large;
   }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 300px) {
   .myCard {
     margin-top: 5px;
-    width: 80%;
+    width: 90%;
     font-size: small;
   }
   h4 {

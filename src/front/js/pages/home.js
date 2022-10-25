@@ -19,7 +19,7 @@ const Login = () => {
     setTimeout(()=>{
         if (store.token !== null){
             console.log("se logueo correctamente")
-            nav("/userHome");
+            nav("/userProfile");
         }
         else console.log("Algo salio mal al loguear")
         },500)

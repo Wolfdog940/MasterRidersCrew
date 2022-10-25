@@ -107,7 +107,6 @@ export const UserProfile = () => {
           )}
         </div>
         <div className="userData">
-          <h2 className="mt-5 ms-3">Tu datos:</h2>
           <form onSubmit={handleSubmit} id="form">
             <div className="mt-3 mb-4 d-flex flex-column">
               <div className="form-group">

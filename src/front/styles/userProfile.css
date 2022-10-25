@@ -33,7 +33,7 @@
 }
 
 #form {
-  margin: auto auto;
+  margin: 7rem auto 2rem;
   width: 60%;
   height: auto;
 }
@@ -58,43 +58,21 @@
   }
 
   .profilePicture {
-    margin-top: -130px;
+    margin-top: -100px;
     margin-bottom: -50px;
+    width: 150px;
+    height: 150px;
+  }
+
+  .picture {
+    width: 150px;
+    height: 144px;
   }
 
   #form {
     width: 70%;
     height: auto;
+    margin: 3rem auto;
   }
 }
 
-.picture{
-    margin: auto;
-    width: 194px;
-    height: 194px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-@media screen and (max-width:510px){
-
-    .infoUser{
-        width: 90%;
-        height: auto;
-    }
-
-    .backgroundColor{
-        height: 150px;
-        background-color: rgba(26, 126, 184,0.3);
-    }
-
-    .profilePicture{
-        margin-top: -150px;
-        margin-bottom: -50px;
-    }
-
-    form{
-        width: 70%;
-        height: auto;
-    }
-}
