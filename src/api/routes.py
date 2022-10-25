@@ -404,7 +404,6 @@ def get_user_data():
 @api.route("/user/<int:id>/data", methods=["POST"])
 def post_user_data(id):
     data = request.get_json()
-
     new_user_data = User_Data(
         name=data["name"],
         last_name=data["last_name"],
@@ -432,7 +431,6 @@ def update_user_data():
         current_user.address = data["address"]
     if "profile_picture" in keys:
         current_user.profile_picture = data["profile_picture"]
-    print(data["profile_picture"])
     db.session.commit()
     return jsonify(current_user.serialize()), 200
 
@@ -463,6 +461,14 @@ def get_all_image_user():
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
 
+@api.route("/user/image/<int:id>", methods=["GET"])
+@jwt_required()
+def get_profile_picture(id):
+    image_profile_user = Image.query.get(id)
+    if image_profile_user is None:
+        return jsonify({"msg": "this user has not profile picture yet"}), 400
+    return jsonify({"data": image_profile_user.serialize()}), 200
+
 # Estoy asumiendo que la image ya me viene en base64 y es lo que estoy guardando
 
 
@@ -470,16 +476,16 @@ def get_all_image_user():
 @jwt_required()
 def post_image():
     current_user_id = get_jwt_identity()
-    image = request.json.get("image", None)
-    if image is None:
+    data = request.get_json()
+    if data is None:
         return jsonify({"msg": "no picture to upload"}), 400
     current_image = Image(
         owner_id=current_user_id,
-        image=image
+        image=data
     )
     db.session.add(current_image)
     db.session.commit()
-    return jsonify({"msg": "the picture has been uploaded"}), 200
+    return jsonify({"data": current_image.serialize()}), 200
 
 
 @api.route("/user/image/delete/<int:id>", methods=["DELETE"])
