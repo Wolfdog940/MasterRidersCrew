@@ -1,0 +1,75 @@
+.post-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.posts {
+  width: 80%;
+  height: 80%;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid white;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.post {
+  position: relative;
+  margin-top: 15px;
+  background-color: white;
+  border: 1px solid grey;
+  padding: 35px;
+  border-radius: 10px;
+}
+
+.noPostAvailable {
+  position: relative;
+  top: 50%;
+}
+
+.postText {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.postText > h2 {
+    font-size: 18px;
+}
+
+.postCreateButton {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.postEdit {
+    position: absolute;
+    right: 40px;
+    top: -3px;
+    cursor: pointer;
+}
+
+.postDelete {
+    position: absolute;
+    right: 10px;
+    top: -3px;
+    cursor: pointer;
+}
+
+.postImage {
+  width: 450px;
+  border-radius: 5px;
+}
+
+.postDate {
+    position: relative;
+    left: 50%;
+    top: 20px;
+}

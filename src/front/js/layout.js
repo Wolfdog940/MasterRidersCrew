@@ -11,8 +11,14 @@ import { Footer } from "./component/footer";
 import SignUp from "./pages/signup";
 import Login from "./pages/home";
 import UserHome from "./pages/userHome";
+import { ShowPost } from "./component/post/showPosts";
+import NewEvent from "./component/Events/newEvent.jsx";
+import EditEvent from "./component/Events/editEvent.jsx";
+import ShowEvent from "./component/Events/showEvent.jsx";
 import { UserProfile } from "./component/userprofile";
 import Image from "./pages/image";
+import { Noticias } from "./component/noticias";
+
 
 //create your first component
 const Layout = () => {
@@ -30,8 +36,13 @@ const Layout = () => {
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
             <Route element={<UserHome />} path="/userHome" />
+            <Route element={<ShowPost />} path="/userHome/post" />
+            <Route element={<EditEvent />} path="/editevent/:eventId" />
+            <Route element={<ShowEvent />} path="/showevent/:eventId" />
+            <Route element={<NewEvent />} path="/newevent" />
             <Route element={<UserProfile />} path="/userprofile" />
-            <Route element={<Image />} path="/image" />
+            <Route element={<Noticias />} path="/noticias" />
+
           </Routes>
         </ScrollToTop>
       </BrowserRouter>

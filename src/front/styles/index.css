@@ -2,6 +2,7 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
+  overflow: hidden;
   font-family: "Bebas Neue";
   margin: 0;
   width: 100%;
@@ -80,4 +81,21 @@ input[type="last_name"]::placeholder {
 }
 .nav {
   background: transparent;
+}
+.scroll {
+  position: absolute;
+  top: 7%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+}
+a {
+  color: black;
+}
+a:hover {
+  color: blue;
+}
+.link:visited {
+  color: blue;
 }

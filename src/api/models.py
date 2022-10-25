@@ -112,15 +112,15 @@ class Event(db.Model):
     end = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), nullable=False)
-    date = db.Column(DateTime, nullable=False,
-                     default=datetime.datetime.utcnow())
-    private = db.Column(db.Boolean(), unique=True)
+    date = db.Column(db.Date, nullable=False)
+    private = db.Column(db.Boolean(), unique=False)
     slug = db.Column(db.String(), unique=False, nullable=False)
     description = db.Column(db.String(), unique=False, nullable=False)
 
     def serialize(self):
         return {
             "id": self.id,
+            "name" : self.name,
             "start": self.start,
             "end": self.end,
             "owner_id": self.owner_id,
@@ -168,7 +168,7 @@ class Image(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(5000), unique=False, nullable=True)
-    image = db.Column(db.String(5000), unique=False, nullable=True)
+    image = db.Column(db.String(), unique=False, nullable=True)
     created_at = db.Column(DateTime, nullable=False,
                            default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
@@ -178,5 +178,6 @@ class Post(db.Model):
             "id": self.id,
             "text": self.text,
             "image": self.image,
-            "date": self.created_at
+            "date": self.created_at,
+            "user_id": self.user_id
         }

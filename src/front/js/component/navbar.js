@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import UserHome from "../pages/userHome";
+import { Noticias } from "./noticias";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -12,7 +13,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="container nav d-flex justify-content-evenly border-bottom ">
+    <div className="container nav d-flex justify-content-evenly border-bottom  sticky-top">
       <div className="">
         <h4 className="text-white mt-3 me-5 logo">R|C</h4>
       </div>
@@ -50,9 +51,9 @@ export const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-light" href="#">
+                <Link className="nav-link text-light" to="/Noticias">
                   Noticias
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item dropdown">

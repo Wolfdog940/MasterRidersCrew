@@ -5,6 +5,7 @@ import "../../styles/userProfile.css";
 import Modal from "./modal.jsx";
 import { object } from "prop-types";
 
+
 export const UserProfile = () => {
   const { store, actions } = useContext(Context);
   const [datos, setDatos] = useState({});
