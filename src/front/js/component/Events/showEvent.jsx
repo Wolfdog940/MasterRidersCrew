@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
+import { Navbar } from "../navbar";
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
@@ -17,6 +18,7 @@ const ShowEvent = () => {
   }, [store.event]);
   return (
     <div>
+      <Navbar />
       <div className="card">
         <div className="card-body">
           <h5 className="card-title">{event.name}</h5>
