@@ -32,7 +32,7 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-form {
+#form {
   margin: auto auto;
   width: 60%;
   height: auto;
@@ -58,11 +58,11 @@ form {
   }
 
   .profilePicture {
-    margin-top: -150px;
+    margin-top: -130px;
     margin-bottom: -50px;
   }
 
-  form {
+  #form {
     width: 70%;
     height: auto;
   }

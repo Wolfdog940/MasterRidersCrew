@@ -1,0 +1,28 @@
+a {
+  color: black;
+}
+a:hover {
+  color: blue;
+}
+.link:visited {
+  color: blue;
+}
+@media screen and (max-width: 510px) {
+  .myCard {
+    margin-top: 5px;
+    width: 90%;
+  }
+  h4 {
+    font-size: large;
+  }
+}
+@media screen and (max-width: 800px) {
+  .myCard {
+    margin-top: 5px;
+    width: 80%;
+    font-size: small;
+  }
+  h4 {
+    font-size: large;
+  }
+}
