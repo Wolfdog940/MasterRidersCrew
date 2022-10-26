@@ -238,7 +238,7 @@ def add_event():
     )
     db.session.add(new_participant)
     db.session.commit()
-    return jsonify(new_event.serialize(), new_participant.serialize()), 200
+    return jsonify(new_event, new_participant.serialize()), 200
 
 
 @api.route("/event/<int:event_id>", methods=["GET"])
@@ -303,12 +303,10 @@ def update_event():
 @jwt_required()
 def get_events(page,per_page):
     user_id = get_jwt_identity()        
-    all_events = Event_participation.query.filter_by(user_id = user_id).all()
+    all_events = Event_participation.query.filter_by(user_id = user_id).paginate(page = page, per_page = per_page)
     print(all_events)
     all_events = list(map(lambda x : x.return_event(), all_events))
-    print(all_events)
-    all_events = list(map(lambda x : x.serialize(),all_events))
-    print(all_events)
+    print(all_events)    
 
     if all_events is None:
         return jsonify({"msg": "Event not found"}), 404
