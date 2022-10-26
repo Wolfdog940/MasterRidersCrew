@@ -37,7 +37,7 @@ const signUp = () => {
     <section className="d-flex justify-content-center align-items-center border-bottom">
       <form
         onSubmit={handleSubmit}
-        className="d-flex flex-column align-items-center"
+        className="d-flex flex-column align-items-center border-start border-bottom  border-white"
       >
         <div className="div_logo">
           <h1 className="text-white my-3 logo">R|C</h1>
@@ -48,7 +48,7 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="name"
-            className="form-control rounded-pill bg-transparent my-2 text-center text-white me-2"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white mx-2"
             placeholder="nombre"
             id="name"
             required=""
@@ -66,7 +66,7 @@ const signUp = () => {
           <input
             onChange={handleInputChange}
             type="email"
-            className="form-control rounded-pill bg-transparent my-2 text-center text-white me-2"
+            className="form-control rounded-pill bg-transparent my-2 text-center text-white mx-2"
             placeholder="email"
             id="email"
             required=""
