@@ -15,7 +15,7 @@ import { ShowPost } from "./component/post/showPosts";
 import NewEvent from "./component/Events/newEvent.jsx";
 import EditEvent from "./component/Events/editEvent.jsx";
 import ShowEvent from "./component/Events/showEvent.jsx";
-import { UserProfile } from "./component/userprofile";
+import { UserProfile } from "./component/profile/userprofile";
 import Image from "./pages/image";
 import { Noticias } from "./component/noticias";
 

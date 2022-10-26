@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
-import { Navbar } from "./navbar";
-import "../../styles/userProfile.css";
+import { Context } from "../../store/appContext";
+import { Navbar } from "../navbar";
+import "../../../styles/userProfile.css";
 import Modal from "./modal.jsx";
 
 
@@ -13,18 +13,18 @@ export const UserProfile = () => {
   const [imagenBase64, setImagenBase64] = useState(null);
 
   useEffect(() => {
-    //actions.getProfile(); Ya lo voy a tener cargado desde el login
-    //setTimeout(()=>{
+    actions.getProfile();
+    setTimeout(()=>{
       if (store.userData.profile_picture)
         actions.getProfilePicture(store.userData.profile_picture).then(image=>setImagenPerfil(image));
-    //},250)
-  }, [,store.userData.profile_picture]);
+    },250)
+  }, []);
 
-  /* useEffect(()=>{
+  useEffect(()=>{
     if (store.userData.profile_picture){
       actions.getProfilePicture(store.userData.profile_picture).then(image=>setImagenPerfil(image));
     }
-  }, [store.userData.profile_picture]) */
+  }, [store.userData.profile_picture])
 
   function handleInputChange(e) {
     if (e.target.value.trim().length > 0){

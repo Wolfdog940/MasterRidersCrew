@@ -59,6 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("user_id", data.user_id);
             setStore({ token: data.token });
+            getActions().getProfile(data.token);
           }
         } catch (error) {
           console.log("Error al loguear el usuario", error);
@@ -68,18 +69,18 @@ const getState = ({ getStore, getActions, setStore }) => {
       borrar_token: async () => {
         const store = getStore();
         try {
-          await fetch(process.env.BACKEND_URL + "/api/logout", {
+          /* await fetch(process.env.BACKEND_URL + "/api/logout", {
             method: "DELETE",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
               "content-type": "application/json",
             },
-          });
-          if (store.token != null) {
+          }); */
+          /* if (store.token != null) { */
             localStorage.removeItem("token");
             localStorage.removeItem("user_id");
             setStore({ token: null });
-          }
+          /* } */
         } catch (error) {
           console.log("Error al deslogear el usuario", error);
         }
@@ -369,7 +370,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
         catch (error){
-          console.log("Invalid Request", error)
+          console.log("Invalid Request", error);
         }
       },
       getProfile: async (token) => {
@@ -390,6 +391,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Peticion invalida/Invalid request")
           else if (resp.status === 200)
             setStore({userData: data});
+            if (data.profile_picture)
+              getActions().getProfilePicture(data.profile_picture);
         }
         catch (error){
           console.log(error);

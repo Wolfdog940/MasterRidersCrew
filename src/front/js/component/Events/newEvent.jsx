@@ -6,15 +6,16 @@ import { Navbar } from "../navbar";
 
 const NewEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
 
-  const submitEvent = () => {
+  const submitEvent = (e) => {
+    e.preventDefault();
     var name = document.getElementById("nameInput").value;
     var start = document.getElementById("startInput").value;
     var end = document.getElementById("endInput").value;
     var description = document.getElementById("descriptionInput").value;
     var date = startDate;
-    actions.newEvent(name, start, end, description, isPrivate, date);
+    actions.newEvent(name, start, end, description, date);
   };
 
   return (
