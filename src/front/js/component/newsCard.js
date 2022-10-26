@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/newsCard.css";
 
@@ -14,7 +14,16 @@ export const NewsCard = ({ item }) => {
           <a id="link" href={item.link} target="_blank">
             <h4 className="text-dark link-title">{item.title}</h4>
           </a>
-          <div className="text-secondary">{item.description} </div>
+          {item.description.length < 400 ? (
+            <div className="text-secondary" id="limitado">
+              {item.description}{" "}
+            </div>
+          ) : (
+            <div className="text-secondary" id="limitado">
+              {item.description.slice(0, 300) + "  ......"}{" "}
+            </div>
+          )}
+
           <div className="bottom d-flex justify-content-between">
             <div className="text-danger mt-5 ">{item.source_id}</div>
 

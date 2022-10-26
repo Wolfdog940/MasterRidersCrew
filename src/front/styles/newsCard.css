@@ -7,6 +7,7 @@ a:hover {
 .link:visited {
   color: blue;
 }
+
 @media screen and (max-width: 510px) {
   .myCard {
     margin-top: 5px;
