@@ -26,6 +26,17 @@ a:hover {
     font-size: large;
   }
 }
+
+@media screen and (max-width: 1600px) {
+  .myCard {
+    margin-top: 5px;
+    width: 80%;
+    font-size: small;
+  }
+  h4 {
+    font-size: large;
+  }
+}
 @media screen and (max-width: 300px) {
   .myCard {
     margin-top: 5px;
