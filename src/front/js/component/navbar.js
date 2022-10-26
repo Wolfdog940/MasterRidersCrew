@@ -12,7 +12,7 @@ export const Navbar = () => {
 
   useEffect(() => {
     picPicture();
-  }, [store.profilePicture]); //revisar funcionamiento
+  }, [store.profilePicture]);
 
   const picPicture = async () => {
     if (!store.profilePicture) {
@@ -79,12 +79,33 @@ export const Navbar = () => {
                   Noticias
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link text-light" to="/Noticias">
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Eventos
-                </Link>
+                </a>
+                <ol className="dropdown-menu">
+                  <li>
+                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/newevent">
+                      Crear Evento
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/editevent/:eventId">
+                      Editar Evento
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/showevent/:eventId">
+                      Mostrar Evento
+                    </Link>
+                  </li>
+                </ol>
               </li>
-
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle "
