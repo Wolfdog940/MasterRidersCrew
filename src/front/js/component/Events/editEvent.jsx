@@ -16,7 +16,6 @@ const EditEvent = () => {
 
   useEffect(() => {
     setEvent(store.event);
-    setStartDate(store.event.date);
   }, [store.event]);
 
   const submitEvent = () => {
@@ -33,10 +32,8 @@ const EditEvent = () => {
       <Navbar />
       <form onSubmit={submitEvent}>
         <div className="mb-3">
-          <label htmlFor="date" className="form-label">
-            Nombre
-          </label>
-          <span>{event.date}</span>
+          <label className="form-label">Fecha</label>
+          <p>{event.date}</p>
         </div>
         <div>
           <Calendar onChange={setStartDate} value={startDate} />
@@ -50,7 +47,7 @@ const EditEvent = () => {
             className="form-control"
             id="nameInput"
             aria-describedby="nameHelp"
-            defaultValue={event?.name || null}
+            defaultValue={event.name}
           />
         </div>
         <div className="mb-3">
@@ -62,7 +59,7 @@ const EditEvent = () => {
             className="form-control"
             id="startInput"
             aria-describedby="startHelp"
-            defaultValue={event?.start || null}
+            defaultValue={event.start}
           />
         </div>
         <div className="mb-3">
@@ -74,7 +71,7 @@ const EditEvent = () => {
             className="form-control"
             id="endInput"
             aria-describedby="endHelp"
-            defaultValue={event?.end || null}
+            defaultValue={event.end}
           />
         </div>
         <div className="mb-3">
@@ -86,7 +83,7 @@ const EditEvent = () => {
             className="form-control"
             id="descriptionInput"
             aria-describedby="descriptionHelp"
-            defaultValue={event?.description || null}
+            defaultValue={event.description}
           />
         </div>
         <button type="submit" className="btn btn-primary">
