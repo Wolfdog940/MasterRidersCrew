@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: ae2bab6f5aff
+Revision ID: 7e636dc32d1f
 Revises: 
-Create Date: 2022-10-23 13:52:17.257906
+Create Date: 2022-10-25 16:05:44.869447
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ae2bab6f5aff'
+revision = '7e636dc32d1f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,8 +38,7 @@ def upgrade():
     sa.Column('description', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('private')
+    sa.UniqueConstraint('name')
     )
     op.create_table('form_friendship',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -68,7 +67,7 @@ def upgrade():
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('text', sa.String(length=5000), nullable=True),
-    sa.Column('image', sa.String(length=5000), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
@@ -94,7 +93,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('last_name', sa.String(length=120), nullable=False),
-    sa.Column('address', sa.String(length=120), nullable=False),
+    sa.Column('address', sa.String(length=120), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('profile_picture', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['profile_picture'], ['image.id'], ),

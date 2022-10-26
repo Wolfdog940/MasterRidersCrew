@@ -28,6 +28,10 @@ export const Navbar = () => {
     nav("/");
   };
 
+  const handlePost = () => {
+    nav("/userHome/post");
+  };
+
   return (
     <div className="container nav d-flex justify-content-evenly border-bottom  sticky-top">
       <div className="">
@@ -61,7 +65,7 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse " id="navbarNavDropdown">
             <ol className="navbar-nav  ">
               <li className="nav-item">
-                <Link className="nav-link text-light" to="/userHome">
+                <Link className="nav-link text-light" onClick={handlePost} to="/userHome/post">
                   {" "}
                   Home
                 </Link>
@@ -111,15 +115,6 @@ export const Navbar = () => {
                       to="/userprofile"
                     >
                       perfil
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      className="nav-link text-light dropdown-item text-black ps-3"
-                      to="/userprofile"
-                    >
-                      Post
                     </Link>
                   </li>
                   <li>
