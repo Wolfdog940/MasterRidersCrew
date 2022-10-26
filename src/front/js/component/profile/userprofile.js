@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
-import { Navbar } from "./navbar";
-import "../../styles/userProfile.css";
+import { Context } from "../../store/appContext";
+import { Navbar } from "../navbar";
+import "../../../styles/userProfile.css";
 import Modal from "./modal.jsx";
-import { object } from "prop-types";
 
 
 export const UserProfile = () => {
