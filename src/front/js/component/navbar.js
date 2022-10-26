@@ -65,7 +65,11 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse " id="navbarNavDropdown">
             <ol className="navbar-nav  ">
               <li className="nav-item">
-                <Link className="nav-link text-light" onClick={handlePost} to="/userHome/post">
+                <Link
+                  className="nav-link text-light"
+                  onClick={handlePost}
+                  to="/userHome"
+                >
                   {" "}
                   Home
                 </Link>
