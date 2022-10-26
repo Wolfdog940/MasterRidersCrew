@@ -291,6 +291,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("There has been an error retrieving data");
         }
       },
+      getEvents: async (page, per_page) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event/" + page + "/" + per_page,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ events: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
 
       createGroup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/group", {
