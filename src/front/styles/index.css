@@ -29,13 +29,23 @@ form {
 
   border-radius: 5%;
   width: 300px;
-  height: 375px;
+  height: 400px;
+}
+.signup_form {
+  margin: auto auto;
+  color: white(0, 0, 0, 0.5);
+
+  border-radius: 5%;
+  width: 350px;
+  height: 500px;
 }
 
 .link {
   text-decoration: none;
 }
-
+input {
+  font-family: "Oswald", sans-serif;
+}
 input[type="email"]::placeholder {
   color: white;
 
