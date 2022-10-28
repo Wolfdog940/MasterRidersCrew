@@ -15,7 +15,6 @@ export const Navbar = () => {
   }, [store.profilePicture]);
 
   const picPicture = async () => {
-    //debugger;
     if (!store.profilePicture) {
       let img = await actions.getProfilePicture(store.userData.profile_picture);
       setPicture(img);

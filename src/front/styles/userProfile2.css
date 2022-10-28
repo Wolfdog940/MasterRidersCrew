@@ -1,0 +1,98 @@
+.userContain{
+    margin: 3rem auto;
+    width: 70%;
+    max-width: 800px;
+    height: 275px;
+    border: 1px solid white;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.userBackground{
+    width: 100%;
+    height: 100px;
+    background-color: rgba(26, 126, 184, 0.3);
+}
+
+.userPhoto{
+    margin-top: -75px;
+    margin-bottom: -75px;
+    margin-left: 2rem;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #eee;
+    position: relative;
+}
+
+.picture {
+    margin: 3px;
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+.userData{
+    width: 100%;
+    height: 175px;
+    padding-top: 100px;
+    background-color: rgba(255,255,255,.2);
+}
+
+.userDescription{
+    width: 100%;
+    height: auto;
+}
+
+.pencil{
+    margin-right: 1.5rem;
+    padding-left: 4px;
+    padding-top: 4px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+}
+.pencilPhoto{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 1px;
+}
+.pencil:hover, .pencilPhoto:hover{
+    background-color: rgb(108, 144, 171);
+}
+.svgPencil{
+    margin: 3px;
+}
+
+#form{
+    margin-top: auto;
+    width: 90%;
+}
+#form input{
+    width: 100%;
+}
+
+@media screen and (max-width: 480px) {
+    .userContain{
+        width: 85%;
+        height: auto;
+    }
+    .userPhoto{
+        margin: auto;
+        margin-top: -75px;
+        margin-bottom: -75px;
+    }
+    .userData{
+        height: auto;
+    }
+    .userDescription{
+        height: auto;
+    }
+}
