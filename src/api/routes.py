@@ -214,7 +214,7 @@ def add_event():
     owner_id = get_jwt_identity()
     date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401    
+        return jsonify({"msg": "Need a date to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -228,17 +228,17 @@ def add_event():
         slug=slug,
         description=description
     )
-    
+
     db.session.add(new_event)
     db.session.commit()
     new_event = new_event.serialize()
     new_participant = Event_participation(
-        user_id = owner_id,
-        event_id = new_event["id"]
+        user_id=owner_id,
+        event_id=new_event["id"]
     )
     db.session.add(new_participant)
     db.session.commit()
-    return jsonify(new_event, new_participant.serialize()), 200
+    return jsonify(new_event), 200
 
 
 @api.route("/event/<int:event_id>", methods=["GET"])
@@ -285,7 +285,7 @@ def update_event():
     owner_id = get_jwt_identity()
     date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401    
+        return jsonify({"msg": "Need a date to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -299,20 +299,20 @@ def update_event():
     db.session.commit()
     return jsonify(event.serialize()), 200
 
+
 @api.route("/events/<int:page>/<int:per_page>", methods=["GET"])
 @jwt_required()
-def get_events(page,per_page):
-    user_id = get_jwt_identity()        
-    all_events = Event_participation.query.filter_by(user_id = user_id).paginate(page = page, per_page = per_page)
-    print(all_events)
-    all_events = list(map(lambda x : x.return_event(), all_events))
-    print(all_events)    
+def get_events(page, per_page):
+    user_id = get_jwt_identity()
+    all_events = Event_participation.query.filter_by(
+        user_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_events = list(map(lambda x: x.return_event(), all_events))
 
     if all_events is None:
         return jsonify({"msg": "Event not found"}), 404
-    """ return jsonify({list(map(lambda x:x.serialize(),all_events))}), 200 """
     return jsonify(all_events)
-    
+
 
 ################################################################################
 #                           POST CRUD                                          #
@@ -399,7 +399,7 @@ def delete_post():
     if post_id is None:
         return jsonify({"msg": "Post ID is required!"}), 404
 
-    post_deleted = Post.query.filter_by(id = post_id).first()
+    post_deleted = Post.query.filter_by(id=post_id).first()
 
     if post_deleted is None:
         return jsonify({"msg": "The post is already deleted!"}), 404
@@ -483,6 +483,7 @@ def get_all_image_user():
         return jsonify({"msg": "this user has not images yet"}), 400
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
+
 
 @api.route("/user/image/<int:id>", methods=["GET"])
 @jwt_required()

@@ -40,11 +40,10 @@ class Event_participation(db.Model):
             "user_id": self.user_id,
             "event_id": self.event_id
         }
+
     def return_event(self):
         event = Event.query.get(self.event_id)
-        return ({
-           "events" : event.serialize()
-        })
+        return (event.serialize())
 
 
 class Form_friendship(db.Model):
@@ -125,7 +124,7 @@ class Event(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name" : self.name,
+            "name": self.name,
             "start": self.start,
             "end": self.end,
             "owner_id": self.owner_id,
