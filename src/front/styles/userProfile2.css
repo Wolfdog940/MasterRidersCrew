@@ -74,6 +74,7 @@
 #form{
     margin-top: auto;
     width: 90%;
+    height: auto;
 }
 #form input{
     width: 100%;
