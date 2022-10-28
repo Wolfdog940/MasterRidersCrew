@@ -325,7 +325,7 @@ def get_all_post():
 
     post_array = []
 
-    all_post = Post.query.all()
+    all_post = Post.query.order_by(Post.id.desc()).all()
 
     if len(all_post) == 0:
         return jsonify({"msg": "There is not post"}), 404
