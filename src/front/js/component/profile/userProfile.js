@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { Navbar } from "../navbar";
-import "../../../styles/userProfile2.css";
+import "../../../styles/userProfile.css";
 
 const UserProfile2 = () => {
   const { store, actions } = useContext(Context);
@@ -38,13 +38,14 @@ const UserProfile2 = () => {
 
   /* Manejo de los inputs */
   function handleInputChange(e) {
-    if (e.target.value.trim().length > 0) {
-      let button = document.querySelector("#update");
+    let button = document.querySelector("#update");
+    if (e.target.value.trim().length) {
       button.disabled = false;
-      setDatos({ ...datos, [e.target.id]: e.target.value.trim() });
     } else {
       console.log("Debes agregar un texto valido");
+      button.disabled = true;
     }
+    setDatos({ ...datos, [e.target.id]: e.target.value.trim() });
   }
 
   /* const isNull = (datos) => {

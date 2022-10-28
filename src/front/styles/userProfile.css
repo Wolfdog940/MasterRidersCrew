@@ -54,6 +54,7 @@
     border: none;
     border-radius: 50%;
     background: transparent;
+    transition: transform 300ms ease-out;
 }
 .pencilPhoto{
     position: absolute;
@@ -63,9 +64,11 @@
     border: none;
     border-radius: 50%;
     padding: 1px;
+    transition: transform 300ms ease-out;
 }
 .pencil:hover, .pencilPhoto:hover{
     background-color: rgb(108, 144, 171);
+    transform: rotate(360deg) translate(0px, 0px) scale(1.3, 1.3);
 }
 .svgPencil{
     margin: 3px;
