@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import UserHome from "../pages/userHome";
-import { Noticias } from "./noticias";
 import "../../styles/nav.css";
 
 export const Navbar = () => {
@@ -14,8 +12,8 @@ export const Navbar = () => {
     picPicture();
   }, [store.profilePicture]);
 
+  //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {
-    //debugger;
     if (!store.profilePicture) {
       let img = await actions.getProfilePicture(store.userData.profile_picture);
       setPicture(img);
@@ -25,7 +23,6 @@ export const Navbar = () => {
 
   const borrar_token = () => {
     actions.borrar_token();
-
     nav("/");
   };
 

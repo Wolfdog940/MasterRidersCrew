@@ -391,13 +391,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Invalid Request", error);
         }
       },
-      getProfile: async (token) => {
+      getProfile: async () => {
         try{
           const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/info", {
             method: "GET",
             headers: {
               "content-type": "application/json",
-              Authorization: `Bearer ${token ? token : localStorage.getItem("token")}`
+              Authorization: "Bearer " + localStorage.getItem("token")
             }
           });
           const data = await resp.json();
