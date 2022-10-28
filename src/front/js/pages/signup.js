@@ -37,7 +37,7 @@ const signUp = () => {
     <section className="d-flex justify-content-center align-items-center border-bottom">
       <form
         onSubmit={handleSubmit}
-        className="d-flex flex-column align-items-center border-start border-bottom  border-white"
+        className=" signup_form d-flex flex-column align-items-center border-start border-bottom  border-white"
       >
         <div className="div_logo">
           <h1 className="text-white my-3 logo">R|C</h1>
