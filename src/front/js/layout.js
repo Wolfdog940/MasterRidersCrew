@@ -15,11 +15,9 @@ import { ShowPost } from "./component/post/showPosts";
 import NewEvent from "./component/Events/newEvent.jsx";
 import EditEvent from "./component/Events/editEvent.jsx";
 import ShowEvent from "./component/Events/showEvent.jsx";
-
-import { UserProfile } from "./component/profile/userprofile";
-import Image from "./pages/image";
 import { Noticias } from "./component/noticias";
 import AllEvents from "./pages/Events/allEvents.jsx";
+import UserProfile from "./component/profile/userProfile";
 
 //create your first component
 const Layout = () => {

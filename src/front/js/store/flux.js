@@ -396,12 +396,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       getProfile: async (token) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/info", {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token ? token : localStorage.getItem("token")}`
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/data/info",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
             }
           );
           const data = await resp.json();
