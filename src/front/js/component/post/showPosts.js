@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../store/appContext";
 
 export const ShowPost = () => {
   const { store, actions } = useContext(Context);
   const [form, setForm] = useState();
-  const [formId, setFormId] = useState();
+
+  const formToEdit = useRef();
 
   useEffect(() => {
     getAllPosts();
-    console.log(store);
   }, [store]);
 
   const getAllPosts = async () => {
@@ -16,7 +16,7 @@ export const ShowPost = () => {
   };
 
   const handleUpdate = async () => {
-    const postId = await getIdFromPost();
+    const postId = formToEdit.current.id;
     const postToUpdate = {
       text: form.textarea,
       image: form.image,
@@ -26,13 +26,10 @@ export const ShowPost = () => {
     await getAllPosts();
   };
 
-  const getIdFromPost = async () => {
-    const post = await store.allPosts.filter((post) => post.id === formId);
-    return post[0].id;
-  };
-
-  const getEditFormID = async (id) => {
-    setFormId(id);
+  const getEditForm = async (post) => {
+    formToEdit.current = post;
+    const textarea = document.getElementById('exampleFormControlTextareaEdit1');
+    textarea.value = formToEdit.current.text;
   };
 
   const handleDelete = async (post_id) => {
@@ -67,27 +64,20 @@ export const ShowPost = () => {
 
   return (
     <div className="post-container">
-      <div className="posts">
-        <button
-          type="button"
-          className="postCreateButton btn btn-dark"
+      <div className="createPostContainer">
+        <div className="profile-image-container">
+          <div className="image">
+            <img src={store.profilePicture} />
+          </div>
+        </div>
+        <div className="new-post-input">
+          <div
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
-        >
-          Crear nuevo post
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-plus-square"
-            viewBox="0 0 16 16"
-          >
-            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-          </svg>
-        </button>
-
+          className="input-button">En que estas pensando ?</div>
+        </div>
+      </div>
+      <div className="posts">
         <div
           className="modal fade"
           id="staticBackdrop"
@@ -130,7 +120,7 @@ export const ShowPost = () => {
                       onChange={(e) => handleImage(e.target.files)}
                       type="file"
                       className="custom-file-input"
-                      id="inputGroupFile01"
+                      id="inputGroupFile01Edit"
                     />
                   </div>
                 </div>
@@ -187,7 +177,7 @@ export const ShowPost = () => {
                     <textarea
                       onChange={handleInputChange}
                       className="form-control"
-                      id="exampleFormControlTextarea1"
+                      id="exampleFormControlTextareaEdit1"
                       rows="3"
                     ></textarea>
                   </div>
@@ -236,11 +226,10 @@ export const ShowPost = () => {
                   <div className="postText">
                     <h2>{post.text}</h2>
 
-                    {Number(localStorage.getItem("user_id")) !==
-                      post.user_id ? null : (
+                    {Number(localStorage.getItem("user_id")) !== post.user_id ? null : (
                       <div
                         className="postEdit"
-                        onClick={() => getEditFormID(post.id)}
+                        onClick={() => getEditForm(post)}
                         data-bs-toggle="modal"
                         data-bs-target="#staticBackdropEdit"
                       >
@@ -283,11 +272,15 @@ export const ShowPost = () => {
                       </div>
                     )}
                   </div>
-                  <img
+                  {
+                    post.image 
+                    ? <img
                     className="postImage"
                     src={post.image}
                     alt="Post image"
-                  />
+                  /> : null 
+                  }
+
                   <p className="postDate">{post.date}</p>
                 </div>
               );
