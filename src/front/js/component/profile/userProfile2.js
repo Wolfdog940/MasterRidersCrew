@@ -26,10 +26,13 @@ const UserProfile2 = () => {
   };
 
   const upload = async () => {
-    let id = await actions.uploadImage(image);
-    let bool = await actions.updateProfile({ profile_picture: id });
-    if (bool)
-        actions.getProfile();
+    if (image){
+      let id = await actions.uploadImage(image);
+      let bool = await actions.updateProfile({ profile_picture: id });
+      if (bool)
+          actions.getProfile();
+    }
+    else alert("Debes agregar una foto antes")
   };
 
 
