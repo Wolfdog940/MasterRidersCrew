@@ -48,28 +48,12 @@ const UserProfile2 = () => {
     setDatos({ ...datos, [e.target.id]: e.target.value.trim() });
   }
 
-  /* const isNull = (datos) => {
-    let values = null;
-    let flag = false;
-    if (datos) values = Object.values(datos);
-    values.forEach((value) => {
-      console.log(value.length);
-      if (value.length) flag = true;
-    });
-    return flag;
-  }; */
-
   async function handleSubmit(e) {
     e.preventDefault();
-    /* if (isNull(datos)){ */
     actions.updateProfile(datos);
     let button = document.querySelector("#actualizar");
     button.disabled = true;
     alert("Datos Actualizados");
-    /* }
-    else{ */
-    console.log("No puedes dejar vacio ningun campo!");
-    /* } */
   }
 
   return (

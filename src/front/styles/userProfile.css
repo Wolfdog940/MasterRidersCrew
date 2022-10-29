@@ -67,8 +67,8 @@
     transition: transform 300ms ease-out;
 }
 .pencil:hover, .pencilPhoto:hover{
-    background-color: rgb(108, 144, 171);
-    transform: rotate(360deg) translate(0px, 0px) scale(1.5, 1.5);
+    background-color: transparent;
+    transform: rotate(360deg) scale(1.7, 1.7);
 }
 .svgPencil{
     margin: 3px;
