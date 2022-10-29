@@ -11,15 +11,23 @@ export const Noticias = () => {
     actions.setNews();
   }, []);
 
-  console.log(store.newsPage);
   return (
     <div className="container-fluid m-0  ">
       <Navbar />
       <div className="scroll d-flex flex-column align-items-center overflow-auto">
-        {store.newsPage.map((item, i) => (
-          <NewsCard key={i} item={item} />
-        ))}
+        {store.newsPage
+          ? store.newsPage.map((item, i) => <NewsCard key={i} item={item} />)
+          : null}
+
+        {console.log(store.newsPage)}
       </div>
+      <button
+        onClick={() => {
+          actions.setNews();
+        }}
+      >
+        x
+      </button>
     </div>
   );
 };

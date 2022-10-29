@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userData: {},
       profilePicture: null,
       newsPage: [],
+      nextPage: 0,
       demo: [
         {
           title: "FIRST",
@@ -77,9 +78,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           }); */
           /* if (store.token != null) { */
-            localStorage.removeItem("token");
-            localStorage.removeItem("user_id");
-            setStore({ token: null });
+          localStorage.removeItem("token");
+          localStorage.removeItem("user_id");
+          setStore({ token: null });
           /* } */
         } catch (error) {
           console.log("Error al deslogear el usuario", error);
@@ -350,91 +351,97 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       uploadImage: async (image) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/image", {
-            method: 'POST',
-            headers: {
-              "content-type": "application/json",
-              "authorization": "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify(image)
-          });
-          const {data} = await resp.json();
-          if (resp.status !== 200)
-            throw new Error(data.msg);
-          else return(data.id);
-        }
-        catch(error){
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(image),
+            }
+          );
+          const { data } = await resp.json();
+          if (resp.status !== 200) throw new Error(data.msg);
+          else return data.id;
+        } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
       },
-      getProfilePicture: async (id)=>{
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + '/api/user/image/' + id,{
-            method: 'GET',
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token")
+      getProfilePicture: async (id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image/" + id,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
             }
-          });
-          const {data} = await resp.json();
-          if (resp.status === 400) 
-            console.log(data.msg)//throw new Error(data.msg);
-          else if (resp.status !== 200) 
-            console.log("otro problema")//throw new Error("Invalid Request");
-          else if (resp.status === 200){
-            setStore({profilePicture: data.image})
+          );
+          const { data } = await resp.json();
+          if (resp.status === 400) console.log(data.msg);
+          //throw new Error(data.msg);
+          else if (resp.status !== 200) console.log("otro problema");
+          //throw new Error("Invalid Request");
+          else if (resp.status === 200) {
+            setStore({ profilePicture: data.image });
             return data.image;
           }
-        }
-        catch (error){
+        } catch (error) {
           console.log("Invalid Request", error);
         }
       },
       getProfile: async (token) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/info", {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token ? token : localStorage.getItem("token")}`
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/data/info",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${
+                  token ? token : localStorage.getItem("token")
+                }`,
+              },
             }
-          });
+          );
           const data = await resp.json();
-          if (resp.status === 400){
+          if (resp.status === 400) {
             alert("Todavia no guardaste tus datos, por favor, llenalos ahora");
-            throw new Error(data.msg)
-          }
-          else if (resp.status !== 200)
-            throw new Error("Peticion invalida/Invalid request")
-          else if (resp.status === 200)
-            setStore({userData: data});
-            if (data.profile_picture)
-              getActions().getProfilePicture(data.profile_picture);
-        }
-        catch (error){
+            throw new Error(data.msg);
+          } else if (resp.status !== 200)
+            throw new Error("Peticion invalida/Invalid request");
+          else if (resp.status === 200) setStore({ userData: data });
+          if (data.profile_picture)
+            getActions().getProfilePicture(data.profile_picture);
+        } catch (error) {
           console.log(error);
         }
       },
       updateProfile: async (datos) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/update", {
-            method: 'PUT',
-            headers:{
-              "content-type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify(datos)
-          });
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/data/update",
+            {
+              method: "PUT",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(datos),
+            }
+          );
           const data = await resp.json();
-          if (resp.status === 200){
-            setStore({userData: data});
+          if (resp.status === 200) {
+            setStore({ userData: data });
             return true;
             //alert("Los datos se actualizaron correctamente")
-          }
-          else return false;//throw new Error("Invalid Update")
-        }
-        catch(error){
+          } else return false; //throw new Error("Invalid Update")
+        } catch (error) {
           console.log(error);
         }
       },
@@ -442,17 +449,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       setNews: async () => {
         try {
           const resp = await fetch(
-            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports,entertainment"
+            "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
+              getStore().nextPage
           );
           const data = await resp.json();
+
           if (resp.status === 200) {
-            setStore({ newsPage: data.results });
+            data.results.map((item, i) => {
+              const allnews = getStore().newsPage;
+              setStore({ newsPage: [...allnews, item] });
+            });
+
+            setStore({ nextPage: data.nextPage });
+            console.log(store.newsPage);
           } else throw new Error("No se pudo actualizar/Unable to update");
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
       },
-
     },
   };
 };

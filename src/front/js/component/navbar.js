@@ -91,17 +91,26 @@ export const Navbar = () => {
                 </a>
                 <ol className="dropdown-menu">
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/newevent">
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/newevent"
+                    >
                       Crear Evento
                     </Link>
                   </li>
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/editevent/:eventId">
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/editevent/:eventId"
+                    >
                       Editar Evento
                     </Link>
                   </li>
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/showevent/:eventId">
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/showevent/:eventId"
+                    >
                       Mostrar Evento
                     </Link>
                   </li>
