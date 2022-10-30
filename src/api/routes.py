@@ -484,6 +484,18 @@ def get_all_image_user():
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
 
+@api.route("/user/images/<int:page>/<int:per_page>", methods=["GET"])
+@jwt_required()
+def get_images(page, per_page):
+    user_id = get_jwt_identity()
+    all_images = Image.query.filter_by(
+        owner_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_images = list(map(lambda x: x.serialize(), all_images))
+    if all_images is None:
+        return jsonify({"msg": "There are no images"}), 404
+    return jsonify(all_images)
+
 
 @api.route("/user/image/<int:id>", methods=["GET"])
 @jwt_required()

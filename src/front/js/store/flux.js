@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       postByUser: [],
       userData: {},
       profilePicture: null,
+      userImages: [],
       newsPage: [],
       demo: [
         {
@@ -349,27 +350,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion invalida/Invalid request");
         }
       },
-
-      uploadImage: async (image) => {
-        try {
-          const resp = await fetch(
-            process.env.BACKEND_URL + "/api/user/image",
-            {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-                authorization: "Bearer " + localStorage.getItem("token"),
-              },
-              body: JSON.stringify(image),
-            }
-          );
-          const { data } = await resp.json();
-          if (resp.status !== 200) throw new Error(data.msg);
-          else return data.id;
-        } catch (error) {
-          console.log("Peticion invalida/Invalid request");
-        }
-      },
       getProfilePicture: async (id) => {
         try {
           const resp = await fetch(
@@ -395,7 +375,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Invalid Request", error);
         }
       },
-      getProfile: async (token) => {
+      getProfile: async () => {
         try {
           const resp = await fetch(
             process.env.BACKEND_URL + "/api/user/data/info",
@@ -443,7 +423,47 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-
+      uploadImage: async (image) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(image),
+            }
+          );
+          const { data } = await resp.json();
+          if (resp.status !== 200) throw new Error(data.msg);
+          else return data.id;
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+      getImages: async (page)=>{
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
+          {
+            headers: {
+              "content-type": "application/json",
+              authorization: "Bearer " + localStorage.getItem("token")
+            }}
+          );
+          const data = await resp.json();
+          if (resp.status !== 200)
+            return false;
+          else if (resp.status === 200){
+            setStore({userImages: data})
+            return true;
+          }
+        }
+        catch(error){
+          console.log("Peticion Invalida/Invalid Request ",error)
+        }
+      },
       setNews: async () => {
         try {
           const resp = await fetch(

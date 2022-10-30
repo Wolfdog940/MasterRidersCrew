@@ -18,6 +18,7 @@ import ShowEvent from "./component/Events/showEvent.jsx";
 import { Noticias } from "./component/noticias";
 import AllEvents from "./pages/Events/allEvents.jsx";
 import UserProfile from "./component/profile/userProfile";
+import Images from "./component/images/images.jsx";
 
 //create your first component
 const Layout = () => {
@@ -42,6 +43,7 @@ const Layout = () => {
             <Route element={<NewEvent />} path="/newevent" />
             <Route element={<UserProfile />} path="/userprofile" />
             <Route element={<Noticias />} path="/noticias" />
+            <Route element={<Images />} path="/images" />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>

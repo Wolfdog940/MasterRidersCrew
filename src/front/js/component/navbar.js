@@ -77,6 +77,11 @@ export const Navbar = () => {
                   Noticias
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link text-light" to="/images">
+                  Mis Fotos
+                </Link>
+              </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
