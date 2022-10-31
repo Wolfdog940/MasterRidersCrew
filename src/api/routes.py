@@ -226,7 +226,8 @@ def add_event():
         private=False,
         date=date,
         slug=slug,
-        description=description
+        description=description,
+        map="https://embed.waze.com/iframe?zoom=13&lat=40.4168&lon=-3.7038&pin=1"
     )
 
     db.session.add(new_event)
@@ -242,7 +243,6 @@ def add_event():
 
 
 @api.route("/event/<int:event_id>", methods=["GET"])
-@jwt_required()
 def get_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
@@ -266,7 +266,7 @@ def remove_event(event_id):
 
 @api.route("/event/<int:event_id>", methods=["PUT"])
 @jwt_required()
-def update_event():
+def update_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
@@ -328,6 +328,21 @@ def get_public_events(page, per_page):
         return jsonify({"msg": "Events not found"}), 404
     return jsonify(all_events, amount_events)
 
+
+@api.route("/eventmap/<int:event_id>", methods=["PUT"])
+@jwt_required()
+def update_event_map(event_id):
+    event = Event.query.get(event_id)
+    if event is None:
+        return jsonify({"msg": "Event not found"}), 404
+    map = request.json.get("map", None)
+    if map is None:
+        return jsonify({"msg": "Need a map to register an event"}), 401
+
+    event.map = map
+
+    db.session.commit()
+    return jsonify(event.serialize()), 200
 
 ################################################################################
 #                           POST CRUD                                          #

@@ -2,7 +2,6 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-  overflow: hidden;
   font-family: "Bebas Neue";
   margin: 0;
   width: 100%;
