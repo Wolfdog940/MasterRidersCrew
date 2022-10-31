@@ -42,7 +42,7 @@ const Images = ()=>{
     return(
         <div>
             <Navbar/>
-            <h1 className="text-center text-white my-3">Tus Imagenes</h1>
+            <h1 className="text-center text-white">Tus Imagenes</h1>
             <div className="imageContainer">
                 {store.userImages.map((image, index)=>{
                     return (
