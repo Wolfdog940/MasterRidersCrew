@@ -4,6 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: null,
       event: {},
       allEvents: [],
+      allEventsLength: null,
+      allPublicEvents: [],
+      allPublicEventsLength: null,
       message: null,
       listaGrupos: [],
       allPosts: [],
@@ -305,7 +308,34 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
-          setStore({ allEvents: data });
+          setStore({ allEvents: data[0] });
+          setStore({ allEventsLength: data[1] });
+          debugger;
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+
+      getPublicEvents: async (page, per_page) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL +
+              "/api/publicevents/" +
+              page +
+              "/" +
+              per_page,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ allPublicEvents: data[0] });
+          setStore({ allPublicEventsLength: data[1] });
+          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
