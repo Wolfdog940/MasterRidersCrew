@@ -12,14 +12,14 @@ const AllEvents = () => {
 
   useEffect(() => {
     actions.getEvents(page, per_page);
-  }, [page]);
+  }, [, page]);
 
   if (store.allEvents) {
     return (
       <div>
         <Navbar />
         <div>
-          <h1 className="text-white title-container">Todos los eventos</h1>
+          <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item) => (
