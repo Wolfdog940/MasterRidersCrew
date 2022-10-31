@@ -9,8 +9,12 @@ export const Navbar = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    
+    if (!Object.keys(store.userData).length){
+      actions.getProfile();
+    }
     picPicture();
-  }, [store.profilePicture]);
+  }, [,store.profilePicture]);
 
   //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {

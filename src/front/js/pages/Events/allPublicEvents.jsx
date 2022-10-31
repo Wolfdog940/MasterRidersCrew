@@ -22,8 +22,8 @@ const AllPublicEvents = () => {
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allPublicEvents.map((item) => (
-            <IndividualAllEvents item={item} />
+          {store.allPublicEvents.map((item,i) => (
+            <IndividualAllEvents item={item} key={i}/>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

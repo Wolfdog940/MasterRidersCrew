@@ -310,7 +310,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           setStore({ allEvents: data[0] });
           setStore({ allEventsLength: data[1] });
-          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -335,7 +334,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           setStore({ allPublicEvents: data[0] });
           setStore({ allPublicEventsLength: data[1] });
-          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");

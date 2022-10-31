@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { Navbar } from "../navbar";
-import { ShowPost } from "../post/showPosts";
+import AllMyPosts from "../post/allMyPosts.jsx";
 import "../../../styles/userProfile.css";
 
 const UserProfile2 = () => {
@@ -249,7 +249,7 @@ const UserProfile2 = () => {
           </div>
         </div>
       </div>
-      <ShowPost />
+      <AllMyPosts />
     </>
   );
 };
