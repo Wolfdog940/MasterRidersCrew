@@ -334,6 +334,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
+          setStore({ allEvents: null });
+          setStore({ allEventsLength: null });
           setStore({ allEvents: data[0] });
           setStore({ allEventsLength: data[1] });
           debugger;
@@ -359,6 +361,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
+          setStore({ allPublicEvents: null });
+          setStore({ allPublicEventsLength: null });
           setStore({ allPublicEvents: data[0] });
           setStore({ allPublicEventsLength: data[1] });
           debugger;
