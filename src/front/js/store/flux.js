@@ -277,6 +277,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("There has been an error sending the post");
         }
       },
+      editEventMap: async (map, id) => {
+        const opts = {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            map: map,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/eventmap/" + id,
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
       getEvent: async (eventId) => {
         const opts = {
           headers: {

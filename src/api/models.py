@@ -114,6 +114,7 @@ class Event(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     start = db.Column(db.String(), unique=False, nullable=False)
     end = db.Column(db.String(), unique=False, nullable=False)
+    map = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
@@ -127,6 +128,7 @@ class Event(db.Model):
             "name": self.name,
             "start": self.start,
             "end": self.end,
+            "map": self.map,
             "owner_id": self.owner_id,
             "date": self.date,
             "private": self.private,
