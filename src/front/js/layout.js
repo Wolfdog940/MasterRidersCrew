@@ -18,6 +18,7 @@ import ShowEvent from "./component/Events/showEvent.jsx";
 import { Noticias } from "./component/noticias";
 import AllEvents from "./pages/Events/allEvents.jsx";
 import UserProfile from "./component/profile/userProfile";
+import AllPublicEvents from "./pages/Events/allPublicEvents.jsx";
 
 //create your first component
 const Layout = () => {
@@ -39,6 +40,10 @@ const Layout = () => {
             <Route element={<EditEvent />} path="/editevent/:eventId" />
             <Route element={<ShowEvent />} path="/showevent/:eventId" />
             <Route element={<AllEvents />} path="/allevents/:page/:per_page" />
+            <Route
+              element={<AllPublicEvents />}
+              path="/allpublicevents/:page/:per_page"
+            />
             <Route element={<NewEvent />} path="/newevent" />
             <Route element={<UserProfile />} path="/userprofile" />
             <Route element={<Noticias />} path="/noticias" />
