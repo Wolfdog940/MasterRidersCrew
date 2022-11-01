@@ -1,0 +1,14 @@
+.postContainer{
+    margin: 1rem auto;
+    max-width: 700px;
+    width: 70%;
+    height: 800px;
+    border: 1px white solid;
+    border-radius: 1rem;
+}
+
+.post{
+    margin: auto;
+    width: 90%;
+    height: auto;
+}

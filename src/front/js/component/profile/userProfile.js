@@ -60,7 +60,7 @@ const UserProfile2 = () => {
   return (
     <>
       <Navbar />
-      <div className="userContain">
+      <div className="userContainer">
         <div className="userBackground">
           {/* <div className="editPhoto float-end mt-3">
                 <svg
