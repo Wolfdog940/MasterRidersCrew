@@ -101,7 +101,7 @@ input[type="last_name"]::placeholder {
   left: 0;
   bottom: 0;
   right: 0;
-  height: 100vh;
+  height: 90vh;
 }
 a {
   color: black;
