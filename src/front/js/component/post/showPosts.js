@@ -4,16 +4,44 @@ import { Context } from "../../store/appContext";
 export const ShowPost = () => {
   const { store, actions } = useContext(Context);
   const [form, setForm] = useState();
-
+  const [page, setPage] = useState(1);
   const formToEdit = useRef();
+  const maxPage = 5;
 
   useEffect(() => {
-    getAllPosts();
-  }, [store]);
+    getAllPosts(page, maxPage);
+  }, []);
+  
+  useEffect(() => {
+    let prevButton = document.querySelector("#prevButton");
+    let nextButton = document.querySelector("#nextButton");
+    if(page === 1){
+      prevButton.disabled=true;
+    }else {
+      prevButton.disabled=false;
+    }
+    nextButton.disabled = false;
+  }, [page])
 
-  const getAllPosts = async () => {
-    await actions.getPosts();
+  const getAllPosts = async (page, maxPage) => {
+    await actions.getPosts(page, maxPage);
   };
+
+  const prevImages = async()=>{
+    await actions.getPosts(page - 1, maxPage);
+    await actions.updateMaxPosts();
+    setPage(page =>page - 1);
+}
+
+const nextImages = async ()=>{
+    await actions.getPosts(page + 1, maxPage)
+    if(store.maxPosts){
+      let nextButton = document.querySelector("#nextButton");
+      nextButton.disabled = true;
+    }else {
+      setPage(page => page + 1);
+    }
+}
 
   const handleUpdate = async () => {
     const postId = formToEdit.current.id;
@@ -23,7 +51,7 @@ export const ShowPost = () => {
       id: postId,
     };
     await actions.updatePost(postToUpdate);
-    await getAllPosts();
+    await getAllPosts(page, maxPage);
   };
 
   const getEditForm = async (post) => {
@@ -37,7 +65,7 @@ export const ShowPost = () => {
       id: post_id,
     };
     await actions.deletePost(postToDelete);
-    await getAllPosts();
+    await getAllPosts(page, maxPage);
   };
 
   const handleSubmit = async () => {
@@ -46,7 +74,7 @@ export const ShowPost = () => {
       image: form.image,
     };
     await actions.createPost(postToCreate);
-    await getAllPosts();
+    await getAllPosts(page, maxPage);
   };
 
   const handleImage = (file) => {
@@ -287,6 +315,11 @@ export const ShowPost = () => {
             })
           )}
         </ul>
+      </div>
+      <div className="pagination-container">
+        <button className="btn btn-primary" id="prevButton" onClick={prevImages}>Pagina Anterior</button>
+        <div className="page-container">{page}</div>
+        <button className="btn btn-primary" id="nextButton" onClick={nextImages}>Siguiente pagina</button>
       </div>
     </div>
   );

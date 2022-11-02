@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       message: null,
       listaGrupos: [],
       allPosts: [],
+      maxPosts: false,
       postByUser: [],
       userData: {},
       profilePicture: null,
@@ -18,18 +19,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       topImagePerPage: 6,
       newsPage: [],
       nextPage:0,
-      demo: [
-        {
-          title: "FIRST",
-          background: "white",
-          initial: "white",
-        },
-        {
-          title: "SECOND",
-          background: "white",
-          initial: "white",
-        },
-      ],
     },
     actions: {
       signup: (valores) => {
@@ -119,10 +108,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
-      getPosts: async () => {
+      updateMaxPosts: async() => {
+        setStore({ maxPosts: false });
+      },
+      getPosts: async (page, per_page) => {
         // Obtiene todos los posts
         try {
-          const resp = await fetch(process.env.BACKEND_URL + "/api/all_posts", {
+          const resp = await fetch(process.env.BACKEND_URL + `/api/all_posts/${page}/${per_page}`, {
             method: "GET",
             headers: {
               "content-type": "application/json",
@@ -130,10 +122,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           });
           const data = await resp.json();
+          console.log(data);
           setStore({ allPosts: data });
           return data;
         } catch (error) {
-          console.log("Error al obtener todos los posts", error);
+          setStore({ maxPosts: true });
         }
       },
       getPostByUser: async () => {

@@ -9,11 +9,12 @@
 .createPostContainer {
   display: flex;
   width: 700px;
+  height: 60px;
   min-height: 60px;
   background: white;
   border-radius: 5px;
-  transform: translateX(7px);
-  margin-bottom: 5px;
+  transform: translateX(15px);
+  margin-top: 20px;
 }
 
 .profile-image-container {
@@ -53,10 +54,8 @@
 .posts {
   width: 80%;
   height: 80%;
-  border-radius: 10px;
   display: flex;
   justify-content: center;
-  overflow-y: auto;
   position: relative;
 }
 
@@ -69,6 +68,7 @@
   border-radius: 11px;
   max-width: 700px;
   min-width: 700px;
+  width: 700px;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -81,7 +81,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 87%;
+  width: 100%;
+  
 }
 
 .postText > h2 {
@@ -90,26 +91,46 @@
 
 .postEdit {
   position: absolute;
-  right: -50px;
+  right: 15px;
   top: -3px;
   cursor: pointer;
 }
 
 .postDelete {
   position: absolute;
-  right: -80px;
+  right: -10px;
   top: -3px;
   cursor: pointer;
 }
 
 .postImage {
+  position: relative;
   width: 450px;
   border-radius: 5px;
-  margin: 90px;
+  margin: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .postDate {
   position: relative;
   margin-top: 20px;
-  bottom: 0px;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.page-container {
+  text-align: center;
+  color: black;
+  background-color: rgba(255,255,255,0.3);
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  width: 20px;
 }
