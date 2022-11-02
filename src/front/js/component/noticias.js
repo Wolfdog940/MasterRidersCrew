@@ -18,16 +18,19 @@ export const Noticias = () => {
         {store.newsPage
           ? store.newsPage.map((item, i) => <NewsCard key={i} item={item} />)
           : null}
-
-        {console.log(store.newsPage)}
+        {store.nextPage ? (
+          <button
+            className="btn btn-primary p-1"
+            onClick={() => {
+              actions.setNews();
+            }}
+          >
+            Mas noticias
+          </button>
+        ) : (
+          <div>Ya has leido todas las noticias</div>
+        )}
       </div>
-      <button
-        onClick={() => {
-          actions.setNews();
-        }}
-      >
-        x
-      </button>
     </div>
   );
 };

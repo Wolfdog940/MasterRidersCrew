@@ -11,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       profilePicture: null,
       newsPage: [],
       nextPage: 0,
+
       demo: [
         {
           title: "FIRST",
@@ -461,8 +462,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             });
 
             setStore({ nextPage: data.nextPage });
-            console.log(store.newsPage);
-          } else throw new Error("No se pudo actualizar/Unable to update");
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
