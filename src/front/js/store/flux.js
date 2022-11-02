@@ -13,6 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       postByUser: [],
       userData: {},
       profilePicture: null,
+      userImages: [],
+      amountUserImage: null,
+      topImagePerPage: 6,
       newsPage: [],
       nextPage:0,
       demo: [
@@ -339,7 +342,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ allEventsLength: null });
           setStore({ allEvents: data[0] });
           setStore({ allEventsLength: data[1] });
-          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -366,7 +368,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ allPublicEventsLength: null });
           setStore({ allPublicEvents: data[0] });
           setStore({ allPublicEventsLength: data[1] });
-          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -411,27 +412,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion invalida/Invalid request");
         }
       },
-
-      uploadImage: async (image) => {
-        try {
-          const resp = await fetch(
-            process.env.BACKEND_URL + "/api/user/image",
-            {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-                authorization: "Bearer " + localStorage.getItem("token"),
-              },
-              body: JSON.stringify(image),
-            }
-          );
-          const { data } = await resp.json();
-          if (resp.status !== 200) throw new Error(data.msg);
-          else return data.id;
-        } catch (error) {
-          console.log("Peticion invalida/Invalid request");
-        }
-      },
       getProfilePicture: async (id) => {
         try {
           const resp = await fetch(
@@ -445,19 +425,19 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const { data } = await resp.json();
-          if (resp.status === 400) console.log(data.msg);
-          //throw new Error(data.msg);
-          else if (resp.status !== 200) console.log("otro problema");
-          //throw new Error("Invalid Request");
+          if (resp.status === 400) 
+            throw new Error(data.msg);
+          else if (resp.status !== 200) 
+            throw new Error("Invalid Request");
           else if (resp.status === 200) {
             setStore({ profilePicture: data.image });
             return data.image;
           }
         } catch (error) {
-          console.log("Invalid Request", error);
+          console.log(error);
         }
       },
-      getProfile: async (token) => {
+      getProfile: async () => {
         try {
           const resp = await fetch(
             process.env.BACKEND_URL + "/api/user/data/info",
@@ -506,7 +486,50 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-          setNews: async () => {
+      uploadImage: async (image) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(image),
+            }
+          );
+          const { data } = await resp.json();
+          if (resp.status !== 200) throw new Error(data.msg);
+          else return data.id;
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+      getImages: async (page)=>{
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
+          {
+            headers: {
+              "content-type": "application/json",
+              authorization: "Bearer " + localStorage.getItem("token")
+            }}
+          );
+          const data = await resp.json();
+          if (resp.status !== 200)
+            return false;
+          else if (resp.status === 200){
+            setStore({userImages: data[0]});
+            setStore({amountUserImage: data[1]})
+            return true;
+          }
+        }
+        catch(error){
+          console.log("Peticion Invalida/Invalid Request ",error)
+        }
+      },
+
+        setNews: async () => {
         try {
           const resp = await fetch(
             "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +

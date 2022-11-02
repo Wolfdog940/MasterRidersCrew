@@ -9,8 +9,12 @@ export const Navbar = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    
+    if (!Object.keys(store.userData).length){
+      actions.getProfile();
+    }
     picPicture();
-  }, [store.profilePicture]);
+  }, [,store.profilePicture]);
 
   //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {
@@ -75,6 +79,11 @@ export const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link text-light" to="/Noticias">
                   Noticias
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-light" to="/images">
+                  Mis Fotos
                 </Link>
               </li>
               <li className="nav-item dropdown">

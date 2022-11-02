@@ -1,11 +1,17 @@
-.userContain{
-    margin: 3rem auto;
+h2{
     width: 70%;
-    max-width: 800px;
+    max-width: 700px;
+}
+
+.userContainer{
+    margin: 1rem auto;
+    width: 70%;
+    max-width: 700px;
     height: 275px;
     border: 1px solid white;
-    border-radius: 1rem;
+    border-radius: .5rem;
     overflow: hidden;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
 }
 
 .userBackground{
@@ -37,7 +43,7 @@
     width: 100%;
     height: 175px;
     padding-top: 100px;
-    background-color: rgba(255,255,255,.2);
+    background-color: rgba(255,255,255,.3);
 }
 
 .userDescription{
@@ -67,8 +73,8 @@
     transition: transform 300ms ease-out;
 }
 .pencil:hover, .pencilPhoto:hover{
-    background-color: rgb(108, 144, 171);
-    transform: rotate(360deg) translate(0px, 0px) scale(1.3, 1.3);
+    background-color: transparent;
+    transform: rotate(360deg) scale(1.7, 1.7);
 }
 .svgPencil{
     margin: 3px;
@@ -92,9 +98,6 @@
         margin: auto;
         margin-top: -75px;
         margin-bottom: -75px;
-    }
-    .userData{
-        height: auto;
     }
     .userDescription{
         height: auto;

@@ -1,12 +1,54 @@
-.window {
-    margin: 2rem auto;
-    max-width: 80%;
-    height: auto;
-    background-color: #ccc;
-  }
-
-.imagen{
-  width: 300px;
-  height: 300px;
-  border: 2px solid white;
+.imageContainer{
+  margin: auto;
+  width: 70%;
+  max-width: 800px;
+  max-height: 78vh;
+  min-height: 70vh;
+  border: 1px solid white;
+  border-radius: .5rem;
+  background-color: rgba(255,255,255,0.3);
+  overflow-y: scroll;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
 }
+
+.myCardImage{
+  margin: 10px calc(15%/6);
+  width: calc(85%/3);
+  height: 300px;
+  display: inline-block;
+  transition: transform 300ms linear;
+}
+
+.myImage{
+  width: 100%;
+  height: 100%;
+  align-self: center;
+  object-fit: contain;
+}
+
+.myCardImage:hover{
+  transform: translate(0px, 0px) scale(1.2, 1.2);
+}
+
+@media screen and (max-width: 768px) {
+  .imageContainer{
+    width: 70%;
+  }
+  .myCardImage{
+    width: calc(90%/2);
+    transition: none;
+  }
+  .myCardImage:hover{
+    transform: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .imageContainer{
+    width: 85%;
+  }
+  .myCardImage{
+    width: auto;
+  }
+}
+

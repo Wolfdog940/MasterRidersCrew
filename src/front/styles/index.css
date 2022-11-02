@@ -91,6 +91,7 @@ input[type="last_name"]::placeholder {
 }
 .nav {
   background: transparent;
+  backdrop-filter: blur(15px);
 }
 .scroll {
   position: absolute;

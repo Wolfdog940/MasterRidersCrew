@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { Navbar } from "../navbar";
+import AllMyPosts from "../post/allMyPosts.jsx";
 import "../../../styles/userProfile.css";
 
 const UserProfile2 = () => {
@@ -48,34 +49,19 @@ const UserProfile2 = () => {
     setDatos({ ...datos, [e.target.id]: e.target.value.trim() });
   }
 
-  /* const isNull = (datos) => {
-    let values = null;
-    let flag = false;
-    if (datos) values = Object.values(datos);
-    values.forEach((value) => {
-      console.log(value.length);
-      if (value.length) flag = true;
-    });
-    return flag;
-  }; */
-
   async function handleSubmit(e) {
     e.preventDefault();
-    /* if (isNull(datos)){ */
     actions.updateProfile(datos);
     let button = document.querySelector("#actualizar");
     button.disabled = true;
     alert("Datos Actualizados");
-    /* }
-    else{ */
-    console.log("No puedes dejar vacio ningun campo!");
-    /* } */
   }
 
   return (
     <>
       <Navbar />
-      <div className="userContain">
+      <h2 className="text-white m-auto mt-4">Mis Datos:</h2>
+      <div className="userContainer">
         <div className="userBackground">
           {/* <div className="editPhoto float-end mt-3">
                 <svg
@@ -264,6 +250,8 @@ const UserProfile2 = () => {
           </div>
         </div>
       </div>
+      <h2 className="text-white m-auto">Mis Post:</h2>
+      <AllMyPosts />
     </>
   );
 };
