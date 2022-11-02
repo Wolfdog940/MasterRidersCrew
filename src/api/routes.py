@@ -349,16 +349,16 @@ def update_event_map(event_id):
 ################################################################################
 
 
-@api.route("/all_posts", methods=["GET"])
+@api.route("/all_posts/<int:page>/<int:per_page>", methods=["GET"])
 @jwt_required()
-def get_all_post():
-
+def get_all_post(page, per_page):
     post_array = []
-
-    all_post = Post.query.order_by(Post.id.desc()).all()
-
-    if len(all_post) == 0:
+    count_all_posts = Post.query.count()
+    
+    if count_all_posts == 0:
         return jsonify({"msg": "There is not post"}), 404
+
+    all_post = Post.query.order_by(Post.id.desc()).paginate(page=page, per_page=per_page)
 
     for post in all_post:
         post_array.append(post)
