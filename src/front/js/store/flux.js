@@ -14,6 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userData: {},
       profilePicture: null,
       newsPage: [],
+      nextPage:0,
       demo: [
         {
           title: "FIRST",
