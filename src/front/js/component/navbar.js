@@ -35,7 +35,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="container nav d-flex justify-content-evenly border-bottom  sticky-top">
+    <div className="container nav d-flex justify-content-around border-bottom  sticky-top">
       <div className="">
         <h4 className="text-white mt-3 me-5 logo">R|C</h4>
       </div>

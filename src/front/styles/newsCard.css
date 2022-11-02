@@ -8,37 +8,15 @@ a:hover {
   color: blue;
 }
 
-@media screen and (max-width: 510px) {
-  .myCard {
-    margin-top: 5px;
-    width: 90%;
-  }
-  h4 {
-    font-size: large;
-  }
-}
-@media screen and (max-width: 800px) {
-  .myCard {
-    margin-top: 5px;
-    width: 80%;
-    font-size: small;
-  }
-  h4 {
-    font-size: large;
-  }
+.myCard {
+  margin-top: 5px;
+  width: 70%;
+  max-width: 700px;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
 }
 
-@media screen and (max-width: 1600px) {
-  .myCard {
-    margin-top: 5px;
-    width: 80%;
-    font-size: small;
-  }
-  h4 {
-    font-size: large;
-  }
-}
-@media screen and (max-width: 300px) {
+
+@media screen and (max-width: 480px) {
   .myCard {
     margin-top: 5px;
     width: 90%;
