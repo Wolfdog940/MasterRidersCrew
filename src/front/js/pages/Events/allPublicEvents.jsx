@@ -12,7 +12,7 @@ const AllPublicEvents = () => {
 
   useEffect(() => {
     actions.getPublicEvents(page, per_page);
-  }, [page]);
+  }, [, page]);
 
   if (store.allPublicEvents) {
     return (
