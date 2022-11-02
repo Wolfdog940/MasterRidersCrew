@@ -4,3 +4,9 @@
     width: 70%;
     max-width: 700px;
 }
+.postText p{
+    position: relative;
+    display: block;
+    align-items: center;
+    width: 100%;
+  }
