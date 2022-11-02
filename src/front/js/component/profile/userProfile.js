@@ -15,15 +15,13 @@ const UserProfile2 = () => {
 
 
   /* Manejo de las imagenes */
-  const convertirBase64 = (files) => {
-    Array.from(files).forEach((file) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        let base64 = reader.result;
-        setImage(base64);
-      };
-    });
+  const convertirBase64 = (file) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onload = function () {
+      let base64 = reader.result;
+      setImage(base64);
+    };
   };
 
   const upload = async () => {
