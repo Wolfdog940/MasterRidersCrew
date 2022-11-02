@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import UserHome from "../pages/userHome";
-import { Noticias } from "./noticias";
 import "../../styles/nav.css";
 
 export const Navbar = () => {
@@ -14,8 +12,8 @@ export const Navbar = () => {
     picPicture();
   }, [store.profilePicture]);
 
+  //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {
-    //debugger;
     if (!store.profilePicture) {
       let img = await actions.getProfilePicture(store.userData.profile_picture);
       setPicture(img);
@@ -25,7 +23,6 @@ export const Navbar = () => {
 
   const borrar_token = () => {
     actions.borrar_token();
-
     nav("/");
   };
 
@@ -93,25 +90,43 @@ export const Navbar = () => {
                   <li>
                     <Link
                       className="nav-link text-light dropdown-item text-black ps-3"
+
                       to="/newevent"
                     >
                       Crear Evento
+
+                      to="/allevents/1/2"
+                    >
+                      Mis Eventos
+
                     </Link>
                   </li>
                   <li>
                     <Link
                       className="nav-link text-light dropdown-item text-black ps-3"
+
                       to="/editevent/:eventId"
                     >
                       Editar Evento
+
+                      to="/allpublicevents/1/2"
+                    >
+                      Todos los Eventos
+
                     </Link>
                   </li>
                   <li>
                     <Link
                       className="nav-link text-light dropdown-item text-black ps-3"
+
                       to="/showevent/:eventId"
                     >
                       Mostrar Evento
+
+                      to="/newevent"
+                    >
+                      Nuevo Evento
+
                     </Link>
                   </li>
                 </ol>

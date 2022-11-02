@@ -3,6 +3,10 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: null,
       event: {},
+      allEvents: [],
+      allEventsLength: null,
+      allPublicEvents: [],
+      allPublicEventsLength: null,
       message: null,
       listaGrupos: [],
       allPosts: [],
@@ -275,6 +279,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("There has been an error sending the post");
         }
       },
+      editEventMap: async (map, id) => {
+        const opts = {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            map: map,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/eventmap/" + id,
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
       getEvent: async (eventId) => {
         const opts = {
           headers: {
@@ -301,11 +332,42 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const resp = await fetch(
-            process.env.BACKEND_URL + "/api/event/" + page + "/" + per_page,
+            process.env.BACKEND_URL + "/api/events/" + page + "/" + per_page,
             opts
           );
           const data = await resp.json();
-          setStore({ events: data });
+          setStore({ allEvents: null });
+          setStore({ allEventsLength: null });
+          setStore({ allEvents: data[0] });
+          setStore({ allEventsLength: data[1] });
+          debugger;
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+
+      getPublicEvents: async (page, per_page) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL +
+              "/api/publicevents/" +
+              page +
+              "/" +
+              per_page,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ allPublicEvents: null });
+          setStore({ allPublicEventsLength: null });
+          setStore({ allPublicEvents: data[0] });
+          setStore({ allPublicEventsLength: data[1] });
+          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -404,9 +466,12 @@ const getState = ({ getStore, getActions, setStore }) => {
               method: "GET",
               headers: {
                 "content-type": "application/json",
+
                 Authorization: `Bearer ${
                   token ? token : localStorage.getItem("token")
                 }`,
+
+
               },
             }
           );

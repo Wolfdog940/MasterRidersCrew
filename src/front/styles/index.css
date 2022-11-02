@@ -2,7 +2,6 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-  overflow: hidden;
   font-family: "Bebas Neue";
   margin: 0;
   width: 100%;
@@ -108,4 +107,33 @@ a:hover {
 }
 .link:visited {
   color: blue;
+}
+
+.event-post {
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 35px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 70%;
+  color: white;
+  margin-top: 10px;
+}
+.title-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.event-scroll {
+  overflow-y: auto;
+}
+
+.event-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
 }
