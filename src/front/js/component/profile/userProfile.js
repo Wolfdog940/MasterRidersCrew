@@ -60,6 +60,7 @@ const UserProfile2 = () => {
   return (
     <>
       <Navbar />
+      <h2 className="text-white m-auto mt-4">Mis Datos:</h2>
       <div className="userContainer">
         <div className="userBackground">
           {/* <div className="editPhoto float-end mt-3">
@@ -249,6 +250,7 @@ const UserProfile2 = () => {
           </div>
         </div>
       </div>
+      <h2 className="text-white m-auto">Mis Post:</h2>
       <AllMyPosts />
     </>
   );

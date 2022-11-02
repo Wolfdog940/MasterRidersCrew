@@ -14,6 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       userData: {},
       profilePicture: null,
       userImages: [],
+      amountUserImage: null,
+      topImagePerPage: 6,
       newsPage: [],
       demo: [
         {
@@ -418,16 +420,16 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const { data } = await resp.json();
-          if (resp.status === 400) console.log(data.msg);
-          //throw new Error(data.msg);
-          else if (resp.status !== 200) console.log("otro problema");
-          //throw new Error("Invalid Request");
+          if (resp.status === 400) 
+            throw new Error(data.msg);
+          else if (resp.status !== 200) 
+            throw new Error("Invalid Request");
           else if (resp.status === 200) {
             setStore({ profilePicture: data.image });
             return data.image;
           }
         } catch (error) {
-          console.log("Invalid Request", error);
+          console.log(error);
         }
       },
       getProfile: async () => {
@@ -511,7 +513,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (resp.status !== 200)
             return false;
           else if (resp.status === 200){
-            setStore({userImages: data})
+            setStore({userImages: data[0]});
+            setStore({amountUserImage: data[1]})
             return true;
           }
         }

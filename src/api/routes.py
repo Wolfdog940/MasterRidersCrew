@@ -518,13 +518,15 @@ def get_all_image_user():
 @jwt_required()
 def get_images(page, per_page):
     user_id = get_jwt_identity()
+    amount_all_images = Image.query.filter_by(
+        owner_id=user_id).count()
     all_images = Image.query.filter_by(
         owner_id=user_id).paginate(page=page, per_page=per_page)
 
     all_images = list(map(lambda x: x.serialize(), all_images))
     if all_images is None:
         return jsonify({"msg": "There are no images"}), 404
-    return jsonify(all_images)
+    return jsonify(all_images, amount_all_images)
 
 
 @api.route("/user/image/<int:id>", methods=["GET"])
@@ -534,8 +536,6 @@ def get_profile_picture(id):
     if image_profile_user is None:
         return jsonify({"msg": "this user has not profile picture yet"}), 400
     return jsonify({"data": image_profile_user.serialize()}), 200
-
-# Estoy asumiendo que la image ya me viene en base64 y es lo que estoy guardando
 
 
 @api.route("/user/image", methods=["POST"])

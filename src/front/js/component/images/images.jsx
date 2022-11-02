@@ -6,36 +6,44 @@ import "../../../styles/image.css";
 
 const Images = ()=>{
     const { store, actions } = useContext(Context);
-    const [nextPage, setNextPage] = useState(1);
+    const [page, setPage] = useState(1);
+    const maxPage = Math.ceil(store.amountUserImage/store.topImagePerPage);
 
     useEffect(()=>{
-        actions.getImages(nextPage);
-        let button = document.querySelector("#prevButton");
-        button.disabled = true;
+        actions.getImages(page);
     },[])
-
+    
     useEffect(()=>{
-        if (nextPage === 1){
-            let button = document.querySelector("#prevButton");
-            button.disabled=true;
+        console.log(page,"maxPage:",maxPage)
+        if (page === 1){
+            let prevButton = document.querySelector("#prevButton");
+            prevButton.disabled=true;
         }
-    },[nextPage])
+        else if (page >= maxPage){
+            let nextButton = document.querySelector("#nextButton");
+            nextButton.disabled = true;
+        }
+    },[page])
 
     const prevImages = ()=>{
-        if (nextPage - 1 > 0){
-            actions.getImages(nextPage-1);
-            setNextPage(page=>page-1);
-            button.disabled = false;
-        }
-        else return
+        actions.getImages(page-1);
+        setPage(page=>page-1);
+        let button = document.querySelector("#prevButton");
+        button.disabled = false;
+        let nextButton = document.querySelector("#nextButton");
+        nextButton.disabled = false;
     }
 
     const nextImages = async ()=>{
-        let morePics = await actions.getImages(nextPage+1);
-        if (morePics){
-            setNextPage(page=>page+1);
-            let button = document.querySelector("#prevButton");
-            button.disabled=false;
+        if (page < maxPage){
+            actions.getImages(page+1);
+            setPage(page=>page+1);
+            let prevButton = document.querySelector("#prevButton");
+            prevButton.disabled = false;
+        }
+        else {
+            let nextButton = document.querySelector("#nextButton");
+            nextButton.disabled = false;
         }
     }
 
