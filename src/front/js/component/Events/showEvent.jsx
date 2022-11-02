@@ -9,6 +9,7 @@ const ShowEvent = () => {
   const [event, setEvent] = useState({});
   const params = useParams();
   const [eventParticipation, setEventParticipation] = useState(true);
+
   useEffect(() => {
     actions.getEvent(params.eventId);
     actions.listEvents();
