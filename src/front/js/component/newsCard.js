@@ -8,11 +8,11 @@ export const NewsCard = ({ item }) => {
   const [showmore, setShowmore] = useState(false);
 
   return (
-    <div className="card col-4 bg-white p-3 m-2  myCard">
+    <div className="card col-4 p-3 m-2 myCard">
       <img className="news-img" src={item.image_url} />
 
       <div className="card-body">
-        <div className="card-text ">
+        <div className="card-text">
           <a id="link" href={item.link} target="_blank">
             <h4 className="text-dark link-title">{item.title}</h4>
           </a>
