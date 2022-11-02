@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       allEventsLength: null,
       allPublicEvents: [],
       allPublicEventsLength: null,
+      userEventParticipation: [],
       message: null,
       listaGrupos: [],
       allPosts: [],
@@ -365,6 +366,94 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.error("There has been an error retrieving data");
         }
+      },
+
+      joinEvent: async (event_id) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            event_id: event_id,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/joinevent",
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+
+          setStore({ userEventParticipation: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+
+      listEvents: async () => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/myevents/",
+            opts
+          );
+          const data = await resp.json();
+          debugger;
+
+          setStore({ userEventParticipation: data });
+
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+
+      unsubscribeEvent: async (id) => {
+        const opts = {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            event_id: id,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/unsubscribeevent/",
+            opts
+          );
+          const data = await resp.json();
+
+          setStore({ userEventParticipation: data });
+          debugger;
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+
+      searchEvent: (id) => {
+        var store = getStore();
+        debugger;
+        for (var i = 0; i < store.userEventParticipation.length; i++) {
+          if (store.userEventParticipation[i]["event_id"] == id) {
+            return true;
+          }
+        }
+        return false;
       },
 
       createGroup: (valores) => {
