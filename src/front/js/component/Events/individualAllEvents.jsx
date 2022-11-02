@@ -7,15 +7,47 @@ const IndividualAllEvents = (props) => {
 
   useEffect(() => {
     setEvent(props.item);
+    actions.listEvents();
   }, []);
+
+  const subscribe = (e) => {
+    e.preventDefault();
+
+    var id = event.id;
+    actions.joinEvent(id);
+  };
 
   return (
     <div className="event-post">
-      <h5 className="card-title">{event.name}</h5>
-      <p className="postText">{event.date}</p>
-      <p className="postText">{event.start}</p>
-      <p className="postText">{event.end}</p>
-      <p className="postText">{event.description}</p>
+      <label for="name">Nombre del evento</label>
+      <h5 id="name" className="card-title">
+        {event.name}
+      </h5>
+      <label for="date">Fecha</label>
+      <p id="date" className="postText">
+        {event.date}
+      </p>
+      <label for="start">Ciudad de inicio</label>
+      <p id="start" className="postText">
+        {event.start}
+      </p>
+      <label for="end">Ciudad de destino</label>
+      <p id="end" className="postText">
+        {event.end}
+      </p>
+      <label for="description">Descripcion</label>
+      <p id="description" className="postText">
+        {event.description}
+      </p>
+      {actions.searchEvent(event.id) ? (
+        <button onClick={unsubscribe} className="btn btn-primary">
+          Salir
+        </button>
+      ) : (
+        <button onClick={subscribe} className="btn btn-primary">
+          Inscribirse
+        </button>
+      )}
     </div>
   );
 };
