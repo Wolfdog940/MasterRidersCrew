@@ -505,15 +505,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      setNews: async () => {
+          setNews: async () => {
         try {
           const resp = await fetch(
-            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports,entertainment"
+            "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
+              getStore().nextPage
           );
           const data = await resp.json();
+
           if (resp.status === 200) {
-            setStore({ newsPage: data.results });
-          } else throw new Error("No se pudo actualizar/Unable to update");
+            data.results.map((item, i) => {
+              const allnews = getStore().newsPage;
+              setStore({ newsPage: [...allnews, item] });
+            });
+
+            setStore({ nextPage: data.nextPage });
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
