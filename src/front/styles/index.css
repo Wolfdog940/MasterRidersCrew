@@ -14,6 +14,7 @@ body {
     rgba(7, 121, 179, 1) 84%
   );
   background-blend-mode: normal;
+  background-attachment: fixed;
 }
 
 section {
