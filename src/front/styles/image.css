@@ -20,6 +20,9 @@
   border: 1px solid white;
   border-radius: 1rem;
 }
+.myCardImage:hover{
+  cursor: pointer;
+}
 
 .myImage{
   width: 100%;
@@ -30,7 +33,7 @@
 }
 
 .myCardImage:hover{
-  transform: translate(0px, 0px) scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
 }
 
 @media screen and (max-width: 768px) {
