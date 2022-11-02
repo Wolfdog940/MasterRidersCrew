@@ -289,12 +289,12 @@ def update_event(event_id):
     slug = slugify(name)
     description = request.json.get("description", None)
 
-    event["name"] = name,
-    event["start"] = start,
-    event["end"] = end,
-    event["date"] = date,
-    event["slug"] = slug,
-    event["description"] = description
+    event.name = name,
+    event.start = start,
+    event.end = end,
+    event.date = date,
+    event.slug = slug,
+    event.description = description
 
     db.session.commit()
     return jsonify(event.serialize()), 200
@@ -343,6 +343,58 @@ def update_event_map(event_id):
 
     db.session.commit()
     return jsonify(event.serialize()), 200
+
+
+@api.route("/joinevent", methods=["POST"])
+@jwt_required()
+def join_event():
+    user_id = get_jwt_identity()
+    event_id = request.json.get("event_id", None)
+    event = Event.query.get(event_id)
+    if event is None:
+        return jsonify({"msg": "Event not found"}), 404
+    check = Event_participation.query.filter_by(
+        user_id=user_id).filter_by(id=event_id).first()
+    if check is not None:
+        return jsonify({"msg": "Already joined"}), 404
+    new_participant = Event_participation(
+        user_id=user_id,
+        event_id=event_id
+    )
+    db.session.add(new_participant)
+    db.session.commit()
+    return jsonify(new_participant.serialize()), 200
+
+
+@api.route("/myevents", methods=["GET"])
+@jwt_required()
+def list_event():
+    user_id = get_jwt_identity()
+    all_events = Event_participation.query.filter_by(
+        user_id=user_id).all()
+    all_events = list(map(lambda x: x.serialize(), all_events))
+    return jsonify(all_events), 200
+
+
+@api.route("/unsubscribeevent", methods=["DELETE"])
+@jwt_required()
+def leave_event():
+    user_id = get_jwt_identity()
+    event_id = request.json.get("event_id", None)
+    event = Event.query.get(event_id)
+    if event is None:
+        return jsonify({"msg": "Event not found"}), 404
+    check = Event_participation.query.filter_by(
+        user_id=user_id).filter_by(id=event_id).first()
+    if check is None:
+        return jsonify({"msg": "Not joined"}), 404
+
+    db.session.delete(check)
+    db.session.commit()
+    all_events = Event_participation.query.filter_by(
+        user_id=user_id).all()
+    all_events = list(map(lambda x: x.serialize(), all_events))
+    return jsonify(all_events), 200
 
 ################################################################################
 #                           POST CRUD                                          #
