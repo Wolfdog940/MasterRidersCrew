@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import UserHome from "../pages/userHome";
-import { Noticias } from "./noticias";
 import "../../styles/nav.css";
 
 export const Navbar = () => {
@@ -11,11 +9,15 @@ export const Navbar = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    
+    if (!Object.keys(store.userData).length){
+      actions.getProfile();
+    }
     picPicture();
-  }, [store.profilePicture]);
+  }, [,store.profilePicture]);
 
+  //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {
-    //debugger;
     if (!store.profilePicture) {
       let img = await actions.getProfilePicture(store.userData.profile_picture);
       setPicture(img);
@@ -25,7 +27,6 @@ export const Navbar = () => {
 
   const borrar_token = () => {
     actions.borrar_token();
-
     nav("/");
   };
 
@@ -34,7 +35,7 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="container nav d-flex justify-content-evenly border-bottom  sticky-top">
+    <div className="container nav d-flex justify-content-around border-bottom  sticky-top">
       <div className="">
         <h4 className="text-white mt-3 me-5 logo">R|C</h4>
       </div>
@@ -80,6 +81,11 @@ export const Navbar = () => {
                   Noticias
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link text-light" to="/images">
+                  Mis Fotos
+                </Link>
+              </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -91,18 +97,27 @@ export const Navbar = () => {
                 </a>
                 <ol className="dropdown-menu">
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/newevent">
-                      Crear Evento
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/allevents/1/2"
+                    >
+                      Mis Eventos
                     </Link>
                   </li>
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/editevent/:eventId">
-                      Editar Evento
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/allpublicevents/1/2"
+                    >
+                      Todos los Eventos
                     </Link>
                   </li>
                   <li>
-                    <Link className="nav-link text-light dropdown-item text-black ps-3" to="/showevent/:eventId">
-                      Mostrar Evento
+                    <Link
+                      className="nav-link text-light dropdown-item text-black ps-3"
+                      to="/newevent"
+                    >
+                      Nuevo Evento
                     </Link>
                   </li>
                 </ol>

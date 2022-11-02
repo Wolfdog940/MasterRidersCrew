@@ -1,78 +1,105 @@
-.infoUser {
-  margin: 1rem auto;
-  width: 70%;
-  max-width: 800px;
-  height: 650px;
-  border: 1px solid white;
-  border-radius: 2rem;
-  overflow: hidden;
+h2{
+    width: 70%;
+    max-width: 700px;
 }
 
-.backgroundColor {
-  width: 100%;
-  height: 200px;
-  background-color: rgba(26, 126, 184, 0.3);
+.userContainer{
+    margin: 1rem auto;
+    width: 70%;
+    max-width: 700px;
+    height: 275px;
+    border: 1px solid white;
+    border-radius: .5rem;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
 }
 
-.profilePicture {
-  margin: auto;
-  width: 200px;
-  height: 200px;
-  border: 3px solid white;
-  border-radius: 50%;
-  background-color: #eee;
-  margin-top: -100px;
-  margin-bottom: -100px;
-  z-index: 1;
+.userBackground{
+    width: 100%;
+    height: 100px;
+    background-color: rgba(26, 126, 184, 0.3);
 }
 
-.userData {
-  width: 100%;
-  height: 450px;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-#form {
-  margin: 7rem auto 2rem;
-  width: 60%;
-  height: auto;
+.userPhoto{
+    margin-top: -75px;
+    margin-bottom: -75px;
+    margin-left: 2rem;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #eee;
+    position: relative;
 }
 
 .picture {
-  margin: auto;
-  width: 194px;
-  height: 194px;
-  border-radius: 50%;
-  object-fit: cover;
+    margin: 3px;
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+.userData{
+    width: 100%;
+    height: 175px;
+    padding-top: 100px;
+    background-color: rgba(255,255,255,.3);
 }
 
-@media screen and (max-width: 510px) {
-  .infoUser {
+.userDescription{
+    width: 100%;
+    height: auto;
+}
+
+.pencil{
+    margin-right: 1.5rem;
+    padding-left: 4px;
+    padding-top: 4px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    transition: transform 300ms ease-out;
+}
+.pencilPhoto{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 1px;
+    transition: transform 300ms ease-out;
+}
+.pencil:hover, .pencilPhoto:hover{
+    background-color: transparent;
+    transform: rotate(360deg) scale(1.7, 1.7);
+}
+.svgPencil{
+    margin: 3px;
+}
+
+#form{
+    margin-top: auto;
     width: 90%;
     height: auto;
-  }
-
-  .backgroundColor {
-    height: 150px;
-    background-color: rgba(26, 126, 184, 0.3);
-  }
-
-  .profilePicture {
-    margin-top: -100px;
-    margin-bottom: -50px;
-    width: 150px;
-    height: 150px;
-  }
-
-  .picture {
-    width: 150px;
-    height: 144px;
-  }
-
-  #form {
-    width: 70%;
-    height: auto;
-    margin: 3rem auto;
-  }
+}
+#form input{
+    width: 100%;
 }
 
+@media screen and (max-width: 480px) {
+    .userContain{
+        width: 85%;
+        height: auto;
+    }
+    .userPhoto{
+        margin: auto;
+        margin-top: -75px;
+        margin-bottom: -75px;
+    }
+    .userDescription{
+        height: auto;
+    }
+}

@@ -3,13 +3,21 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: null,
       event: {},
+      allEvents: [],
+      allEventsLength: null,
+      allPublicEvents: [],
+      allPublicEventsLength: null,
       message: null,
       listaGrupos: [],
       allPosts: [],
       postByUser: [],
       userData: {},
       profilePicture: null,
+      userImages: [],
+      amountUserImage: null,
+      topImagePerPage: 6,
       newsPage: [],
+      nextPage:0,
       demo: [
         {
           title: "FIRST",
@@ -77,9 +85,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
           }); */
           /* if (store.token != null) { */
-            localStorage.removeItem("token");
-            localStorage.removeItem("user_id");
-            setStore({ token: null });
+          localStorage.removeItem("token");
+          localStorage.removeItem("user_id");
+          setStore({ token: null });
           /* } */
         } catch (error) {
           console.log("Error al deslogear el usuario", error);
@@ -273,6 +281,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("There has been an error sending the post");
         }
       },
+      editEventMap: async (map, id) => {
+        const opts = {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            map: map,
+          }),
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/eventmap/" + id,
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
       getEvent: async (eventId) => {
         const opts = {
           headers: {
@@ -286,6 +321,53 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await resp.json();
           setStore({ event: data });
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+      getEvents: async (page, per_page) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/events/" + page + "/" + per_page,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ allEvents: null });
+          setStore({ allEventsLength: null });
+          setStore({ allEvents: data[0] });
+          setStore({ allEventsLength: data[1] });
+          return data;
+        } catch (error) {
+          console.error("There has been an error retrieving data");
+        }
+      },
+
+      getPublicEvents: async (page, per_page) => {
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + localStorage.token,
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL +
+              "/api/publicevents/" +
+              page +
+              "/" +
+              per_page,
+            opts
+          );
+          const data = await resp.json();
+          setStore({ allPublicEvents: null });
+          setStore({ allPublicEventsLength: null });
+          setStore({ allPublicEvents: data[0] });
+          setStore({ allPublicEventsLength: data[1] });
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -330,111 +412,145 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion invalida/Invalid request");
         }
       },
-
-      uploadImage: async (image) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/image", {
-            method: 'POST',
-            headers: {
-              "content-type": "application/json",
-              "authorization": "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify(image)
-          });
-          const {data} = await resp.json();
-          if (resp.status !== 200)
-            throw new Error(data.msg);
-          else return(data.id);
-        }
-        catch(error){
-          console.log("Peticion invalida/Invalid request");
-        }
-      },
-      getProfilePicture: async (id)=>{
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + '/api/user/image/' + id,{
-            method: 'GET',
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token")
+      getProfilePicture: async (id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image/" + id,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
             }
-          });
-          const {data} = await resp.json();
+          );
+          const { data } = await resp.json();
           if (resp.status === 400) 
-            console.log(data.msg)//throw new Error(data.msg);
+            throw new Error(data.msg);
           else if (resp.status !== 200) 
-            console.log("otro problema")//throw new Error("Invalid Request");
-          else if (resp.status === 200){
-            setStore({profilePicture: data.image})
+            throw new Error("Invalid Request");
+          else if (resp.status === 200) {
+            setStore({ profilePicture: data.image });
             return data.image;
           }
-        }
-        catch (error){
-          console.log("Invalid Request", error);
+        } catch (error) {
+          console.log(error);
         }
       },
-      getProfile: async (token) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/info", {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token ? token : localStorage.getItem("token")}`
+      getProfile: async () => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/data/info",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
             }
-          });
+          );
           const data = await resp.json();
-          if (resp.status === 400){
+          if (resp.status === 400) {
             alert("Todavia no guardaste tus datos, por favor, llenalos ahora");
-            throw new Error(data.msg)
-          }
-          else if (resp.status !== 200)
-            throw new Error("Peticion invalida/Invalid request")
-          else if (resp.status === 200)
-            setStore({userData: data});
-            if (data.profile_picture)
-              getActions().getProfilePicture(data.profile_picture);
-        }
-        catch (error){
+            throw new Error(data.msg);
+          } else if (resp.status !== 200)
+            throw new Error("Peticion invalida/Invalid request");
+          else if (resp.status === 200) setStore({ userData: data });
+          if (data.profile_picture)
+            getActions().getProfilePicture(data.profile_picture);
+        } catch (error) {
           console.log(error);
         }
       },
       updateProfile: async (datos) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/data/update", {
-            method: 'PUT',
-            headers:{
-              "content-type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify(datos)
-          });
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/data/update",
+            {
+              method: "PUT",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(datos),
+            }
+          );
           const data = await resp.json();
-          if (resp.status === 200){
-            setStore({userData: data});
+          if (resp.status === 200) {
+            setStore({ userData: data });
             return true;
             //alert("Los datos se actualizaron correctamente")
-          }
-          else return false;//throw new Error("Invalid Update")
-        }
-        catch(error){
+          } else return false; //throw new Error("Invalid Update")
+        } catch (error) {
           console.log(error);
         }
       },
 
-      setNews: async () => {
+      uploadImage: async (image) => {
         try {
           const resp = await fetch(
-            "https://newsdata.io/api/1/news?apikey=pub_12662c51012f03b6663b59439e464384b6845&country=es&category=sports,entertainment"
+            process.env.BACKEND_URL + "/api/user/image",
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(image),
+            }
           );
-          const data = await resp.json();
-          if (resp.status === 200) {
-            setStore({ newsPage: data.results });
-          } else throw new Error("No se pudo actualizar/Unable to update");
+          const { data } = await resp.json();
+          if (resp.status !== 200) throw new Error(data.msg);
+          else return data.id;
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
       },
+      getImages: async (page)=>{
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
+          {
+            headers: {
+              "content-type": "application/json",
+              authorization: "Bearer " + localStorage.getItem("token")
+            }}
+          );
+          const data = await resp.json();
+          if (resp.status !== 200)
+            return false;
+          else if (resp.status === 200){
+            setStore({userImages: data[0]});
+            setStore({amountUserImage: data[1]})
+            return true;
+          }
+        }
+        catch(error){
+          console.log("Peticion Invalida/Invalid Request ",error)
+        }
+      },
 
+        setNews: async () => {
+        try {
+          const resp = await fetch(
+            "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
+              getStore().nextPage
+          );
+          const data = await resp.json();
+
+          if (resp.status === 200) {
+            data.results.map((item, i) => {
+              const allnews = getStore().newsPage;
+              setStore({ newsPage: [...allnews, item] });
+            });
+
+            setStore({ nextPage: data.nextPage });
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
     },
   };
 };

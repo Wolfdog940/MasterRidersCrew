@@ -214,7 +214,7 @@ def add_event():
     owner_id = get_jwt_identity()
     date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401    
+        return jsonify({"msg": "Need a date to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -226,15 +226,23 @@ def add_event():
         private=False,
         date=date,
         slug=slug,
-        description=description
+        description=description,
+        map="https://embed.waze.com/iframe?zoom=13&lat=40.4168&lon=-3.7038&pin=1"
     )
+
     db.session.add(new_event)
     db.session.commit()
-    return jsonify(new_event.serialize()), 200
+    new_event = new_event.serialize()
+    new_participant = Event_participation(
+        user_id=owner_id,
+        event_id=new_event["id"]
+    )
+    db.session.add(new_participant)
+    db.session.commit()
+    return jsonify(new_event), 200
 
 
 @api.route("/event/<int:event_id>", methods=["GET"])
-@jwt_required()
 def get_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
@@ -258,7 +266,7 @@ def remove_event(event_id):
 
 @api.route("/event/<int:event_id>", methods=["PUT"])
 @jwt_required()
-def update_event():
+def update_event(event_id):
     event = Event.query.get(event_id)
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
@@ -277,7 +285,7 @@ def update_event():
     owner_id = get_jwt_identity()
     date = request.json.get("date", None)
     if date is None:
-        return jsonify({"msg": "Need a date to register an event"}), 401    
+        return jsonify({"msg": "Need a date to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -287,6 +295,51 @@ def update_event():
     event["date"] = date,
     event["slug"] = slug,
     event["description"] = description
+
+    db.session.commit()
+    return jsonify(event.serialize()), 200
+
+
+@api.route("/events/<int:page>/<int:per_page>", methods=["GET"])
+@jwt_required()
+def get_events(page, per_page):
+    user_id = get_jwt_identity()
+    amount_participation = Event_participation.query.filter_by(
+        user_id=user_id).count()
+    all_events = Event_participation.query.filter_by(
+        user_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_events = list(map(lambda x: x.return_event(), all_events))
+
+    if all_events is None:
+        return jsonify({"msg": "Event not found"}), 404
+    return jsonify(all_events, amount_participation)
+
+
+@api.route("/publicevents/<int:page>/<int:per_page>", methods=["GET"])
+def get_public_events(page, per_page):
+
+    amount_events = Event.query.count()
+    all_events = Event.query.paginate(page=page, per_page=per_page)
+
+    all_events = list(map(lambda x: x.serialize(), all_events))
+
+    if all_events is None:
+        return jsonify({"msg": "Events not found"}), 404
+    return jsonify(all_events, amount_events)
+
+
+@api.route("/eventmap/<int:event_id>", methods=["PUT"])
+@jwt_required()
+def update_event_map(event_id):
+    event = Event.query.get(event_id)
+    if event is None:
+        return jsonify({"msg": "Event not found"}), 404
+    map = request.json.get("map", None)
+    if map is None:
+        return jsonify({"msg": "Need a map to register an event"}), 401
+
+    event.map = map
 
     db.session.commit()
     return jsonify(event.serialize()), 200
@@ -376,7 +429,7 @@ def delete_post():
     if post_id is None:
         return jsonify({"msg": "Post ID is required!"}), 404
 
-    post_deleted = Post.query.filter_by(id = post_id).first()
+    post_deleted = Post.query.filter_by(id=post_id).first()
 
     if post_deleted is None:
         return jsonify({"msg": "The post is already deleted!"}), 404
@@ -461,6 +514,21 @@ def get_all_image_user():
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
 
+@api.route("/user/images/<int:page>/<int:per_page>", methods=["GET"])
+@jwt_required()
+def get_images(page, per_page):
+    user_id = get_jwt_identity()
+    amount_all_images = Image.query.filter_by(
+        owner_id=user_id).count()
+    all_images = Image.query.filter_by(
+        owner_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_images = list(map(lambda x: x.serialize(), all_images))
+    if all_images is None:
+        return jsonify({"msg": "There are no images"}), 404
+    return jsonify(all_images, amount_all_images)
+
+
 @api.route("/user/image/<int:id>", methods=["GET"])
 @jwt_required()
 def get_profile_picture(id):
@@ -468,8 +536,6 @@ def get_profile_picture(id):
     if image_profile_user is None:
         return jsonify({"msg": "this user has not profile picture yet"}), 400
     return jsonify({"data": image_profile_user.serialize()}), 200
-
-# Estoy asumiendo que la image ya me viene en base64 y es lo que estoy guardando
 
 
 @api.route("/user/image", methods=["POST"])
