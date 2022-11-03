@@ -5,10 +5,6 @@ export const AutoComplete = () => {
   const [complete, setComplete] = useState("");
   const { store, actions } = useContext(Context);
 
-  /*  useEffect(() => {
-    setComplete(actions.getCitys());
-  }, [store.citys]); */
-
   const handleInputChange = (event) => {
     setComplete({
       ...complete,
@@ -21,8 +17,6 @@ export const AutoComplete = () => {
   return (
     <div className="pt-5 mt-5 d-flex justify-content-center text-dark">
       <input type="text" id="city" list="list" onChange={handleInputChange} />
-      {console.log(complete.city)}
-      {/* {console.log(store.citys)} */}
 
       <datalist id="list">
         {store?.citys.map((city, index) => {
@@ -42,7 +36,7 @@ export const AutoComplete = () => {
           } else {
             <option
               key={index}
-              value={city.address.name + " " + city.address.country}
+              value={city.address.name + " ," + city.address.country}
             ></option>;
           }
         })}
