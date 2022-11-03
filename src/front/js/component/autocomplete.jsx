@@ -32,9 +32,9 @@ export const AutoComplete = () => {
                 key={index}
                 value={
                   city.address.name +
-                  " " +
+                  " ," +
                   city.address.county +
-                  " " +
+                  " ," +
                   city.address.country
                 }
               ></option>
