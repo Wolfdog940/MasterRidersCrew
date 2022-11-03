@@ -39,13 +39,12 @@ export const AutoComplete = () => {
                 }
               ></option>
             );
+          } else {
+            <option
+              key={index}
+              value={city.address.name + " " + city.address.country}
+            ></option>;
           }
-
-          return;
-          <option
-            key={index}
-            value={city.address.name + " " + city.address.country}
-          ></option>;
         })}
       </datalist>
     </div>
