@@ -409,7 +409,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
-          debugger;
+          /* debugger; */
 
           setStore({ userEventParticipation: data });
 
@@ -438,7 +438,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           setStore({ userEventParticipation: data });
-          debugger;
+          /* debugger */;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -447,7 +447,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
-        debugger;
+        /* debugger */;
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;
