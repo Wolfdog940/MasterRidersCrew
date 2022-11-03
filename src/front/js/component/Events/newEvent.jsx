@@ -3,11 +3,16 @@ import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
+registerLocale("es", es);
 
 const NewEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { actions } = useContext(Context);
-
+  let lastDate = Date.now() + 864000000;
   const submitEvent = (e) => {
     e.preventDefault();
     var name = document.getElementById("nameInput").value;
@@ -23,7 +28,16 @@ const NewEvent = () => {
       <Navbar />
       <form onSubmit={submitEvent}>
         <div>
-          <Calendar onChange={setStartDate} value={startDate} />
+          {/*  <Calendar onChange={setStartDate} value={startDate} /> */}
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            minDate={new Date()}
+            maxDate={lastDate}
+            dateFormat="dd/MM/yyy"
+            locale="es"
+            placeholderText="Seleciona una fecha"
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="nameInput" className="form-label">
