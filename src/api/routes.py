@@ -307,7 +307,7 @@ def get_events(page, per_page):
     amount_participation = Event_participation.query.filter_by(
         user_id=user_id).count()
     all_events = Event_participation.query.filter_by(
-        user_id=user_id).paginate(page=page, per_page=per_page)
+        user_id=user_id).order_by(Event.id.desc()).paginate(page=page, per_page=per_page)
 
     all_events = list(map(lambda x: x.return_event(), all_events))
 
@@ -320,7 +320,7 @@ def get_events(page, per_page):
 def get_public_events(page, per_page):
 
     amount_events = Event.query.count()
-    all_events = Event.query.paginate(page=page, per_page=per_page)
+    all_events = Event.query.order_by(Event.id.desc()).paginate(page=page, per_page=per_page)
 
     all_events = list(map(lambda x: x.serialize(), all_events))
 
@@ -370,7 +370,7 @@ def join_event():
 @jwt_required()
 def list_event():
     user_id = get_jwt_identity()
-    all_events = Event_participation.query.filter_by(
+    all_events = Event_participation.query.order_by(Event.id.desc()).filter_by(
         user_id=user_id).all()
     all_events = list(map(lambda x: x.serialize(), all_events))
     return jsonify(all_events), 200
