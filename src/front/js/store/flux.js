@@ -16,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userData: {},
       profilePicture: null,
       userImages: [],
-      amountUserImage: null,
+      amountUserImage: null, //devuelve la cantidad de imagenes que tiene el usuario
       topImagePerPage: 6,
       newsPage: [],
       nextPage:0,
@@ -610,7 +610,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion Invalida/Invalid Request ",error)
         }
       },
-
+      getImagePost: async (id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image/" + id,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const { data } = await resp.json();
+          if (resp.status === 400) 
+            throw new Error(data.msg);
+          else if (resp.status !== 200) 
+            throw new Error("Invalid Request");
+          else if (resp.status === 200) {
+            return data.image;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
         setNews: async () => {
         try {
           const resp = await fetch(

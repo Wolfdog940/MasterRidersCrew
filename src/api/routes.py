@@ -406,13 +406,16 @@ def leave_event():
 def get_all_post(page, per_page):
     post_array = []
     count_all_posts = Post.query.count()
-    
+
     if count_all_posts == 0:
         return jsonify({"msg": "There is not post"}), 404
 
-    all_post = Post.query.order_by(Post.id.desc()).paginate(page=page, per_page=per_page)
+    all_post = Post.query.order_by(Post.id.desc()).paginate(
+        page=page, per_page=per_page)
 
     for post in all_post:
+        image = Image.query.get(post.image)
+        post.image = image.image
         post_array.append(post)
 
     return jsonify([Post.serialize(post) for post in all_post]), 200
@@ -423,11 +426,14 @@ def get_all_post(page, per_page):
 def get_by_user():
     current_user_id = get_jwt_identity()
     post_array = []
-    all_post = Post.query.filter_by(user_id=current_user_id).all()
+    all_post = Post.query.filter_by(
+        user_id=current_user_id).order_by(Post.id.desc()).all()
     if len(all_post) == 0:
         return jsonify({"msg": "You don't have any posts"}), 404
 
     for post in all_post:
+        image = Image.query.get(post.image)
+        post.image = image.image
         post_array.append(post)
 
     return jsonify([Post.serialize(post) for post in all_post]), 200
@@ -466,7 +472,16 @@ def update_post():
     if text is not None:
         post_exist.text = text
     if image is not None:
-        post_exist.image = image
+        if image.startswith("data:image"):
+            current_image = Image(
+                owner_id=current_user_id,
+                image=image
+            )
+            db.session.add(current_image)
+            db.session.commit()
+            post_exist.image = current_image.id
+        else:
+            post_exist = image
 
     db.session.commit()
     return jsonify(Post.serialize(post_exist)), 200
@@ -565,6 +580,7 @@ def get_all_image_user():
         return jsonify({"msg": "this user has not images yet"}), 400
     serializer = list(map(lambda picture: picture.serialize(), images_user))
     return jsonify({"data": serializer}), 200
+
 
 @api.route("/user/images/<int:page>/<int:per_page>", methods=["GET"])
 @jwt_required()

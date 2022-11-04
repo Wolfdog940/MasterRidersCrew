@@ -7,6 +7,8 @@ export const ShowPost = () => {
   const [page, setPage] = useState(1);
   const formToEdit = useRef();
   const maxPage = 5;
+  
+  const [imageToStore, setImageToStore] = useState();
 
   useEffect(() => {
     getAllPosts(page, maxPage);
@@ -31,20 +33,21 @@ export const ShowPost = () => {
     await actions.getPosts(page - 1, maxPage);
     await actions.updateMaxPosts();
     setPage(page =>page - 1);
-}
+  }
 
-const nextImages = async ()=>{
-    await actions.getPosts(page + 1, maxPage)
-    if(store.maxPosts){
-      let nextButton = document.querySelector("#nextButton");
-      nextButton.disabled = true;
-    }else {
-      setPage(page => page + 1);
-    }
-}
+  const nextImages = async ()=>{
+      await actions.getPosts(page + 1, maxPage)
+      if(store.maxPosts){
+        let nextButton = document.querySelector("#nextButton");
+        nextButton.disabled = true;
+      }else {
+        setPage(page => page + 1);
+      }
+  }
 
   const handleUpdate = async () => {
     const postId = formToEdit.current.id;
+    debugger;
     const postToUpdate = {
       text: form.textarea,
       image: form.image,
@@ -68,21 +71,27 @@ const nextImages = async ()=>{
     await getAllPosts(page, maxPage);
   };
 
-  const handleSubmit = async () => {
-    const postToCreate = {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //subo la imagen a la tabla Image
+    let id = null;
+    id = await actions.uploadImage(imageToStore);
+    let postToCreate = null;
+    postToCreate = {
       text: form.textarea,
-      image: form.image,
+      image: id
     };
     await actions.createPost(postToCreate);
     await getAllPosts(page, maxPage);
   };
-
+  
   const handleImage = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = function () {
       const base64 = reader.result;
-      setForm({ ...form, image: base64 });
+      setImageToStore(base64);
+      setForm({...form, image: base64});
     };
   };
 
@@ -90,7 +99,7 @@ const nextImages = async ()=>{
     setForm({ ...form, [e.target.type]: e.target.value });
   };
 
-  return (
+  return ( 
     <div className="post-container">
       <div className="createPostContainer">
         <div className="profile-image-container">
@@ -106,6 +115,7 @@ const nextImages = async ()=>{
         </div>
       </div>
       <div className="posts">
+        {/* creacion de post */}
         <div
           className="modal fade"
           id="staticBackdrop"
@@ -174,7 +184,7 @@ const nextImages = async ()=>{
             </div>
           </div>
         </div>
-
+        {/* Editar post */}
         <div
           className="modal fade"
           id="staticBackdropEdit"
@@ -243,12 +253,13 @@ const nextImages = async ()=>{
             </div>
           </div>
         </div>
-
+        {/* listar todos los posts */}
         <ul>
           {store.allPosts.msg ? (
             <p className="noPostAvailable">No hay post disponibles</p>
           ) : (
             store.allPosts.map((post, key) => {
+              
               return (
                 <div key={key} className="post">
                   <div className="postText">
@@ -277,7 +288,6 @@ const nextImages = async ()=>{
                           </svg>
                         </div>
                       )}
-
                       {Number(localStorage.getItem("user_id")) !== post.user_id ? null : (
                         <div
                           className="postDelete"
@@ -301,9 +311,8 @@ const nextImages = async ()=>{
                       )}
                     </div>
                   </div>
-                  {
-                    post.image 
-                    ? <img
+                  { post.image ?
+                    <img
                     className="postImage"
                     src={post.image}
                     alt="Post image"
@@ -321,7 +330,9 @@ const nextImages = async ()=>{
         <button className="btn btn-primary" id="prevButton" onClick={prevImages}>Pagina Anterior</button>
         <div className="page-container">{page}</div>
         <button className="btn btn-primary" id="nextButton" onClick={nextImages}>Siguiente pagina</button>
+     
       </div>
-    </div>
-  );
+    </div> 
+
+    );
 };

@@ -37,30 +37,6 @@ const AllMyPosts = () => {
     </ul>
   );
 };
-    {/* <div className="postContainer d-flex flex-column">
-      {store.postByUser ? 
-        store.postByUser.map((post, index) =>(
-          <div className="userPost m-2 p-2" key={index}>
-            <div className="textPost">
-              <p className="text-white">
-                {post.text}
-              </p>
-              <p className="text-white">
-                {post.date}
-              </p>
-            </div>
-            {post.image ?
-              (<div className="imgContainer pb-4">
-                <img src={post.image} class="imgPost"/>
-                <hr className="text-white"></hr>
-              </div>):null
-            }
-          </div>
-        ))
-       : 
-        <p className="noPostAvailable">No hay posts disponibles</p>
-      }
-    </div> */}
 
 
 export default AllMyPosts;
