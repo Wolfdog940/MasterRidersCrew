@@ -19,11 +19,16 @@ const AllPublicEvents = () => {
       <div>
         <Navbar />
         <div>
+          <Link to="/newevent">
+            <h3 className="text-light">Crear tu propio evento</h3>
+          </Link>
+        </div>
+        <div>
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allPublicEvents.map((item,i) => (
-            <IndividualAllEvents item={item} key={i}/>
+          {store.allPublicEvents.map((item, i) => (
+            <IndividualAllEvents item={item} key={i} />
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">
