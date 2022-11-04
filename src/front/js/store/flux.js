@@ -19,7 +19,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       amountUserImage: null,
       topImagePerPage: 6,
       newsPage: [],
-      nextPage:0,
+      citys: [],
+      nextPage: 0,
     },
     actions: {
       signup: (valores) => {
@@ -109,19 +110,22 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
-      updateMaxPosts: async() => {
+      updateMaxPosts: async () => {
         setStore({ maxPosts: false });
       },
       getPosts: async (page, per_page) => {
         // Obtiene todos los posts
         try {
-          const resp = await fetch(process.env.BACKEND_URL + `/api/all_posts/${page}/${per_page}`, {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          });
+          const resp = await fetch(
+            process.env.BACKEND_URL + `/api/all_posts/${page}/${per_page}`,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
           const data = await resp.json();
           console.log(data);
           setStore({ allPosts: data });
@@ -507,10 +511,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const { data } = await resp.json();
-          if (resp.status === 400) 
-            throw new Error(data.msg);
-          else if (resp.status !== 200) 
-            throw new Error("Invalid Request");
+          if (resp.status === 400) throw new Error(data.msg);
+          else if (resp.status !== 200) throw new Error("Invalid Request");
           else if (resp.status === 200) {
             setStore({ profilePicture: data.image });
             return data.image;
@@ -588,30 +590,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion invalida/Invalid request");
         }
       },
-      getImages: async (page)=>{
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
-          {
-            headers: {
-              "content-type": "application/json",
-              authorization: "Bearer " + localStorage.getItem("token")
-            }}
+      getImages: async (page) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
+            {
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
           );
           const data = await resp.json();
-          if (resp.status !== 200)
-            return false;
-          else if (resp.status === 200){
-            setStore({userImages: data[0]});
-            setStore({amountUserImage: data[1]})
+          if (resp.status !== 200) return false;
+          else if (resp.status === 200) {
+            setStore({ userImages: data[0] });
+            setStore({ amountUserImage: data[1] });
             return true;
           }
-        }
-        catch(error){
-          console.log("Peticion Invalida/Invalid Request ",error)
+        } catch (error) {
+          console.log("Peticion Invalida/Invalid Request ", error);
         }
       },
 
-        setNews: async () => {
+      setNews: async () => {
         try {
           const resp = await fetch(
             "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
@@ -628,6 +630,27 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ nextPage: data.nextPage });
           } else {
             throw new Error("No se pudo actualizar/Unable to update");
+          }
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+
+      getCitys: async (complete) => {
+        try {
+          const resp = await fetch(
+            "https://api.locationiq.com/v1/autocomplete?key=pk.a5259d9a2749ec7bbf7fff58a60195d1&q=" +
+              complete
+          );
+
+          const data = await resp.json();
+
+          if (resp.status === 200) {
+            setStore({ citys: data });
+            console.log(getStore().citys);
+            return data;
+          } else {
+            throw new Error("Destino no encontrado");
           }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
