@@ -35,26 +35,25 @@ const IndividualAllEvents = (props) => {
 
   return (
     <div className="event-post">
-
-      <label htmlFor="name">Nombre del evento</label>
-      <h5 id="name" className="card-title">
-        {event.name}
-      </h5>
-      <label htmlFor="date">Fecha</label>
-
-     
+      <Link to={"/showevent/" + event.id} className="link-light">
+        <label for="name">Nombre del evento</label>
+        <h5 id="name" className="card-title">
+          {event.name}
+        </h5>
+      </Link>
+      <label for="date">Fecha</label>
       <p id="date" className="postText">
         {event.date}
       </p>
-      <label htmlFor="start">Ciudad de inicio</label>
+      <label for="start">Ciudad de inicio</label>
       <p id="start" className="postText">
         {event.start}
       </p>
-      <label htmlFor="end">Ciudad de destino</label>
+      <label for="end">Ciudad de destino</label>
       <p id="end" className="postText">
         {event.end}
       </p>
-      <label htmlFor="description">Descripcion</label>
+      <label for="description">Descripcion</label>
       <p id="description" className="postText">
         {event.description}
       </p>
