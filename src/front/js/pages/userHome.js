@@ -7,8 +7,7 @@ const UserHome = () => {
   return (
     <div className="home">
       <Navbar />
-      {/* <ShowPost /> */}
-      <AutoComplete />
+      <ShowPost />
     </div>
   );
 };
