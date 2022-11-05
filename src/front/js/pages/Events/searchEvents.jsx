@@ -26,7 +26,6 @@ const SearchEvents = () => {
   }, [page]);
 
   const searchEvents = async (name, start, end, date) => {
-    debugger;
     if (date) {
       date = date.toString().slice(0, 15);
     }
@@ -78,7 +77,6 @@ const SearchEvents = () => {
     let start = document.getElementById("startInput").value;
     let end = document.getElementById("endInput").value;
     let date = startDate;
-    debugger;
     searchEvents(name, start, end, date);
   };
 
