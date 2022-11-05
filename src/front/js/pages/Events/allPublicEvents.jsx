@@ -4,41 +4,36 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
-const AllPublicEvents = () => {
+const AllEvents = () => {
   const { store, actions } = useContext(Context);
   const { page, per_page } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    actions.getPublicEvents(page, per_page);
-  }, [, page]);
+    actions.getEvents(page, per_page);
+  }, [page]);
 
-  if (store.allPublicEvents) {
+  if (store.allEvents) {
     return (
       <div>
         <Navbar />
+        <Link to="/newevent">
+          <h3 className="text-light">Crear tu propio evento</h3>
+        </Link>
+        <Link to="/searchevents">
+          <h3 className="text-light">Busca en los eventos</h3>
+        </Link>
         <div>
-          <Link to="/newevent">
-            <h3 className="text-light">Crear tu propio evento</h3>
-          </Link>
-        </div>
-        <div>
-          <Link to="/searchevents">
-            <h3 className="text-light">Busca en los eventos</h3>
-          </Link>
-        </div>
-        <div>
-          <h1 className="text-white title-container">Todos los eventos</h1>
+          <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allPublicEvents.map((item, i) => (
-            <IndividualAllEvents item={item} key={i} />
+          {store.allEvents.map((item) => (
+            <IndividualAllEvents item={item} />
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">
-          {page >= 1 &&
-          page < Math.ceil(store.allPublicEventsLength / per_page) ? (
+          {page >= 1 && page < Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
               onClick={() =>
@@ -48,8 +43,7 @@ const AllPublicEvents = () => {
               Siguiente
             </button>
           ) : null}
-          {page > 1 &&
-          page <= Math.ceil(store.allPublicEventsLength / per_page) ? (
+          {page > 1 && page <= Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
               onClick={() =>
@@ -67,4 +61,4 @@ const AllPublicEvents = () => {
   }
 };
 
-export default AllPublicEvents;
+export default AllEvents;
