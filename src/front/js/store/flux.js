@@ -19,9 +19,18 @@ const getState = ({ getStore, getActions, setStore }) => {
       amountUserImage: null, //devuelve la cantidad de imagenes que tiene el usuario
       topImagePerPage: 6,
       newsPage: [],
-      nextPage:0,
+      citys: [],
+      nextPage: 0,
+      originCoords: { lon: null, lat: null },
+      destinationCoords: { lon: null, lat: null },
     },
     actions: {
+      setOriginCoords: (lon, lat) => {
+        setStore({ originCoords: { lon: lon, lat: lat } });
+      },
+      setDestinationCoords: (lon, lat) => {
+        setStore({ destinationCoords: { lon: lon, lat: lat } });
+      },
       signup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/signup", {
           method: "POST",
@@ -109,19 +118,22 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al cargar lista de grupos", error);
         }
       },
-      updateMaxPosts: async() => {
+      updateMaxPosts: async () => {
         setStore({ maxPosts: false });
       },
       getPosts: async (page, per_page) => {
         // Obtiene todos los posts
         try {
-          const resp = await fetch(process.env.BACKEND_URL + `/api/all_posts/${page}/${per_page}`, {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          });
+          const resp = await fetch(
+            process.env.BACKEND_URL + `/api/all_posts/${page}/${per_page}`,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
           const data = await resp.json();
           console.log(data);
           setStore({ allPosts: data });
@@ -215,6 +227,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       newEvent: async (name, start, end, description, date) => {
+        let store = getStore();
+        date = date.toString().slice(0, 15);
         const opts = {
           method: "POST",
           headers: {
@@ -227,6 +241,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             end: end,
             description: description,
             date: date,
+            origin_lon: store.originCoords.lon,
+            origin_lat: store.originCoords.lat,
+            destination_lon: store.destinationCoords.lon,
+            destination_lat: store.destinationCoords.lat,
           }),
         };
         try {
@@ -409,7 +427,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
+
           /* debugger; */
+
 
           setStore({ userEventParticipation: data });
 
@@ -438,7 +458,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           setStore({ userEventParticipation: data });
-          /* debugger */;
+
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -447,7 +467,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
-        /* debugger */;
+
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;
@@ -507,10 +527,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const { data } = await resp.json();
-          if (resp.status === 400) 
-            throw new Error(data.msg);
-          else if (resp.status !== 200) 
-            throw new Error("Invalid Request");
+          if (resp.status === 400) throw new Error(data.msg);
+          else if (resp.status !== 200) throw new Error("Invalid Request");
           else if (resp.status === 200) {
             setStore({ profilePicture: data.image });
             return data.image;
@@ -588,28 +606,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Peticion invalida/Invalid request");
         }
       },
-      getImages: async (page)=>{
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
-          {
-            headers: {
-              "content-type": "application/json",
-              authorization: "Bearer " + localStorage.getItem("token")
-            }}
+      getImages: async (page) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/images/" + page + "/" + 6,
+            {
+              headers: {
+                "content-type": "application/json",
+                authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
           );
           const data = await resp.json();
-          if (resp.status !== 200)
-            return false;
-          else if (resp.status === 200){
-            setStore({userImages: data[0]});
-            setStore({amountUserImage: data[1]})
+          if (resp.status !== 200) return false;
+          else if (resp.status === 200) {
+            setStore({ userImages: data[0] });
+            setStore({ amountUserImage: data[1] });
             return true;
           }
-        }
-        catch(error){
-          console.log("Peticion Invalida/Invalid Request ",error)
+        } catch (error) {
+          console.log("Peticion Invalida/Invalid Request ", error);
         }
       },
+
       getImagePost: async (id) => {
         try {
           const resp = await fetch(
@@ -635,6 +654,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
         setNews: async () => {
+
+
+
         try {
           const resp = await fetch(
             "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +

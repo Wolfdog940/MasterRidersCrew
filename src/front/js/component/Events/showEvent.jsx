@@ -3,12 +3,14 @@ import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
+import { AutoComplete } from "../autocomplete.jsx";
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
   const params = useParams();
   const [eventParticipation, setEventParticipation] = useState(true);
+
   useEffect(() => {
     actions.getEvent(params.eventId);
     actions.listEvents();

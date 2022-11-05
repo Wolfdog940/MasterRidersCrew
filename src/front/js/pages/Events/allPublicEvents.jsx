@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
@@ -19,11 +19,21 @@ const AllPublicEvents = () => {
       <div>
         <Navbar />
         <div>
+          <Link to="/newevent">
+            <h3 className="text-light">Crear tu propio evento</h3>
+          </Link>
+        </div>
+        <div>
+          <Link to="/searchevents">
+            <h3 className="text-light">Busca en los eventos</h3>
+          </Link>
+        </div>
+        <div>
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allPublicEvents.map((item,i) => (
-            <IndividualAllEvents item={item} key={i}/>
+          {store.allPublicEvents.map((item, i) => (
+            <IndividualAllEvents item={item} key={i} />
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">
