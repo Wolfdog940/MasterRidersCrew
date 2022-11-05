@@ -20,7 +20,7 @@ import AllEvents from "./pages/Events/allEvents.jsx";
 import UserProfile from "./component/profile/userProfile";
 import Images from "./component/images/images.jsx";
 import AllPublicEvents from "./pages/Events/allPublicEvents.jsx";
-
+import SearchEvents from "./pages/Events/searchEvents.jsx";
 
 //create your first component
 const Layout = () => {
@@ -47,6 +47,7 @@ const Layout = () => {
               path="/allpublicevents/:page/:per_page"
             />
             <Route element={<NewEvent />} path="/newevent" />
+            <Route element={<SearchEvents />} path="/searchevents" />
             <Route element={<UserProfile />} path="/userprofile" />
             <Route element={<Noticias />} path="/noticias" />
             <Route element={<Images />} path="/images" />

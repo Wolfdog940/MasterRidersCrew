@@ -1,9 +1,45 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 
-export const AutoComplete = () => {
-  const [complete, setComplete] = useState("");
+export const AutoComplete = (props) => {
+  const [complete, setComplete] = useState([]);
   const { store, actions } = useContext(Context);
+  const [cities, setCities] = useState([]);
+
+  const setData = (e) => {
+    document.getElementById(props.id).value = e.target[e.target.value].text;
+    if (props.pokemon == "inicio") {
+      actions.setOriginCoords(
+        cities[parseInt(e.target.value)].lon,
+        cities[parseInt(e.target.value)].lat
+      );
+    } else {
+      actions.setDestinationCoords(
+        cities[parseInt(e.target.value)].lon,
+        cities[parseInt(e.target.value)].lat
+      );
+    }
+  };
+
+  const getCities = async (complete) => {
+    try {
+      const resp = await fetch(
+        "https://api.locationiq.com/v1/autocomplete?key=pk.a5259d9a2749ec7bbf7fff58a60195d1&q=" +
+          complete
+      );
+
+      const data = await resp.json();
+
+      if (resp.status === 200) {
+        setCities(data);
+        return data;
+      } else {
+        throw new Error("Destino no encontrado");
+      }
+    } catch (error) {
+      console.log("Peticion invalida/Invalid request");
+    }
+  };
 
   const handleInputChange = (event) => {
     setComplete({
@@ -11,27 +47,43 @@ export const AutoComplete = () => {
 
       [event.target.id]: event.target.value.trim(),
     });
-    actions.getCitys(complete.city);
+    let key = props.id;
+    getCities(complete[key]);
   };
 
   return (
-    <div className="pt-5 mt-5 d-flex justify-content-center text-dark">
-      <input type="text" id="city" list="list" onChange={handleInputChange} />
+    <div className="d-flex justify-content-center text-dark">
+      <input
+        type="text"
+        id={props.id}
+        list="list"
+        onChange={handleInputChange}
+      />
 
-      <datalist id="list">
-        {store?.citys.map((city, index) => {
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        onChange={(e) => {
+          setData(e);
+        }}
+        id={props.id}
+      >
+        {cities.map((city, index) => {
           if (city.address.county) {
             return (
               <option
+                onClick={(e) => {
+                  setData(e);
+                }}
                 key={index}
-                value={
-                  city.address.name +
+                value={index}
+              >
+                {city.address.name +
                   " ," +
                   city.address.county +
                   " ," +
-                  city.address.country
-                }
-              ></option>
+                  city.address.country}
+              </option>
             );
           } else {
             <option
@@ -40,7 +92,7 @@ export const AutoComplete = () => {
             ></option>;
           }
         })}
-      </datalist>
+      </select>
     </div>
   );
 };

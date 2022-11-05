@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
@@ -21,6 +21,11 @@ const AllPublicEvents = () => {
         <div>
           <Link to="/newevent">
             <h3 className="text-light">Crear tu propio evento</h3>
+          </Link>
+        </div>
+        <div>
+          <Link to="/searchevents">
+            <h3 className="text-light">Busca en los eventos</h3>
           </Link>
         </div>
         <div>

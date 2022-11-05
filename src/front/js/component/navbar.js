@@ -86,7 +86,7 @@ export const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-light" to="/allevents/1/5">
+                <Link className="nav-link text-light" to="/allpublicevents/1/5">
                   Eventos
                 </Link>
               </li>

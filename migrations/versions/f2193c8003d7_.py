@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e2051580f50e
+Revision ID: f2193c8003d7
 Revises: 
-Create Date: 2022-10-31 14:51:53.775631
+Create Date: 2022-11-05 13:37:43.153167
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e2051580f50e'
+revision = 'f2193c8003d7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,10 +33,14 @@ def upgrade():
     sa.Column('end', sa.String(), nullable=False),
     sa.Column('map', sa.String(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
-    sa.Column('date', sa.Date(), nullable=False),
+    sa.Column('date', sa.String(), nullable=False),
     sa.Column('private', sa.Boolean(), nullable=True),
     sa.Column('slug', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
+    sa.Column('origin_lon', sa.Float(), nullable=False),
+    sa.Column('origin_lat', sa.Float(), nullable=False),
+    sa.Column('destination_lon', sa.Float(), nullable=False),
+    sa.Column('destination_lat', sa.Float(), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
