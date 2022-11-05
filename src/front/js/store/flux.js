@@ -16,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userData: {},
       profilePicture: null,
       userImages: [],
-      amountUserImage: null,
+      amountUserImage: null, //devuelve la cantidad de imagenes que tiene el usuario
       topImagePerPage: 6,
       newsPage: [],
       citys: [],
@@ -428,6 +428,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
           const data = await resp.json();
 
+          /* debugger; */
+
+
           setStore({ userEventParticipation: data });
 
           return data;
@@ -455,6 +458,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           setStore({ userEventParticipation: data });
+
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -463,6 +467,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
+
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;
@@ -624,7 +629,34 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      setNews: async () => {
+      getImagePost: async (id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image/" + id,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const { data } = await resp.json();
+          if (resp.status === 400) 
+            throw new Error(data.msg);
+          else if (resp.status !== 200) 
+            throw new Error("Invalid Request");
+          else if (resp.status === 200) {
+            return data.image;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+        setNews: async () => {
+
+
+
         try {
           const resp = await fetch(
             "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
