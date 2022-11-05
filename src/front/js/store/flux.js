@@ -21,8 +21,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       newsPage: [],
       citys: [],
       nextPage: 0,
+      originCoords: { lon: null, lat: null },
+      destinationCoords: { lon: null, lat: null },
     },
     actions: {
+      setOriginCoords: (lon, lat) => {
+        setStore({ originCoords: { lon: lon, lat: lat } });
+      },
+      setDestinationCoords: (lon, lat) => {
+        setStore({ destinationCoords: { lon: lon, lat: lat } });
+      },
       signup: (valores) => {
         fetch(process.env.BACKEND_URL + "/api/signup", {
           method: "POST",
@@ -219,6 +227,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       newEvent: async (name, start, end, description, date) => {
+        let store = getStore();
+        date = date.toString().slice(0, 15);
         const opts = {
           method: "POST",
           headers: {
@@ -231,6 +241,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             end: end,
             description: description,
             date: date,
+            origin_lon: store.originCoords.lon,
+            origin_lat: store.originCoords.lat,
+            destination_lon: store.destinationCoords.lon,
+            destination_lat: store.destinationCoords.lat,
           }),
         };
         try {
@@ -413,7 +427,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
-          debugger;
 
           setStore({ userEventParticipation: data });
 
@@ -442,7 +455,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           setStore({ userEventParticipation: data });
-          debugger;
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -451,7 +463,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
-        debugger;
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;
@@ -630,27 +641,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             setStore({ nextPage: data.nextPage });
           } else {
             throw new Error("No se pudo actualizar/Unable to update");
-          }
-        } catch (error) {
-          console.log("Peticion invalida/Invalid request");
-        }
-      },
-
-      getCitys: async (complete) => {
-        try {
-          const resp = await fetch(
-            "https://api.locationiq.com/v1/autocomplete?key=pk.a5259d9a2749ec7bbf7fff58a60195d1&q=" +
-              complete
-          );
-
-          const data = await resp.json();
-
-          if (resp.status === 200) {
-            setStore({ citys: data });
-            console.log(getStore().citys);
-            return data;
-          } else {
-            throw new Error("Destino no encontrado");
           }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");

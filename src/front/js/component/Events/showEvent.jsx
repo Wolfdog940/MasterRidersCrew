@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
+import { AutoComplete } from "../autocomplete.jsx";
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
