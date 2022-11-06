@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 
 export const Weather = (props) => {
   const { store, actions } = useContext(Context);
-  const [dailyweather, setdailyWeather] = useState();
+  const [dailyweather, setdailyWeather] = useState([]);
 
   useEffect(() => {
     getWeather();
@@ -21,6 +21,7 @@ export const Weather = (props) => {
 
       if (resp.status === 200) {
         setdailyWeather(data.current);
+
         console.log(data);
         console.log(getStore().weather);
       } else {
@@ -31,10 +32,14 @@ export const Weather = (props) => {
     }
   };
 
-  return (
-    <div>
-      {/* <img src={dailyweather.weather_icons} />
-      <div>{dailyweather.temperature + "º" + "C"}</div> */}
-    </div>
-  );
+  if (dailyweather.weather_icons) {
+    return (
+      <div>
+        <img src={dailyweather.weather_icons[0]} />
+        <div>{dailyweather.temperature + "°" + "C"}</div>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 };
