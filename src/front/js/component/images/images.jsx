@@ -57,7 +57,7 @@ const Images = ()=>{
                         <div key={index} className="myCardImage overflow-hidden">
                             <img className="myImage" src={image.image} onClick={()=>{
                                 actions.updateProfile({ profile_picture: image.id });
-                                actions.getProfile();
+                                actions.getProfilePicture(image.id);
                                 }}/>
                         </div>
                     )

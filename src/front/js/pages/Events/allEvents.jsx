@@ -6,9 +6,16 @@ import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx"
 
 const AllEvents = (props) => {
   const { store, actions } = useContext(Context);
-  const { page, per_page } = useParams();
+  let { page, per_page } = useParams();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.noParams){
+      page = 1;
+      per_page = 10;
+    }
+  }, []);
 
   useEffect(() => {
     actions.getEvents(page, per_page);
@@ -22,28 +29,17 @@ const AllEvents = (props) => {
   if (store.allEvents) {
     return (
       <div>
-        <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
-        <Link to="/newevent">
-          <h3 className="text-light">Crear tu propio evento</h3>
-        </Link>
-        <Link to="/searchevents">
-          <h3 className="text-light">Busca en los eventos</h3>
-        </Link>
+        <div>{props.noNavBar ? <div></div> : 
+        <Navbar />
+        }
+        </div>
         <div>
           <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allEvents.map((item) => (
-            <div>
+          {store.allEvents.map((item,i) => (
+            <div key={i}>
               <IndividualAllEvents item={item} />
-              <button
-                onClick={() => {
-                  deleteEvent(item.id);
-                }}
-                className="btn btn-danger"
-              >
-                Borrar evento
-              </button>
             </div>
           ))}
         </div>

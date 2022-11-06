@@ -61,7 +61,7 @@ export const AutoComplete = (props) => {
       />
 
       <select
-        class="form-select"
+        className="form-select"
         aria-label="Default select example"
         onChange={(e) => {
           setData(e);
