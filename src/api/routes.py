@@ -233,9 +233,11 @@ def add_event():
     hours = request.json.get("hours", None)
     if hours is None:
         return jsonify({"msg": "Need hours to register an event"}), 401
+    hours = int(hours)
     minutes = request.json.get("minutes", None)
     if minutes is None:
         return jsonify({"msg": "Need minutes to register an event"}), 401
+    minutes = int(minutes)
     slug = slugify(name)
 
     new_event = Event(

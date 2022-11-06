@@ -22,13 +22,18 @@ const AllEvents = (props) => {
   if (store.allEvents) {
     return (
       <div>
-        <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
-        <Link to="/newevent">
-          <h3 className="text-light">Crear tu propio evento</h3>
-        </Link>
-        <Link to="/searchevents">
-          <h3 className="text-light">Busca en los eventos</h3>
-        </Link>
+        <div>{props.noNavBar ? <div></div> : 
+        <div>
+          <Navbar />
+          <Link to="/newevent">
+            <h3 className="text-light">Crear tu propio evento</h3>
+          </Link>
+          <Link to="/searchevents">
+            <h3 className="text-light">Busca en los eventos</h3>
+          </Link>
+        </div>
+        }
+        </div>
         <div>
           <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>

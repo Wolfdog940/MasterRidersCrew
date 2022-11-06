@@ -9,11 +9,15 @@ const ShowEvent = () => {
   const params = useParams();
   const [eventParticipation, setEventParticipation] = useState(true);
 
-  useEffect(async () => {
-    await actions.getEvent(params.eventId);
-    await actions.listEvents();
+  useEffect(() => {
+    getEventAndList();
     setEventParticipation(actions.searchEvent(params.eventId));
   }, []);
+
+  const getEventAndList = async ()=>{
+    await actions.getEvent(params.eventId);
+    await actions.listEvents();
+  }
 
   useEffect(() => {
     setEvent(store.event);

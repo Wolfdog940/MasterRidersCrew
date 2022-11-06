@@ -18,7 +18,7 @@ const AllMyPosts = () => {
   console.log(store.postByUser)
   return (
     <ul className="listaPost">
-      {store.postByUser ? ( 
+      {store.postByUser && store.postByUser.length ? ( 
         store.postByUser.map((post, index)=>{
           return(
             <div className="post" key={index}>

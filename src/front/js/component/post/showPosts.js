@@ -47,7 +47,6 @@ export const ShowPost = () => {
 
   const handleUpdate = async () => {
     const postId = formToEdit.current.id;
-    debugger;
     const postToUpdate = {
       text: form.textarea,
       image: form.image,

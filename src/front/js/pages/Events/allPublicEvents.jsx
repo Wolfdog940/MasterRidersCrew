@@ -12,7 +12,6 @@ const AllPublicEvents = () => {
 
   useEffect(() => {
     actions.getPublicEvents(page, per_page);
-    debugger;
   }, [, page]);
 
   const deleteEvent = async (id) => {
@@ -39,8 +38,8 @@ const AllPublicEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
-            <div>
-              <IndividualAllEvents item={item} key={i} />
+            <div  key={i} >
+              <IndividualAllEvents item={item}/>
               <button
                 onClick={() => {
                   deleteEvent(item.id);

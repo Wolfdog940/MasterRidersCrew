@@ -266,7 +266,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       deleteEvent: async (id) => {
-        debugger;
         const opts = {
           method: "DELETE",
           headers: {
@@ -494,7 +493,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
-        debugger;
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;
