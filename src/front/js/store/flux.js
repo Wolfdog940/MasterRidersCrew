@@ -430,7 +430,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           /* debugger; */
 
-
           setStore({ userEventParticipation: data });
 
           return data;
@@ -642,10 +641,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const { data } = await resp.json();
-          if (resp.status === 400) 
-            throw new Error(data.msg);
-          else if (resp.status !== 200) 
-            throw new Error("Invalid Request");
+          if (resp.status === 400) throw new Error(data.msg);
+          else if (resp.status !== 200) throw new Error("Invalid Request");
           else if (resp.status === 200) {
             return data.image;
           }
@@ -653,10 +650,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-        setNews: async () => {
 
-
-
+      setNews: async () => {
         try {
           const resp = await fetch(
             "https://newsdata.io/api/1/news?apikey=pub_12812043094206f09e194256f1427c4d0a498&country=es&category=sports,entertainment&page=" +
@@ -671,6 +666,25 @@ const getState = ({ getStore, getActions, setStore }) => {
             });
 
             setStore({ nextPage: data.nextPage });
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
+        } catch (error) {
+          console.log("Peticion invalida/Invalid request");
+        }
+      },
+
+      getWeather: async () => {
+        try {
+          const resp = await fetch(
+            "https://api.weatherstack.com/current?access_key=03c7127b5e1f869eba59e725b42f3753&query=New%20York"
+          );
+          const data = await resp.json();
+
+          if (resp.status === 200) {
+            setStore({ weather: data.current });
+            console.log(data);
+            console.log(getStore().weather);
           } else {
             throw new Error("No se pudo actualizar/Unable to update");
           }

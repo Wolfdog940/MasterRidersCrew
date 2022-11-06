@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
-
+import { Weather } from "../weather.jsx";
 const IndividualAllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
@@ -71,6 +71,17 @@ const IndividualAllEvents = (props) => {
         </div>
         <div className="col-8">
           <iframe src={event.map} width="500" height="400"></iframe>
+          {event.destination_lat != undefined ? (
+            <span>
+              <Weather long={event.origin_lon} lat={event.origin_lat} />
+              <Weather
+                long={event.destination_lon}
+                lat={event.destination_lat}
+              />
+            </span>
+          ) : (
+            <span>datos del tiempo no han cargado</span>
+          )}
         </div>
       </div>
     </div>
