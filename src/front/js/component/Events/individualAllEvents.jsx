@@ -8,10 +8,13 @@ const IndividualAllEvents = (props) => {
   const [eventParticipation, setEventParticipation] = useState(true);
   const nav = useNavigate();
 
-  useEffect(async () => {
-    setEvent(props.item);
-    await actions.listEvents();
-    setEventParticipation(actions.searchEvent(props.item.id));
+  useEffect(() => {
+    const synchEffect = async () => {
+      setEvent(props.item);
+      await actions.listEvents();
+      setEventParticipation(actions.searchEvent(props.item.id));
+    };
+    synchEffect();
   }, []);
 
   useEffect(() => {
@@ -74,7 +77,7 @@ const IndividualAllEvents = (props) => {
           <iframe src={event.map} width="100%" height="auto"></iframe>
           {event.destination_lat != undefined ? (
             <span>
-              <Weather long={event.origin_lon} lat={event.origin_lat} />
+              <Weather long={event.origin_lon} lat={event.origin_lat} width="15px" height="15px"/>
               <Weather
                 long={event.destination_lon}
                 lat={event.destination_lat}
