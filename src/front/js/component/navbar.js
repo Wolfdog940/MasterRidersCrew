@@ -5,18 +5,13 @@ import "../../styles/nav.css";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const [picture, setPicture] = useState();
+  const [picture, setPicture] = useState(null);
   const nav = useNavigate();
 
   useEffect(() => {
-    
-    if (!Object.keys(store.userData).length){
-      actions.getProfile();
-    }
     picPicture();
   }, [,store.profilePicture]);
 
-  //REVISAR ESTA PARTE QUE DA ERROR
   const picPicture = async () => {
     if (!store.profilePicture) {
       let img = await actions.getProfilePicture(store.userData.profile_picture);
