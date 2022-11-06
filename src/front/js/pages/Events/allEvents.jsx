@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
-const AllEvents = () => {
+const AllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const { page, per_page } = useParams();
 
@@ -22,7 +22,7 @@ const AllEvents = () => {
   if (store.allEvents) {
     return (
       <div>
-        <Navbar />
+        <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
         <Link to="/newevent">
           <h3 className="text-light">Crear tu propio evento</h3>
         </Link>
