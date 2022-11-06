@@ -11,27 +11,28 @@ const IndividualAllEvents = (props) => {
   useEffect(async () => {
     setEvent(props.item);
     await actions.listEvents();
-    setEventParticipation(actions.searchEvent(event.id));
+    debugger;
+    setEventParticipation(actions.searchEvent(props.item.id));
   }, []);
 
   useEffect(() => {
     if (store.userEventParticipation.length > 0) {
-      setEventParticipation(actions.searchEvent(event.id));
+      setEventParticipation(actions.searchEvent(props.item.id));
     }
   }, [store.eventParticipation]);
 
   const subscribe = async (e) => {
     e.preventDefault();
-    var id = event.id;
-    await actions.joinEvent(id);
-    setEventParticipation(actions.searchEvent(event.id));
+    await actions.joinEvent(props.item.id);
+    await actions.listEvents();
+    setEventParticipation(actions.searchEvent(props.item.id));
   };
 
   const unsubscribe = async (e) => {
     e.preventDefault();
-    var id = params.eventId;
-    await actions.unsubscribeEvent(id);
-    setEventParticipation(actions.searchEvent(event.id));
+    await actions.unsubscribeEvent(props.item.id);
+    await actions.listEvents();
+    setEventParticipation(actions.searchEvent(props.item.id));
   };
 
   return (
@@ -62,11 +63,11 @@ const IndividualAllEvents = (props) => {
           </p>
           {eventParticipation ? (
             <button onClick={unsubscribe} className="btn btn-primary ms-5">
-              Salir
+              Borrarse del evento
             </button>
           ) : (
             <button onClick={subscribe} className="btn btn-primary ms-5">
-              Inscribirse
+              Inscribirse en el evento
             </button>
           )}
         </div>
