@@ -12,7 +12,13 @@ const AllPublicEvents = () => {
 
   useEffect(() => {
     actions.getPublicEvents(page, per_page);
+    debugger;
   }, [, page]);
+
+  const deleteEvent = async (id) => {
+    await actions.deleteEvent(id);
+    actions.getPublicEvents(page, per_page);
+  };
 
   if (store.allPublicEvents) {
     return (
@@ -33,7 +39,17 @@ const AllPublicEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
-            <IndividualAllEvents item={item} key={i} />
+            <div>
+              <IndividualAllEvents item={item} key={i} />
+              <button
+                onClick={() => {
+                  deleteEvent(item.id);
+                }}
+                className="btn btn-danger"
+              >
+                Borrar evento
+              </button>
+            </div>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

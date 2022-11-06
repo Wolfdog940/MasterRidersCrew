@@ -230,6 +230,13 @@ def add_event():
         return jsonify({"msg": "Need a destination_lat to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
+    hours = request.json.get("hours", None)
+    if hours is None:
+        return jsonify({"msg": "Need hours to register an event"}), 401
+    minutes = request.json.get("minutes", None)
+    if minutes is None:
+        return jsonify({"msg": "Need minutes to register an event"}), 401
+    slug = slugify(name)
 
     new_event = Event(
         name=name,
@@ -244,7 +251,9 @@ def add_event():
         origin_lon=origin_lon,
         origin_lat=origin_lat,
         destination_lon=destination_lon,
-        destination_lat=destination_lat
+        destination_lat=destination_lat,
+        hours=hours,
+        minutes=minutes
     )
 
     db.session.add(new_event)
@@ -276,6 +285,11 @@ def remove_event(event_id):
     user_id = get_jwt_identity()
     if user_id != event.owner_id:
         return jsonify({"msg": "Cant delete this event"}), 400
+    eventsParticipation = Event_participation.query.filter_by(
+        event_id=event_id).all()
+    for event in eventsParticipation:
+        db.session.delete(event)
+    db.session.commit()
     db.session.delete(event)
     db.session.commit()
     return jsonify({"msg": "Event has been removed"}), 200
@@ -285,11 +299,6 @@ def remove_event(event_id):
 @jwt_required()
 def update_event(event_id):
     event = Event.query.get(event_id)
-    if event is None:
-        return jsonify({"msg": "Event not found"}), 404
-    user_id = get_jwt_identity()
-    if event.owner_id != user_id:
-        return jsonify({"msg": "You are not the owner of the event"}), 404
     name = request.json.get("name", None)
     if name is None:
         return jsonify({"msg": "Need a name to register an event"}), 401
@@ -306,6 +315,19 @@ def update_event(event_id):
     date = request.json.get("date", None)
     if date is None:
         return jsonify({"msg": "Need a date to register an event"}), 401
+    print(date)
+    origin_lon = request.json.get("origin_lon", None)
+    if origin_lon is None:
+        return jsonify({"msg": "Need a origin_lon to register an event"}), 401
+    origin_lat = request.json.get("origin_lat", None)
+    if origin_lat is None:
+        return jsonify({"msg": "Need a origin_lat to register an event"}), 401
+    destination_lon = request.json.get("destination_lon", None)
+    if destination_lon is None:
+        return jsonify({"msg": "Need a destination_lon to register an event"}), 401
+    destination_lat = request.json.get("destination_lat", None)
+    if destination_lat is None:
+        return jsonify({"msg": "Need a destination_lat to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -378,7 +400,7 @@ def join_event():
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
     check = Event_participation.query.filter_by(
-        user_id=user_id).filter_by(id=event_id).first()
+        user_id=user_id).filter_by(event_id=event_id).first()
     if check is not None:
         return jsonify({"msg": "Already joined"}), 404
     new_participant = Event_participation(
@@ -387,7 +409,7 @@ def join_event():
     )
     db.session.add(new_participant)
     db.session.commit()
-    return jsonify(new_participant.serialize()), 200
+    return jsonify({"msg": "Joined the group"}), 200
 
 
 @api.route("/myevents", methods=["GET"])
@@ -409,16 +431,13 @@ def leave_event():
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
     check = Event_participation.query.filter_by(
-        user_id=user_id).filter_by(id=event_id).first()
+        user_id=user_id).filter_by(event_id=event_id).first()
     if check is None:
         return jsonify({"msg": "Not joined"}), 404
 
     db.session.delete(check)
     db.session.commit()
-    all_events = Event_participation.query.filter_by(
-        user_id=user_id).all()
-    all_events = list(map(lambda x: x.serialize(), all_events))
-    return jsonify(all_events), 200
+    return jsonify({"msg": "Left the group"}), 200
 
 
 @api.route("/searchevent/<name>/<start>/<end>/<date>/<int:page>", methods=["GET"])

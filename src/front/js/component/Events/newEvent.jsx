@@ -14,15 +14,19 @@ const NewEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { actions } = useContext(Context);
   const navigate = useNavigate();
+
   let lastDate = Date.now() + 864000000;
+
   const submitEvent = async (e) => {
     e.preventDefault();
     let name = document.getElementById("nameInput").value;
     let start = document.getElementById("startInput").value;
     let end = document.getElementById("endInput").value;
     let description = document.getElementById("descriptionInput").value;
+    let hours = document.getElementById("hoursInput").value;
+    let minutes = document.getElementById("minutesInput").value;
     let date = startDate;
-    await actions.newEvent(name, start, end, description, date);
+    await actions.newEvent(name, start, end, description, date, hours, minutes);
     navigate("/allevents/1/5");
   };
 
@@ -31,7 +35,6 @@ const NewEvent = () => {
       <Navbar />
       <form onSubmit={submitEvent}>
         <div>
-          {/*  <Calendar onChange={setStartDate} value={startDate} /> */}
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -41,6 +44,12 @@ const NewEvent = () => {
             locale="es"
             placeholderText="Seleciona una fecha"
           />
+          <span>
+            <label htmlFor="hoursInput">A las</label>
+            <input id="hoursInput" placeholder="¿A que hora?"></input>
+            <label htmlFor="hoursInput">:</label>
+            <input id="minutesInput" placeholder="¿minutos?"></input>
+          </span>
         </div>
         <div className="mb-3">
           <label htmlFor="nameInput" className="form-label">
@@ -65,29 +74,6 @@ const NewEvent = () => {
           </label>
           <AutoComplete id="endInput" />
         </div>
-
-        {/* <div className="mb-3">
-          <label htmlFor="startInput" className="form-label">
-            Inicio
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="startInput"
-            aria-describedby="startHelp"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="endInput" className="form-label">
-            Final
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="endInput"
-            aria-describedby="endHelp"
-          />
-        </div> */}
         <div className="mb-3">
           <label htmlFor="descriptionInput" className="form-label">
             Descripcion

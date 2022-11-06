@@ -226,7 +226,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al eliminar un post", error);
         }
       },
-      newEvent: async (name, start, end, description, date) => {
+      newEvent: async (name, start, end, description, date, hours, minutes) => {
         let store = getStore();
         date = date.toString().slice(0, 15);
         const opts = {
@@ -245,6 +245,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             origin_lat: store.originCoords.lat,
             destination_lon: store.destinationCoords.lon,
             destination_lat: store.destinationCoords.lat,
+            hours: hours,
+            minutes: minutes,
           }),
         };
         try {
@@ -263,7 +265,40 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      editEvent: async (name, start, end, description, date) => {
+      deleteEvent: async (id) => {
+        debugger;
+        const opts = {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        };
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/event/" + id,
+            opts
+          );
+          if (resp.status !== 200) {
+            alert("There has been an error during api call");
+            return false;
+          }
+          const data = await resp.json();
+          return data;
+        } catch (error) {
+          console.error("There has been an error sending the post");
+        }
+      },
+
+      editEvent: async (
+        name,
+        start,
+        end,
+        description,
+        date,
+        hours,
+        minutes
+      ) => {
         const opts = {
           method: "PUT",
           headers: {
@@ -276,6 +311,8 @@ const getState = ({ getStore, getActions, setStore }) => {
             end: end,
             description: description,
             date: date,
+            hours: hours,
+            minutes: minutes,
           }),
         };
         try {
@@ -407,8 +444,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await resp.json();
-
-          setStore({ userEventParticipation: data });
           return data;
         } catch (error) {
           console.error("There has been an error sending the post");
@@ -427,11 +462,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
-
-          /* debugger; */
-
           setStore({ userEventParticipation: data });
-
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -455,9 +486,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             opts
           );
           const data = await resp.json();
-
-          setStore({ userEventParticipation: data });
-
           return data;
         } catch (error) {
           console.error("There has been an error retrieving data");
@@ -466,7 +494,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       searchEvent: (id) => {
         var store = getStore();
-
+        debugger;
         for (var i = 0; i < store.userEventParticipation.length; i++) {
           if (store.userEventParticipation[i]["event_id"] == id) {
             return true;

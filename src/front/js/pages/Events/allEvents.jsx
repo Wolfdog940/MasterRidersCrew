@@ -14,6 +14,11 @@ const AllEvents = () => {
     actions.getEvents(page, per_page);
   }, [page]);
 
+  const deleteEvent = async (id) => {
+    await actions.deleteEvent(id);
+    actions.getPublicEvents(page, per_page);
+  };
+
   if (store.allEvents) {
     return (
       <div>
@@ -29,7 +34,17 @@ const AllEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item) => (
-            <IndividualAllEvents item={item} />
+            <div>
+              <IndividualAllEvents item={item} />
+              <button
+                onClick={() => {
+                  deleteEvent(item.id);
+                }}
+                className="btn btn-danger"
+              >
+                Borrar evento
+              </button>
+            </div>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">
