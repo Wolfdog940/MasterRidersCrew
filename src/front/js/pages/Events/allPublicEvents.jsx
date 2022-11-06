@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
+import ModalNewEvent from "../../component/Events/modalNewEvent.jsx";
 
 const AllPublicEvents = () => {
   const { store, actions } = useContext(Context);
@@ -14,16 +15,65 @@ const AllPublicEvents = () => {
     actions.getPublicEvents(page, per_page);
   }, [, page]);
 
+  const deleteEvent = async (id) => {
+    await actions.deleteEvent(id);
+    actions.getPublicEvents(page, per_page);
+  };
+
   if (store.allPublicEvents) {
     return (
       <div>
         <Navbar />
+        {/* botones para añadir y buscar eventos */}
+        <div className="d-flex justify-content-center">
+          <div>
+            <button
+              type="button"
+              className="btn btn-secondary rounded-pill border-white mt-3 me-3 addBtn"
+              data-bs-toggle="modal"
+              data-bs-target="#modalNewEvent"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-plus-circle me-1"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
+              Agregar
+            </button>
+            <ModalNewEvent />
+          </div>
+          <div>
+            <Link to="/searchevents">
+              <button className="btn btn-secondary rounded-pill text-light border-white mt-3 searchBtn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  className="bi bi-search me-1"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+                Buscar
+              </button>
+            </Link>
+          </div>
+        </div>
         <div>
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allPublicEvents.map((item,i) => (
-            <IndividualAllEvents item={item} key={i}/>
+          {store.allPublicEvents.map((item, i) => (
+            <div key={i}>
+              <IndividualAllEvents item={item} deleteEvent={deleteEvent}/>
+            </div>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

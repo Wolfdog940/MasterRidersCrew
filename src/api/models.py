@@ -117,10 +117,16 @@ class Event(db.Model):
     map = db.Column(db.String(), unique=False, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    date = db.Column(db.String(), nullable=False)
     private = db.Column(db.Boolean(), unique=False)
     slug = db.Column(db.String(), unique=False, nullable=False)
     description = db.Column(db.String(), unique=False, nullable=False)
+    origin_lon = db.Column(db.Float(), unique=False, nullable=False)
+    origin_lat = db.Column(db.Float(), unique=False, nullable=False)
+    destination_lon = db.Column(db.Float(), unique=False, nullable=False)
+    destination_lat = db.Column(db.Float(), unique=False, nullable=False)
+    hours = db.Column(db.Integer, unique=False, nullable=False)
+    minutes = db.Column(db.Integer, unique=False, nullable=False)
 
     def serialize(self):
         return {
@@ -133,7 +139,13 @@ class Event(db.Model):
             "date": self.date,
             "private": self.private,
             "slug": self.slug,
-            "description": self.description
+            "description": self.description,
+            "origin_lon": self.origin_lon,
+            "origin_lat": self.origin_lat,
+            "destination_lon": self.destination_lon,
+            "destination_lat": self.destination_lat,
+            "hours": self.hours,
+            "minutes": self.minutes
         }
 
 

@@ -215,8 +215,30 @@ def add_event():
     date = request.json.get("date", None)
     if date is None:
         return jsonify({"msg": "Need a date to register an event"}), 401
+    print(date)
+    origin_lon = request.json.get("origin_lon", None)
+    if origin_lon is None:
+        return jsonify({"msg": "Need a origin_lon to register an event"}), 401
+    origin_lat = request.json.get("origin_lat", None)
+    if origin_lat is None:
+        return jsonify({"msg": "Need a origin_lat to register an event"}), 401
+    destination_lon = request.json.get("destination_lon", None)
+    if destination_lon is None:
+        return jsonify({"msg": "Need a destination_lon to register an event"}), 401
+    destination_lat = request.json.get("destination_lat", None)
+    if destination_lat is None:
+        return jsonify({"msg": "Need a destination_lat to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
+    hours = request.json.get("hours", None)
+    if hours is None:
+        return jsonify({"msg": "Need hours to register an event"}), 401
+    hours = int(hours)
+    minutes = request.json.get("minutes", None)
+    if minutes is None:
+        return jsonify({"msg": "Need minutes to register an event"}), 401
+    minutes = int(minutes)
+    slug = slugify(name)
 
     new_event = Event(
         name=name,
@@ -227,7 +249,13 @@ def add_event():
         date=date,
         slug=slug,
         description=description,
-        map="https://embed.waze.com/iframe?zoom=13&lat=40.4168&lon=-3.7038&pin=1"
+        map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d97173.78941670264!2d-3.7495758376144654!3d40.4380638218829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc436dec1618c2269!2sMadrid!5e0!3m2!1sen!2ses!4v1667475409979!5m2!1sen!2ses",
+        origin_lon=origin_lon,
+        origin_lat=origin_lat,
+        destination_lon=destination_lon,
+        destination_lat=destination_lat,
+        hours=hours,
+        minutes=minutes
     )
 
     db.session.add(new_event)
@@ -259,6 +287,11 @@ def remove_event(event_id):
     user_id = get_jwt_identity()
     if user_id != event.owner_id:
         return jsonify({"msg": "Cant delete this event"}), 400
+    eventsParticipation = Event_participation.query.filter_by(
+        event_id=event_id).all()
+    for event in eventsParticipation:
+        db.session.delete(event)
+    db.session.commit()
     db.session.delete(event)
     db.session.commit()
     return jsonify({"msg": "Event has been removed"}), 200
@@ -268,8 +301,6 @@ def remove_event(event_id):
 @jwt_required()
 def update_event(event_id):
     event = Event.query.get(event_id)
-    if event is None:
-        return jsonify({"msg": "Event not found"}), 404
     name = request.json.get("name", None)
     if name is None:
         return jsonify({"msg": "Need a name to register an event"}), 401
@@ -286,6 +317,19 @@ def update_event(event_id):
     date = request.json.get("date", None)
     if date is None:
         return jsonify({"msg": "Need a date to register an event"}), 401
+    print(date)
+    origin_lon = request.json.get("origin_lon", None)
+    if origin_lon is None:
+        return jsonify({"msg": "Need a origin_lon to register an event"}), 401
+    origin_lat = request.json.get("origin_lat", None)
+    if origin_lat is None:
+        return jsonify({"msg": "Need a origin_lat to register an event"}), 401
+    destination_lon = request.json.get("destination_lon", None)
+    if destination_lon is None:
+        return jsonify({"msg": "Need a destination_lon to register an event"}), 401
+    destination_lat = request.json.get("destination_lat", None)
+    if destination_lat is None:
+        return jsonify({"msg": "Need a destination_lat to register an event"}), 401
     slug = slugify(name)
     description = request.json.get("description", None)
 
@@ -306,7 +350,7 @@ def get_events(page, per_page):
     user_id = get_jwt_identity()
     amount_participation = Event_participation.query.filter_by(
         user_id=user_id).count()
-    all_events = Event_participation.query.filter_by(
+    all_events = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
         user_id=user_id).paginate(page=page, per_page=per_page)
 
     all_events = list(map(lambda x: x.return_event(), all_events))
@@ -320,7 +364,8 @@ def get_events(page, per_page):
 def get_public_events(page, per_page):
 
     amount_events = Event.query.count()
-    all_events = Event.query.paginate(page=page, per_page=per_page)
+    all_events = Event.query.order_by(
+        Event.id.desc()).paginate(page=page, per_page=per_page)
 
     all_events = list(map(lambda x: x.serialize(), all_events))
 
@@ -332,9 +377,12 @@ def get_public_events(page, per_page):
 @api.route("/eventmap/<int:event_id>", methods=["PUT"])
 @jwt_required()
 def update_event_map(event_id):
+    user_id = get_jwt_identity()
     event = Event.query.get(event_id)
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
+    if event.owner_id != user_id:
+        return jsonify({"msg": "You are not the owner of the event"}), 404
     map = request.json.get("map", None)
     if map is None:
         return jsonify({"msg": "Need a map to register an event"}), 401
@@ -354,7 +402,7 @@ def join_event():
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
     check = Event_participation.query.filter_by(
-        user_id=user_id).filter_by(id=event_id).first()
+        user_id=user_id).filter_by(event_id=event_id).first()
     if check is not None:
         return jsonify({"msg": "Already joined"}), 404
     new_participant = Event_participation(
@@ -363,14 +411,14 @@ def join_event():
     )
     db.session.add(new_participant)
     db.session.commit()
-    return jsonify(new_participant.serialize()), 200
+    return jsonify({"msg": "Joined the group"}), 200
 
 
 @api.route("/myevents", methods=["GET"])
 @jwt_required()
 def list_event():
     user_id = get_jwt_identity()
-    all_events = Event_participation.query.filter_by(
+    all_events = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
         user_id=user_id).all()
     all_events = list(map(lambda x: x.serialize(), all_events))
     return jsonify(all_events), 200
@@ -385,16 +433,36 @@ def leave_event():
     if event is None:
         return jsonify({"msg": "Event not found"}), 404
     check = Event_participation.query.filter_by(
-        user_id=user_id).filter_by(id=event_id).first()
+        user_id=user_id).filter_by(event_id=event_id).first()
     if check is None:
         return jsonify({"msg": "Not joined"}), 404
 
     db.session.delete(check)
     db.session.commit()
-    all_events = Event_participation.query.filter_by(
-        user_id=user_id).all()
+    return jsonify({"msg": "Left the group"}), 200
+
+
+@api.route("/searchevent/<name>/<start>/<end>/<date>/<int:page>", methods=["GET"])
+def search_event(name, start, date, end, page):
+    searchQuery = ""
+    if name != "any":
+        searchQuery = ".filter_by(name = name)"
+    if start != "any":
+        searchQuery = searchQuery + ".filter_by(start = start)"
+    if date != "any":
+        searchQuery = searchQuery + ".filter_by(date = date)"
+    if end != "any":
+        searchQuery = searchQuery + ".filter_by(end = end)"
+    if date != "any":
+        date.replace("%", " ")
+        searchQuery = ".filter_by(date = date)"
+    per_page = 5
+    amount_participation = eval(
+        "Event.query.order_by(Event.id.desc())"+searchQuery+".count()")
+    all_events = eval("Event.query.order_by(Event.id.desc())" +
+                      searchQuery+".paginate(page=page, per_page=per_page)")
     all_events = list(map(lambda x: x.serialize(), all_events))
-    return jsonify(all_events), 200
+    return jsonify(all_events, amount_participation), 200
 
 ################################################################################
 #                           POST CRUD                                          #

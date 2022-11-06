@@ -1,29 +1,46 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
-const AllEvents = () => {
+const AllEvents = (props) => {
   const { store, actions } = useContext(Context);
-  const { page, per_page } = useParams();
+  let { page, per_page } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (props.noParams){
+      page = 1;
+      per_page = 10;
+    }
+  }, []);
+
+  useEffect(() => {
     actions.getEvents(page, per_page);
-  }, [, page]);
+  }, [page]);
+
+  const deleteEvent = async (id) => {
+    await actions.deleteEvent(id);
+    actions.getPublicEvents(page, per_page);
+  };
 
   if (store.allEvents) {
     return (
       <div>
+        <div>{props.noNavBar ? <div></div> : 
         <Navbar />
+        }
+        </div>
         <div>
           <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allEvents.map((item) => (
-            <IndividualAllEvents item={item} />
+          {store.allEvents.map((item,i) => (
+            <div key={i}>
+              <IndividualAllEvents item={item} />
+            </div>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

@@ -1,21 +1,33 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
+import { AutoComplete } from "../autocomplete.jsx";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
+registerLocale("es", es);
 
 const NewEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { actions } = useContext(Context);
+  const navigate = useNavigate();
 
-  const submitEvent = (e) => {
+  let lastDate = Date.now() + 864000000;
+
+  const submitEvent = async (e) => {
     e.preventDefault();
-    var name = document.getElementById("nameInput").value;
-    var start = document.getElementById("startInput").value;
-    var end = document.getElementById("endInput").value;
-    var description = document.getElementById("descriptionInput").value;
-    var date = startDate;
-    actions.newEvent(name, start, end, description, date);
+    let name = document.getElementById("nameInput").value;
+    let start = document.getElementById("startInput").value;
+    let end = document.getElementById("endInput").value;
+    let description = document.getElementById("descriptionInput").value;
+    let hours = document.getElementById("hoursInput").value;
+    let minutes = document.getElementById("minutesInput").value;
+    let date = startDate;
+    await actions.newEvent(name, start, end, description, date, hours, minutes);
+    navigate("/allevents/1/5");
   };
 
   return (
@@ -23,7 +35,21 @@ const NewEvent = () => {
       <Navbar />
       <form onSubmit={submitEvent}>
         <div>
-          <Calendar onChange={setStartDate} value={startDate} />
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            minDate={new Date()}
+            maxDate={lastDate}
+            dateFormat="dd/MM/yyy"
+            locale="es"
+            placeholderText="Seleciona una fecha"
+          />
+          <span>
+            <label htmlFor="hoursInput">A las</label>
+            <input id="hoursInput" placeholder="¿A que hora?"></input>
+            <label htmlFor="hoursInput">:</label>
+            <input id="minutesInput" placeholder="¿minutos?"></input>
+          </span>
         </div>
         <div className="mb-3">
           <label htmlFor="nameInput" className="form-label">
@@ -40,23 +66,13 @@ const NewEvent = () => {
           <label htmlFor="startInput" className="form-label">
             Inicio
           </label>
-          <input
-            type="text"
-            className="form-control"
-            id="startInput"
-            aria-describedby="startHelp"
-          />
+          <AutoComplete id="startInput" pokemon="inicio" />
         </div>
         <div className="mb-3">
           <label htmlFor="endInput" className="form-label">
             Final
           </label>
-          <input
-            type="text"
-            className="form-control"
-            id="endInput"
-            aria-describedby="endHelp"
-          />
+          <AutoComplete id="endInput" />
         </div>
         <div className="mb-3">
           <label htmlFor="descriptionInput" className="form-label">

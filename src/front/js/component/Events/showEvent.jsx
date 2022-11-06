@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
-import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
 
 const ShowEvent = () => {
@@ -9,11 +8,16 @@ const ShowEvent = () => {
   const [event, setEvent] = useState({});
   const params = useParams();
   const [eventParticipation, setEventParticipation] = useState(true);
+
   useEffect(() => {
-    actions.getEvent(params.eventId);
-    actions.listEvents();
+    getEventAndList();
     setEventParticipation(actions.searchEvent(params.eventId));
   }, []);
+
+  const getEventAndList = async ()=>{
+    await actions.getEvent(params.eventId);
+    await actions.listEvents();
+  }
 
   useEffect(() => {
     setEvent(store.event);
@@ -34,30 +38,24 @@ const ShowEvent = () => {
     document.getElementById("mapInput").value = "";
   };
 
-  const subscribe = (e) => {
+  const subscribe = async (e) => {
     e.preventDefault();
     var id = params.eventId;
-    actions.joinEvent(id);
+    await actions.joinEvent(id);
+    await actions.listEvents();
+    setEventParticipation(actions.searchEvent(params.eventId));
   };
 
-  const unsubscribe = (e) => {
+  const unsubscribe = async (e) => {
     e.preventDefault();
     var id = params.eventId;
-    actions.unsubscribeEvent(id);
+    await actions.unsubscribeEvent(id);
+    await actions.listEvents();
+    setEventParticipation(actions.searchEvent(params.eventId));
   };
   return (
     <div>
       <Navbar />
-      {eventParticipation ? (
-        <button onClick={unsubscribe} className="btn btn-primary">
-          Salir
-        </button>
-      ) : (
-        <button onClick={subscribe} className="btn btn-primary">
-          Inscribirse
-        </button>
-      )}
-
       <div className="event-container event-scroll">
         <iframe src={event.map} width="800" height="600"></iframe>
         <div className="event-post">
@@ -67,7 +65,7 @@ const ShowEvent = () => {
           </h5>
           <label for="date">Fecha</label>
           <p id="date" className="postText">
-            {event.date}
+            {event.date} a las {event.hours}:{event.minutes}
           </p>
           <label for="start">Ciudad de inicio</label>
           <p id="start" className="postText">
@@ -89,6 +87,15 @@ const ShowEvent = () => {
           <button onClick={sendMap} className="btn btn-primary">
             Enviar mapa
           </button>
+          {eventParticipation ? (
+            <button onClick={unsubscribe} className="btn btn-primary ms-5">
+              Borrarse del evento
+            </button>
+          ) : (
+            <button onClick={subscribe} className="btn btn-primary ms-5">
+              Inscribirse en el evento
+            </button>
+          )}
         </div>
       </div>
     </div>
