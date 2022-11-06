@@ -7,43 +7,43 @@ export const ShowPost = () => {
   const [page, setPage] = useState(1);
   const formToEdit = useRef();
   const maxPage = 5;
-  
+
   const [imageToStore, setImageToStore] = useState();
 
   useEffect(() => {
     getAllPosts(page, maxPage);
   }, []);
-  
+
   useEffect(() => {
-    let prevButton = document.querySelector("#prevButton");
-    let nextButton = document.querySelector("#nextButton");
-    if(page === 1){
-      prevButton.disabled=true;
-    }else {
-      prevButton.disabled=false;
+    let prevButton = document.querySelector("#prevButtonPost");
+    let nextButton = document.querySelector("#nextButtonPost");
+    if (page === 1) {
+      prevButton.disabled = true;
+    } else {
+      prevButton.disabled = false;
     }
     nextButton.disabled = false;
-  }, [page])
+  }, [page]);
 
   const getAllPosts = async (page, maxPage) => {
     await actions.getPosts(page, maxPage);
   };
 
-  const prevImages = async()=>{
+  const prevImages = async () => {
     await actions.getPosts(page - 1, maxPage);
     await actions.updateMaxPosts();
-    setPage(page =>page - 1);
-  }
+    setPage((page) => page - 1);
+  };
 
-  const nextImages = async ()=>{
-      await actions.getPosts(page + 1, maxPage)
-      if(store.maxPosts){
-        let nextButton = document.querySelector("#nextButton");
-        nextButton.disabled = true;
-      }else {
-        setPage(page => page + 1);
-      }
-  }
+  const nextImages = async () => {
+    await actions.getPosts(page + 1, maxPage);
+    if (store.maxPosts) {
+      let nextButton = document.querySelector("#nextButtonPost");
+      nextButton.disabled = true;
+    } else {
+      setPage((page) => page + 1);
+    }
+  };
 
   const handleUpdate = async () => {
     const postId = formToEdit.current.id;
@@ -58,7 +58,7 @@ export const ShowPost = () => {
 
   const getEditForm = async (post) => {
     formToEdit.current = post;
-    const textarea = document.getElementById('exampleFormControlTextareaEdit1');
+    const textarea = document.getElementById("exampleFormControlTextareaEdit1");
     textarea.value = formToEdit.current.text;
   };
 
@@ -78,19 +78,19 @@ export const ShowPost = () => {
     let postToCreate = null;
     postToCreate = {
       text: form.textarea,
-      image: id
+      image: id,
     };
     await actions.createPost(postToCreate);
     await getAllPosts(page, maxPage);
   };
-  
+
   const handleImage = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = function () {
       const base64 = reader.result;
       setImageToStore(base64);
-      setForm({...form, image: base64});
+      setForm({ ...form, image: base64 });
     };
   };
 
@@ -98,7 +98,7 @@ export const ShowPost = () => {
     setForm({ ...form, [e.target.type]: e.target.value });
   };
 
-  return ( 
+  return (
     <div className="post-container">
       <div className="createPostContainer">
         <div className="profile-image-container">
@@ -108,9 +108,12 @@ export const ShowPost = () => {
         </div>
         <div className="new-post-input">
           <div
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-          className="input-button">En que estas pensando ?</div>
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            className="input-button"
+          >
+            En que estas pensando ?
+          </div>
         </div>
       </div>
       <div className="posts">
@@ -258,13 +261,13 @@ export const ShowPost = () => {
             <p className="noPostAvailable">No hay post disponibles</p>
           ) : (
             store.allPosts.map((post, key) => {
-              
               return (
-                <div key={key} className="post">
+                <div key={key} className="post d-flex flex-column">
                   <div className="postText">
                     <h2 className="w-100">{post.text}</h2>
                     <div className="relative mb-5">
-                      {Number(localStorage.getItem("user_id")) !== post.user_id ? null : (
+                      {Number(localStorage.getItem("user_id")) !==
+                      post.user_id ? null : (
                         <div
                           className="postEdit"
                           onClick={() => getEditForm(post)}
@@ -287,7 +290,8 @@ export const ShowPost = () => {
                           </svg>
                         </div>
                       )}
-                      {Number(localStorage.getItem("user_id")) !== post.user_id ? null : (
+                      {Number(localStorage.getItem("user_id")) !==
+                      post.user_id ? null : (
                         <div
                           className="postDelete"
                           onClick={() => handleDelete(post.id)}
@@ -310,13 +314,13 @@ export const ShowPost = () => {
                       )}
                     </div>
                   </div>
-                  { post.image ?
+                  {post.image ? (
                     <img
-                    className="postImage"
-                    src={post.image}
-                    alt="Post image"
-                  /> : null 
-                  }
+                      className="postImage"
+                      src={post.image}
+                      alt="Post image"
+                    />
+                  ) : null}
 
                   <p className="postDate">{post.date}</p>
                 </div>
@@ -326,12 +330,40 @@ export const ShowPost = () => {
         </ul>
       </div>
       <div className="pagination-container">
-        <button className="btn btn-primary" id="prevButton" onClick={prevImages}>Pagina Anterior</button>
+        <button
+          className="btn btn-primary border-white my-2"
+          id="prevButtonPost"
+          onClick={prevImages}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-caret-left-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+          </svg>
+        </button>
         <div className="page-container">{page}</div>
-        <button className="btn btn-primary" id="nextButton" onClick={nextImages}>Siguiente pagina</button>
-     
+        <button
+          className="btn btn-primary border-white my-2"
+          id="nextButtonPost"
+          onClick={nextImages}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-caret-right-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+          </svg>
+        </button>
       </div>
-    </div> 
-
-    );
+    </div>
+  );
 };
