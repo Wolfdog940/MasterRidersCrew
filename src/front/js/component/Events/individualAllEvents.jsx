@@ -8,9 +8,9 @@ const IndividualAllEvents = (props) => {
   const [eventParticipation, setEventParticipation] = useState(true);
   const nav = useNavigate();
 
-  useEffect(() => {
+  useEffect(async () => {
     setEvent(props.item);
-    actions.listEvents();
+    await actions.listEvents();
     setEventParticipation(actions.searchEvent(event.id));
   }, []);
 
@@ -20,17 +20,18 @@ const IndividualAllEvents = (props) => {
     }
   }, [store.eventParticipation]);
 
-  const subscribe = (e) => {
+  const subscribe = async (e) => {
     e.preventDefault();
-
     var id = event.id;
-    actions.joinEvent(id);
+    await actions.joinEvent(id);
+    setEventParticipation(actions.searchEvent(event.id));
   };
 
-  const unsubscribe = (e) => {
+  const unsubscribe = async (e) => {
     e.preventDefault();
     var id = params.eventId;
-    actions.unsubscribeEvent(id);
+    await actions.unsubscribeEvent(id);
+    setEventParticipation(actions.searchEvent(event.id));
   };
 
   return (
@@ -45,7 +46,7 @@ const IndividualAllEvents = (props) => {
           </Link>
           <label for="date">Fecha</label>
           <p id="date" className="postText">
-            {event.date}
+            {event.date} a las {event.hours}:{event.minutes}
           </p>
           <label for="start">Ciudad de inicio</label>
           <p id="start" className="postText">
@@ -60,11 +61,11 @@ const IndividualAllEvents = (props) => {
             {event.description}
           </p>
           {eventParticipation ? (
-            <button onClick={unsubscribe} className="btn btn-primary">
+            <button onClick={unsubscribe} className="btn btn-primary ms-5">
               Salir
             </button>
           ) : (
-            <button onClick={subscribe} className="btn btn-primary">
+            <button onClick={subscribe} className="btn btn-primary ms-5">
               Inscribirse
             </button>
           )}

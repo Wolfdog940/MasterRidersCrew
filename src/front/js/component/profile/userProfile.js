@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { Navbar } from "../navbar";
 import AllMyPosts from "../post/allMyPosts.jsx";
 import "../../../styles/userProfile.css";
+import AllEvents from "../../pages/Events/allEvents.jsx";
 
 const UserProfile2 = () => {
   const { store, actions } = useContext(Context);
@@ -11,8 +12,7 @@ const UserProfile2 = () => {
 
   useEffect(() => {
     actions.getProfile();
-  }, [,store.profilePicture]);
-
+  }, [, store.profilePicture]);
 
   /* Manejo de las imagenes */
   const convertirBase64 = (file) => {
@@ -25,15 +25,12 @@ const UserProfile2 = () => {
   };
 
   const upload = async () => {
-    if (image){
+    if (image) {
       let id = await actions.uploadImage(image);
       let bool = await actions.updateProfile({ profile_picture: id });
-      if (bool)
-          actions.getProfile();
-    }
-    else alert("Debes agregar una foto antes")
+      if (bool) actions.getProfile();
+    } else alert("Debes agregar una foto antes");
   };
-
 
   /* Manejo de los inputs */
   function handleInputChange(e) {
@@ -250,6 +247,7 @@ const UserProfile2 = () => {
       </div>
       <h2 className="text-white m-auto">Mis Post:</h2>
       <AllMyPosts />
+      <AllEvents noNavBar={true} />
     </>
   );
 };

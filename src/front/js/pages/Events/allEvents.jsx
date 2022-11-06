@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "../../component/navbar";
 import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
 
-const AllEvents = () => {
+const AllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const { page, per_page } = useParams();
 
@@ -14,10 +14,15 @@ const AllEvents = () => {
     actions.getEvents(page, per_page);
   }, [page]);
 
+  const deleteEvent = async (id) => {
+    await actions.deleteEvent(id);
+    actions.getPublicEvents(page, per_page);
+  };
+
   if (store.allEvents) {
     return (
       <div>
-        <Navbar />
+        <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
         <Link to="/newevent">
           <h3 className="text-light">Crear tu propio evento</h3>
         </Link>
@@ -29,7 +34,17 @@ const AllEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item) => (
-            <IndividualAllEvents item={item} />
+            <div>
+              <IndividualAllEvents item={item} />
+              <button
+                onClick={() => {
+                  deleteEvent(item.id);
+                }}
+                className="btn btn-danger"
+              >
+                Borrar evento
+              </button>
+            </div>
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

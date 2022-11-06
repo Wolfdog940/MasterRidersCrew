@@ -41,7 +41,10 @@ const Layout = () => {
             <Route element={<ShowPost />} path="/userHome/post" />
             <Route element={<EditEvent />} path="/editevent/:eventId" />
             <Route element={<ShowEvent />} path="/showevent/:eventId" />
-            <Route element={<AllEvents />} path="/allevents/:page/:per_page" />
+            <Route
+              element={<AllEvents noNavBar={false} />}
+              path="/allevents/:page/:per_page"
+            />
             <Route
               element={<AllPublicEvents />}
               path="/allpublicevents/:page/:per_page"
