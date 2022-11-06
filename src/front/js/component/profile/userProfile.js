@@ -23,7 +23,6 @@ const UserProfile2 = () => {
       setImage(base64);
     };
   };
-
   const upload = async () => {
     if (image){
       let id = await actions.uploadImage(image);
@@ -248,7 +247,7 @@ const UserProfile2 = () => {
           </div>
         </div>
       </div>
-      <h2 className="text-white m-auto">Mis Post:</h2>
+      <h2 className="text-white m-auto">Mis Posts:</h2>
       <AllMyPosts />
     </>
   );

@@ -9,12 +9,6 @@ const AllMyPosts = () => {
     actions.getPostByUser();
   }, []);
 
-  const getEditForm = async (post) => {
-    formToEdit.current = post;
-    const textarea = document.getElementById('exampleFormControlTextareaEdit1');
-    textarea.value = formToEdit.current.text;
-  };
-
   console.log(store.postByUser)
   return (
     <ul className="listaPost">
