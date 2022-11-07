@@ -13,8 +13,8 @@ export const ShowPost = () => {
   const [imageToStore, setImageToStore] = useState();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     getAllPosts(page, maxPage);
   }, []);
@@ -87,6 +87,8 @@ export const ShowPost = () => {
     };
     await actions.createPost(postToCreate);
     await getAllPosts(page, maxPage);
+    document.getElementById("exampleFormControlTextarea1").value = null;
+    document.getElementById("inputGroupFile01Edit").value = null;
   };
 
   const handleImage = (file) => {
