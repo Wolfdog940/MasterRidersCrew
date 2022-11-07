@@ -57,6 +57,7 @@ export const AutoComplete = (props) => {
         type="text"
         id={props.id}
         list="list"
+        autocomplete="off"
         onChange={handleInputChange}
       />
 

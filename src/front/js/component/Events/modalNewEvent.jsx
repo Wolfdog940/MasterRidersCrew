@@ -29,90 +29,103 @@ const ModalNewEvent = () => {
   };
 
   return (
-      <div
-        className="modal fade"
-        id="modalNewEvent"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Modal title
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <form id="formulario" onSubmit={submitEvent}>
-                <div>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    minDate={new Date()}
-                    maxDate={lastDate}
-                    dateFormat="dd/MM/yyy"
-                    locale="es"
-                    placeholderText="Seleciona una fecha"
-                  />
-                  <span>
-                    <label htmlFor="hoursInput">A las</label>
-                    <input id="hoursInput" placeholder="¿A que hora?"></input>
-                    <label htmlFor="hoursInput">:</label>
-                    <input id="minutesInput" placeholder="¿minutos?"></input>
-                  </span>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="nameInput" className="form-label">
-                    Nombre
-                  </label>
+    <div
+      className="modal fade"
+      id="modalNewEvent"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">
+              Crea un evento
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form id="formulario" onSubmit={submitEvent}>
+              <div>
+                <DatePicker
+                  className="mb-2"
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  minDate={new Date()}
+                  maxDate={lastDate}
+                  dateFormat="dd/MM/yyy"
+                  locale="es"
+                  placeholderText="Seleciona una fecha"
+                />
+                <div className="d-flex mb-2 ">
+                  <label htmlFor="hoursInput"></label>
                   <input
-                    type="text"
-                    className="form-control"
-                    id="nameInput"
-                    aria-describedby="nameHelp"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="startInput" className="form-label">
-                    Inicio
-                  </label>
-                  <AutoComplete id="startInput" pokemon="inicio" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="endInput" className="form-label">
-                    Final
-                  </label>
-                  <AutoComplete id="endInput" />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="descriptionInput" className="form-label">
-                    Descripcion
-                  </label>
+                    id="hoursInput"
+                    placeholder="a que hora?"
+                    className="w-50 "
+                  ></input>
+
                   <input
-                    type="text"
-                    className="form-control"
-                    id="descriptionInput"
-                    aria-describedby="descriptionHelp"
-                  />
+                    id="minutesInput"
+                    placeholder="minutos?"
+                    className="w-50"
+                  ></input>
                 </div>
-                
-              </form>
-            </div>
-            <div className="modal-footer">
-                <button type="submit" form="formulario" className="btn btn-primary" data-bs-dismiss="modal">
-                  Enviar
-                </button>
-            </div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="nameInput" className="form-label">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="nameInput"
+                  aria-describedby="nameHelp"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="startInput" className="form-label">
+                  Inicio
+                </label>
+                <AutoComplete id="startInput" pokemon="inicio" />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="endInput" className="form-label">
+                  Final
+                </label>
+                <AutoComplete id="endInput" />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="descriptionInput" className="form-label">
+                  Descripcion
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="descriptionInput"
+                  aria-describedby="descriptionHelp"
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="submit"
+              form="formulario"
+              className="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Enviar
+            </button>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

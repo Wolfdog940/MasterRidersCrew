@@ -11,7 +11,7 @@ const AllEvents = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (props.noParams){
+    if (props.noParams) {
       page = 1;
       per_page = 10;
     }
@@ -29,17 +29,14 @@ const AllEvents = (props) => {
   if (store.allEvents) {
     return (
       <div>
-        <div>{props.noNavBar ? <div></div> : 
-        <Navbar />
-        }
-        </div>
+        <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
         <div>
           <h1 className="text-white title-container">Todos mis eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allEvents.map((item,i) => (
+          {store.allEvents.map((item, i) => (
             <div key={i}>
-              <IndividualAllEvents item={item} />
+              <IndividualAllEvents item={item} deleteEvent={deleteEvent} />
             </div>
           ))}
         </div>

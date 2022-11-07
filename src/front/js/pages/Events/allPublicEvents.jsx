@@ -66,13 +66,16 @@ const AllPublicEvents = () => {
             </Link>
           </div>
         </div>
+        <div className="d-flex justify-content-center my-2">
+          <span className="text-white ">No sabes como crear un evento ?</span>
+        </div>
         <div>
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
             <div key={i}>
-              <IndividualAllEvents item={item} deleteEvent={deleteEvent}/>
+              <IndividualAllEvents item={item} deleteEvent={deleteEvent} />
             </div>
           ))}
         </div>
