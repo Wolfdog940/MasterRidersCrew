@@ -52,7 +52,7 @@ const UserProfile2 = () => {
     e.preventDefault();
     actions.updateProfile(datos);
     let button = document.querySelector("#actualizar");
-    button.disabled = true;
+    //button.disabled = true;
     alert("Datos Actualizados");
   }
 
@@ -195,7 +195,7 @@ const UserProfile2 = () => {
                           id="name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          required
+                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -204,7 +204,7 @@ const UserProfile2 = () => {
                           id="last_name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          required
+                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -213,7 +213,7 @@ const UserProfile2 = () => {
                           id="address"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          required
+                          /* required */
                         ></input>
                       </div>
                     </form>
