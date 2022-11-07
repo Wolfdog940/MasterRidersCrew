@@ -15,6 +15,7 @@ php_errorlog
 !composer.json
 !webpack.config.js
 !package.json
+!package-lock.json
 !webpack.production.js
 !webpack.development.js
 
