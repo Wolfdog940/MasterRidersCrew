@@ -16,7 +16,6 @@ export const Noticias = () => {
     actions.setNews();
   }, []);
 
-  console.log(store.newsPage);
   return (
     <div className="container-fluid m-0  ">
       <Navbar />

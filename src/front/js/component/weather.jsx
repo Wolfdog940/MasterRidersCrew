@@ -21,9 +21,6 @@ export const Weather = (props) => {
 
       if (resp.status === 200) {
         setdailyWeather(data.current);
-
-        console.log(data);
-        console.log(getStore().weather);
       } else {
         throw new Error("No se pudo actualizar/Unable to update");
       }

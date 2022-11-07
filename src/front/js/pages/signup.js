@@ -21,10 +21,9 @@ const signUp = () => {
   function handleSubmit(e) {
     e.preventDefault();
     actions.signup(valores);
-
     nav("/");
   }
-  console.log(store.userData);
+
   function validarPwd() {
     let input1 = document.getElementById("password1");
     let input2 = document.getElementById("password2");
@@ -96,7 +95,6 @@ const signUp = () => {
 
           <div className="form-group d-flex justify-content-center">
             <input
-              /* onChange={handleInputChange} */
               type={showpwd ? "text" : "password"}
               className="form-control rounded-pill bg-transparent my-2 text-center text-white"
               placeholder="validar Password"
@@ -135,13 +133,9 @@ const signUp = () => {
             <button
               type="submit"
               className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-100"
-              /*  onClick={() => {
-              if (showpwd) setShowpwd(!showpwd);
-            }} */
             >
               Registrate
             </button>
-            {console.log(valores)}
           </div>
           <div className="form-group d-flex justify-content-center">
             <div className="mt-3">

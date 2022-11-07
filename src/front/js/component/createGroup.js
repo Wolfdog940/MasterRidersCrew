@@ -52,7 +52,6 @@ export const CreateGroup = () => {
             id="exampleCheck1"
             onClick={() => setBoolean()}
           />
-          {console.log(valores)}
           <label
             className="form-check-label text-white"
             htmlFor="exampleCheck1"
@@ -70,7 +69,6 @@ export const CreateGroup = () => {
           >
             Crear Grupo
           </button>
-          {console.log(valores)}
         </div>
         <div className="form-group d-flex justify-content-center">
           <div className="mt-3"></div>

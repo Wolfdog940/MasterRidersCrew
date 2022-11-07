@@ -42,7 +42,7 @@ const UserProfile2 = () => {
     if (e.target.value.trim().length) {
       button.disabled = false;
     } else {
-      console.log("Debes agregar un texto valido");
+      alert("Debes agregar un texto valido");
       button.disabled = true;
     }
     setDatos({ ...datos, [e.target.id]: e.target.value.trim() });

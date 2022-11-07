@@ -9,7 +9,6 @@ const AllMyPosts = () => {
     actions.getPostByUser();
   }, []);
 
-  console.log(store.postByUser)
   return (
     <ul className="listaPost">
       {store.postByUser && store.postByUser.length ? ( 

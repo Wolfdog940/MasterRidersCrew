@@ -18,7 +18,6 @@ const Images = () => {
   }, []);
 
   useEffect(() => {
-    console.log(page, "maxPage:", maxPage);
     if (page === 1) {
       let prevButton = document.querySelector("#prevButton");
       prevButton.disabled = true;

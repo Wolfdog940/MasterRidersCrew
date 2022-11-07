@@ -76,18 +76,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       borrar_token: async () => {
         const store = getStore();
         try {
-          /* await fetch(process.env.BACKEND_URL + "/api/logout", {
-            method: "DELETE",
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-              "content-type": "application/json",
-            },
-          }); */
-          /* if (store.token != null) { */
           localStorage.removeItem("token");
           localStorage.removeItem("user_id");
           setStore({ token: null });
-          /* } */
         } catch (error) {
           console.log("Error al deslogear el usuario", error);
         }
@@ -109,7 +100,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           else if (resp.status !== 200) throw new Error("Ingreso Invalido");
           else if (resp.status === 200) {
             let grupos = data.data;
-            console.log(grupos);
             setStore({
               listaGrupos: grupos.map((g) => g.name),
             });
@@ -135,7 +125,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const data = await resp.json();
-          console.log(data);
           setStore({ allPosts: data });
           return data;
         } catch (error) {
@@ -163,9 +152,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       createPost: async (post) => {
-        console.log("Post to create", post);
-        console.log("Token", localStorage.getItem("token"));
-        // Crea un nuevo post
         try {
           const resp = await fetch(
             process.env.BACKEND_URL + "/api/create_post",
@@ -179,7 +165,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const data = await resp.json();
-          console.log("Se ha creado un post", data);
         } catch (error) {
           console.log("Error al crear un post", error);
         }
@@ -511,10 +496,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         })
           .then((resp) => {
-            console.log(resp.ok); // Será true (verdad) si la respuesta es exitosa.
-            console.log(resp.status); // el código de estado = 200 o código = 400 etc.
-            console.log(process.env.BACKEND_URL);
-            return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+            return resp.json();
           })
           .catch((error) => {
             console.log("Error al registar el grupo", error);
@@ -604,8 +586,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (resp.status === 200) {
             setStore({ userData: data });
             return true;
-            //alert("Los datos se actualizaron correctamente")
-          } else return false; //throw new Error("Invalid Update")
+          } else return false; 
         } catch (error) {
           console.log(error);
         }
@@ -709,8 +690,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (resp.status === 200) {
             setStore({ weather: data.current });
-            console.log(data);
-            console.log(getStore().weather);
           } else {
             throw new Error("No se pudo actualizar/Unable to update");
           }

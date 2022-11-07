@@ -70,7 +70,7 @@ const SideBar = () => {
                           {datos}
                         </li>
                       ))
-                    : console.log("error")}
+                    :null}
                 </ul>
               </div>
             </div>
