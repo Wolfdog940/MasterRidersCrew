@@ -290,7 +290,6 @@ def remove_event(event_id):
     eventsParticipation = Event_participation.query.filter_by(
         event_id=event_id).all()
     for event_part in eventsParticipation:
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         db.session.delete(event_part)
         db.session.commit()
     db.session.delete(event_to_delete)
@@ -569,6 +568,9 @@ def delete_post():
 
     if post_deleted is None:
         return jsonify({"msg": "The post is already deleted!"}), 404
+
+    if current_user_id != post_deleted.user_id:
+        return jsonify({"msg": "Not the owner of the post"}), 400
 
     db.session.delete(post_deleted)
     db.session.commit()
