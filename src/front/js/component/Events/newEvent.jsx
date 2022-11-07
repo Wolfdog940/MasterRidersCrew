@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
@@ -14,6 +14,12 @@ const NewEvent = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { actions } = useContext(Context);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
+  },[])
 
   let lastDate = Date.now() + 864000000;
 

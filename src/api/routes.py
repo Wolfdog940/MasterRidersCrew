@@ -281,18 +281,19 @@ def get_event(event_id):
 @api.route("/event/<int:event_id>", methods=["DELETE"])
 @jwt_required()
 def remove_event(event_id):
-    event = Event.query.get(event_id)
-    if event is None:
+    event_to_delete = Event.query.get(event_id)
+    if event_to_delete is None:
         return jsonify({"msg": "Event not found"}), 404
     user_id = get_jwt_identity()
-    if user_id != event.owner_id:
+    if user_id != event_to_delete.owner_id:
         return jsonify({"msg": "Cant delete this event"}), 400
     eventsParticipation = Event_participation.query.filter_by(
         event_id=event_id).all()
-    for event in eventsParticipation:
-        db.session.delete(event)
-    db.session.commit()
-    db.session.delete(event)
+    for event_part in eventsParticipation:
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        db.session.delete(event_part)
+        db.session.commit()
+    db.session.delete(event_to_delete)
     db.session.commit()
     return jsonify({"msg": "Event has been removed"}), 200
 

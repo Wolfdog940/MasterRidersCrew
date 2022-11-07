@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 
 export const ShowPost = () => {
@@ -7,10 +8,14 @@ export const ShowPost = () => {
   const [page, setPage] = useState(1);
   const formToEdit = useRef();
   const maxPage = 5;
+  let navigate = useNavigate();
 
   const [imageToStore, setImageToStore] = useState();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     getAllPosts(page, maxPage);
   }, []);
 

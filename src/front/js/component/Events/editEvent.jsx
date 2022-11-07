@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
-import Calendar from "react-calendar";
 import { Navbar } from "../navbar";
 import { AutoComplete } from "../autocomplete.jsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 registerLocale("es", es);
 
@@ -18,6 +17,9 @@ const EditEvent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     actions.getEvent(params.eventId);
   }, []);
 

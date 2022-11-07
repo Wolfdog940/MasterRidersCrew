@@ -3,11 +3,16 @@ import { Context } from "../store/appContext";
 import { useEffect, useState } from "react";
 import { NewsCard } from "./newsCard";
 import { Navbar } from "./navbar";
+import { useNavigate } from "react-router-dom";
 
 export const Noticias = () => {
   const { store, actions } = useContext(Context);
+  let navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     actions.setNews();
   }, []);
 

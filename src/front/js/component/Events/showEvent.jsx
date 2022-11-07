@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../navbar";
 
 const ShowEvent = () => {
@@ -8,8 +8,12 @@ const ShowEvent = () => {
   const [event, setEvent] = useState({});
   const params = useParams();
   const [eventParticipation, setEventParticipation] = useState(true);
+  let navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     getEventAndList();
     setEventParticipation(actions.searchEvent(params.eventId));
   }, []);

@@ -11,6 +11,9 @@ const AllEvents = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     if (props.noParams) {
       page = 1;
       per_page = 10;
@@ -23,7 +26,7 @@ const AllEvents = (props) => {
 
   const deleteEvent = async (id) => {
     await actions.deleteEvent(id);
-    actions.getPublicEvents(page, per_page);
+    navigate("/allpublicevents/1/5");
   };
 
   if (store.allEvents) {

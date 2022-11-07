@@ -2,13 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { Navbar } from "../navbar";
 import "../../../styles/image.css";
+import { useNavigate } from "react-router-dom";
 
 const Images = () => {
   const { store, actions } = useContext(Context);
   const [page, setPage] = useState(1);
   const maxPage = Math.ceil(store.amountUserImage / store.topImagePerPage);
+  let navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     actions.getImages(page);
   }, []);
 

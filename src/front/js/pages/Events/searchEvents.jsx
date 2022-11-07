@@ -20,6 +20,12 @@ const SearchEvents = () => {
   let eventsLength = null;
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
+  },[])
+
+  useEffect(() => {
     if (page > 1) {
       searchEvents(origin, destination);
     }

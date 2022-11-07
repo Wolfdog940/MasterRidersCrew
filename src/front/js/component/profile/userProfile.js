@@ -4,13 +4,18 @@ import { Navbar } from "../navbar";
 import AllMyPosts from "../post/allMyPosts.jsx";
 import "../../../styles/userProfile.css";
 import AllEvents from "../../pages/Events/allEvents.jsx";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile2 = () => {
   const { store, actions } = useContext(Context);
   const [datos, setDatos] = useState({});
   const [image, setImage] = useState(null);
+  let navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
     actions.getProfile();
   }, [, store.profilePicture]);
 

@@ -1,7 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "../../styles/showvideo.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 export const ShowVideo = () => {
+  let navigate = useNavigate(); 
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")){
+      navigate("/")
+    }
+  }, []);
+
   return (
     <div className="d-flex justify-content-center aling-items-center mt-5 flex-column">
       <div className="d-flex justify-content-center aling-items-center mt-5 ">
@@ -17,7 +26,7 @@ export const ShowVideo = () => {
       <div className="d-flex justify-content-center aling-items-center mt-3">
         <Link
           className="btn btn-outline-white  showvideo"
-          to={"/allpublicevents/:page/:per_page"}
+          to={"/allpublicevents/1/5"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
