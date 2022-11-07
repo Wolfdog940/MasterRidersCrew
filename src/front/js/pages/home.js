@@ -16,18 +16,24 @@ const Login = () => {
   function handleSubmit(e) {
     e.preventDefault();
     actions.loguearUsuario(datos);
-    setTimeout(()=>{
-        if (store.token !== null){
-            console.log("se logueo correctamente")
-            nav("/userHome");
-        }
-        else console.log("Algo salio mal al loguear")
-        },500)
+    setTimeout(() => {
+      if (store.token !== null) {
+        console.log("se logueo correctamente");
+        nav("/userHome");
+      } else console.log("Algo salio mal al loguear");
+    }, 500);
   }
 
   return (
     <div className="div-container">
-      {" "}
+      <div className="d-flex justify-content-center align-items-center mt-5 flex-column">
+        <div>
+          <h1 className="logo text-white">*Riders|Crew*</h1>
+        </div>
+        <div className="logo">
+          <h2 className="text-white mt-5 mb-0">Bienvenidos</h2>
+        </div>
+      </div>{" "}
       <section className="d-flex justify-content-center align-items-center ">
         <form
           onSubmit={handleSubmit}

@@ -67,7 +67,12 @@ const AllPublicEvents = () => {
           </div>
         </div>
         <div className="d-flex justify-content-center my-2">
-          <span className="text-white ">No sabes como crear un evento ?</span>
+          <Link to="/showVideo" className="link">
+            {" "}
+            <span className="text-warning ">
+              No sabes como crear un evento ?
+            </span>
+          </Link>
         </div>
         <div>
           <h1 className="text-white title-container">Todos los eventos</h1>

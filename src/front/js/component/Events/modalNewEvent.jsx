@@ -68,12 +68,14 @@ const ModalNewEvent = () => {
                     id="hoursInput"
                     placeholder="a que hora?"
                     className="w-50 "
+                    autoComplete="off"
                   ></input>
 
                   <input
                     id="minutesInput"
                     placeholder="minutos?"
                     className="w-50"
+                    autoComplete="off"
                   ></input>
                 </div>
               </div>
@@ -86,6 +88,7 @@ const ModalNewEvent = () => {
                   className="form-control"
                   id="nameInput"
                   aria-describedby="nameHelp"
+                  autoComplete="off"
                 />
               </div>
               <div className="mb-3">
@@ -109,6 +112,7 @@ const ModalNewEvent = () => {
                   className="form-control"
                   id="descriptionInput"
                   aria-describedby="descriptionHelp"
+                  autoComplete="off"
                 />
               </div>
             </form>
