@@ -21,6 +21,7 @@ import UserProfile from "./component/profile/userProfile";
 import Images from "./component/images/images.jsx";
 import AllPublicEvents from "./pages/Events/allPublicEvents.jsx";
 import SearchEvents from "./pages/Events/searchEvents.jsx";
+import { ShowVideo } from "./component/showVideo.jsx";
 
 //create your first component
 const Layout = () => {
@@ -54,6 +55,7 @@ const Layout = () => {
             <Route element={<UserProfile />} path="/userprofile" />
             <Route element={<Noticias />} path="/noticias" />
             <Route element={<Images />} path="/images" />
+            <Route element={<ShowVideo />} path="/showVideo" />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>
