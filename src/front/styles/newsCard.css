@@ -1,0 +1,29 @@
+a {
+  color: black;
+}
+a:hover {
+  color: blue;
+}
+.link:visited {
+  color: blue;
+}
+
+.myCard {
+  margin-top: 5px;
+  width: 70%;
+  max-width: 700px;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255,255,255,0.5);
+}
+
+
+@media screen and (max-width: 480px) {
+  .myCard {
+    margin-top: 5px;
+    width: 90%;
+    font-size: small;
+  }
+  h4 {
+    font-size: large;
+  }
+}

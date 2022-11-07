@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-import datetime
+
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -25,7 +25,7 @@ app.url_map.strict_slashes = False
 app.config['JWT_SECRET_KEY'] = 'top-secret'  # Change this!
 
 jwt = JWTManager(app)
-app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=10)
+
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")

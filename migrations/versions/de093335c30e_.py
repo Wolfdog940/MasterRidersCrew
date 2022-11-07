@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 244835a17c16
+Revision ID: de093335c30e
 Revises: 
-Create Date: 2022-10-07 18:44:14.790551
+Create Date: 2022-11-07 12:20:41.058808
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '244835a17c16'
+revision = 'de093335c30e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,27 +31,33 @@ def upgrade():
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('start', sa.String(), nullable=False),
     sa.Column('end', sa.String(), nullable=False),
+    sa.Column('map', sa.String(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
-    sa.Column('date', sa.Date(), nullable=False),
+    sa.Column('date', sa.String(), nullable=False),
     sa.Column('private', sa.Boolean(), nullable=True),
     sa.Column('slug', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
+    sa.Column('origin_lon', sa.Float(), nullable=False),
+    sa.Column('origin_lat', sa.Float(), nullable=False),
+    sa.Column('destination_lon', sa.Float(), nullable=False),
+    sa.Column('destination_lat', sa.Float(), nullable=False),
+    sa.Column('hours', sa.Integer(), nullable=False),
+    sa.Column('minutes', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('private')
+    sa.UniqueConstraint('name')
     )
-    op.create_table('friend',
-    sa.Column('user_id1', sa.Integer(), nullable=False),
-    sa.Column('user_id2', sa.Integer(), nullable=False),
-    sa.Column('is_favorite', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id1'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['user_id2'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('user_id1', 'user_id2')
+    op.create_table('form_friendship',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('main_friend_id', sa.Integer(), nullable=False),
+    sa.Column('secondary_friend_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['main_friend_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['secondary_friend_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('group',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=120), nullable=False),
+    sa.Column('name', sa.String(length=10), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.Column('private', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], ),
@@ -68,31 +74,33 @@ def upgrade():
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('text', sa.String(length=5000), nullable=True),
-    sa.Column('image', sa.String(length=5000), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('event_participant',
-    sa.Column('participant_id', sa.Integer(), nullable=False),
+    op.create_table('event_participation',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('event_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['event_id'], ['event.id'], ),
-    sa.ForeignKeyConstraint(['participant_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('participant_id', 'event_id')
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('group_participation',
-    sa.Column('participant_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('group_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['group_id'], ['group.id'], ),
-    sa.ForeignKeyConstraint(['participant_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('participant_id', 'group_id')
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user__data',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('last_name', sa.String(length=120), nullable=False),
-    sa.Column('address', sa.String(length=120), nullable=False),
+    sa.Column('address', sa.String(length=120), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('profile_picture', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['profile_picture'], ['image.id'], ),
@@ -106,11 +114,11 @@ def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('user__data')
     op.drop_table('group_participation')
-    op.drop_table('event_participant')
+    op.drop_table('event_participation')
     op.drop_table('post')
     op.drop_table('image')
     op.drop_table('group')
-    op.drop_table('friend')
+    op.drop_table('form_friendship')
     op.drop_table('event')
     op.drop_table('user')
     # ### end Alembic commands ###

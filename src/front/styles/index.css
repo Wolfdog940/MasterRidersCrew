@@ -2,37 +2,202 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-    font-family: "Reenie Beanie", cursive;
-    margin: 0;
-    padding: 0;
-    background-image: url("https://i.ibb.co/hZc9bJH/pizarra.jpg%22");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-  }
-  
-section{
-    width: 100vw;
-    height: 100vh;
+  font-family: "Bebas Neue";
+  margin: 0;
+  width: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(252, 97, 13, 1) 11%,
+    rgba(181, 104, 61, 1) 50%,
+    rgba(52, 117, 148, 1) 75%,
+    rgba(7, 121, 179, 1) 83%,
+    rgba(7, 121, 179, 1) 84%
+  );
+  background-blend-mode: normal;
+  background-attachment: fixed;
+}
+
+section {
+  width: 100vw;
+  height: 800px;
 }
 
 form {
-    margin: auto auto;
-    color: white(0, 0, 0, 0.5);
-    border: 2px groove white;
-    border-radius: 5%;
-    width: 300px;
-    height: 350px;
+  margin: 2rem auto;
+  color: white(0, 0, 0, 0.5);
+
+  border-radius: 5%;
+  width: 300px;
+  height: 400px;
+}
+.signup_form {
+  margin: 2rem auto;
+  color: white(0, 0, 0, 0.5);
+
+  border-radius: 5%;
+  width: 350px;
+  height: 500px;
 }
 
-.input{
-    border: none;
+.link {
+  text-decoration: none;
+}
+input {
+  font-family: "Oswald", sans-serif;
+}
+input[type="email"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="password"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="name"]::placeholder {
+  color: white;
+
+  font-size: medium;
+}
+input[type="last_name"]::placeholder {
+  color: white;
+
+  font-size: medium;
 }
 
-.input::-webkit-input-placeholder {
-    color: white;
+.dropdown-toggle {
+  border: none;
+  color: white;
+}
+.dropdown-menu {
+  font-size: small;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
-.link{
-    text-decoration: none;
+.top-side {
+  position: absolute;
+  top: 55px;
+}
+.div-container {
+  width: 100%;
+  height: 100%;
+}
+.login,
+.signup {
+  font-family: "Bebas Neue";
+}
+.logo {
+  font-family: "Monoton";
+}
+.nav {
+  background: transparent;
+  backdrop-filter: blur(15px);
+}
+.scroll {
+  position: absolute;
+  top: 7%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 90vh;
+}
+a {
+  color: black;
+}
+a:hover {
+  color: blue;
+}
+.link:visited {
+  color: blue;
+}
+
+.event-post {
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+  padding: 35px;
+  border-radius: 10px;
+  max-width: 700px;
+  width: 450px;
+  color: white;
+  margin-top: 10px;
+}
+.title-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.event-scroll {
+  overflow-y: auto;
+}
+
+.event-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+.pEvent {
+  width: 70%;
+}
+.myTrash {
+  transition: transform 300ms ease-out;
+}
+.myTrash:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 50%;
+  transform: rotate(360deg) scale(1.5, 1.5);
+}
+
+.leaveBtn {
+  transition: transform 300ms ease-out;
+}
+.leaveBtn:hover {
+  transform: scale(0.8, 0.8);
+}
+.enterBtn {
+  transition: transform 300ms ease-out;
+}
+.enterBtn:hover {
+  transform: scale(0.8, 0.8);
+}
+.addBtn {
+  transition: transform 300ms ease-out;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
+}
+.addBtn:hover {
+  transform: scale(1.3, 1.3);
+  background-color: rgba(86, 170, 219, 0.3);
+}
+.searchBtn {
+  transition: transform 300ms ease-out;
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3);
+}
+.searchBtn:hover {
+  transform: scale(1.3, 1.3);
+  background-color: rgba(86, 170, 219, 0.3);
+}
+
+.moreInfo {
+  transition: transform 300ms ease-out;
+
+  border-radius: 50%;
+}
+.moreInfo:hover {
+  transform: scale(1.3, 1.3);
+  color: white;
+}
+.link:link {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 480px) {
+  .event-post {
+    width: 90%;
+  }
 }
