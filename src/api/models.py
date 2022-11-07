@@ -125,8 +125,8 @@ class Event(db.Model):
     origin_lat = db.Column(db.Float(), unique=False, nullable=False)
     destination_lon = db.Column(db.Float(), unique=False, nullable=False)
     destination_lat = db.Column(db.Float(), unique=False, nullable=False)
-    hours = db.Column(db.Integer, unique=False, nullable=False)
-    minutes = db.Column(db.Integer, unique=False, nullable=False)
+    hours = db.Column(db.String(), unique=False, nullable=False)
+    minutes = db.Column(db.String(), unique=False, nullable=False)
 
     def serialize(self):
         return {
