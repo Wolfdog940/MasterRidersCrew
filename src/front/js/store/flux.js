@@ -564,6 +564,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Peticion invalida/Invalid request");
           else if (resp.status === 200) setStore({ userData: data });
           if (data.profile_picture)
+          /* debugger; */
             getActions().getProfilePicture(data.profile_picture);
         } catch (error) {
           console.log(error);
@@ -591,7 +592,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
-
+      setProfilePicture: () => {
+        setStore({profilePicture: null});
+        getActions().getProfile();
+      },
       uploadImage: async (image) => {
         try {
           const resp = await fetch(
@@ -668,9 +672,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           });
           const data = await resp.json();
-          if (resp.status === 400) alert(data.msg)
+          if (resp.status === 400) console.log(data.msg)
           else if (resp.status !== 200) throw new Error("Invalid Request");
-          else if (resp.status === 200) alert(data.msg)
+          else if (resp.status === 200) console.log(data.msg)
         }
         catch (error){
           console.log(error);

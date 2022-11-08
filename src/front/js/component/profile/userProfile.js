@@ -134,6 +134,8 @@ const UserProfile2 = () => {
                     type="button"
                     className="btn btn-primary rounded-pill"
                     onClick={upload}
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
                   >
                     Subir foto
                   </button>
