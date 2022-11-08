@@ -47,7 +47,7 @@ const Login = () => {
             <input
               onChange={handleInputChange}
               type="email"
-              className="form-control rounded-pill bg-transparent my-2 text-center text-dark"
+              className="form-control rounded-pill bg-transparent my-2 text-center text-white"
               placeholder="email"
               required=""
             />
