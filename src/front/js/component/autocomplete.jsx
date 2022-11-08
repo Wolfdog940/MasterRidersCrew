@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 
 export const AutoComplete = (props) => {
@@ -80,9 +80,9 @@ export const AutoComplete = (props) => {
                 value={index}
               >
                 {city.address.name +
-                  " ," +
+                  ", " +
                   city.address.county +
-                  " ," +
+                  ", " +
                   city.address.country}
               </option>
             );
