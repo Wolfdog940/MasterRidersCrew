@@ -44,10 +44,10 @@ form {
 }
 input {
   font-family: "Oswald", sans-serif;
+  font-size: medium;
 }
 input[type="email"]::placeholder {
   color: white;
-
   font-size: medium;
 }
 input[type="password"]::placeholder {
@@ -194,6 +194,19 @@ a:hover {
 }
 .link:link {
   text-decoration: none;
+}
+
+.svgPencilPost{
+  transition: transform 300ms ease-out;
+}
+.svgPencilPost:hover{
+  transform: rotate(360deg) scale(1.7, 1.7);
+}
+.svgTrashPost{
+  transition: transform 300ms ease-out;
+}
+.svgTrashPost:hover{
+  transform: rotate(360deg) scale(1.7, 1.7);
 }
 
 @media screen and (max-width: 480px) {

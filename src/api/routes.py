@@ -698,7 +698,7 @@ def post_image():
 def delete_image(id):
     image = Image.query.get(id)
     if image is None:
-        return jsonify({"msg": "no picture to delete"})
+        return jsonify({"msg": "no picture to delete"}), 400
     db.session.delete(image)
     db.session.commit()
     return jsonify({"msg": "picture has been erased"}), 200
