@@ -33,10 +33,10 @@ const Login = () => {
           <h2 className="text-white mt-5 mb-0">Bienvenidos</h2>
         </div>
       </div>{" "}
-      <section className="d-flex justify-content-center align-items-center ">
+      <section className="d-flex justify-content-center align-items-center section-init ">
         <form
           onSubmit={handleSubmit}
-          className="d-flex flex-column align-items-center border-start border-bottom  border-white "
+          className="d-flex flex-column align-items-center border-start border-bottom  border-white login-form "
         >
           {" "}
           <div className="div_logo">
@@ -47,7 +47,7 @@ const Login = () => {
             <input
               onChange={handleInputChange}
               type="email"
-              className="form-control rounded-pill bg-transparent my-2 text-center text-dark"
+              className="form-control rounded-pill bg-transparent my-2 text-center text-white"
               placeholder="email"
               required=""
             />
@@ -64,7 +64,7 @@ const Login = () => {
           <div className="form-group w-25 my-2">
             <button
               type="submit"
-              className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-200"
+              className="form-control btn btn-light submit rounded-pill bg-transparent text-white  boton-log"
             >
               Entrar
             </button>

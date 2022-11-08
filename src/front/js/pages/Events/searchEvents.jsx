@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
+import "../../../styles/searhevents.css";
 registerLocale("es", es);
 
 const SearchEvents = () => {
@@ -20,10 +21,10 @@ const SearchEvents = () => {
   let eventsLength = null;
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     if (page > 1) {
@@ -130,49 +131,61 @@ const SearchEvents = () => {
     return (
       <div>
         <Navbar />
-        <form onSubmit={submitEvent}>
-          <div>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              minDate={new Date()}
-              maxDate={lastDate}
-              dateFormat="dd/MM/yyy"
-              locale="es"
-              placeholderText="Seleciona una fecha"
-            />
+        <div className="d-flex justify-content-center">
+          <div className="card ">
+            {" "}
+            <form onSubmit={submitEvent}>
+              <div>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  minDate={new Date()}
+                  maxDate={lastDate}
+                  dateFormat="dd/MM/yyy"
+                  locale="es"
+                  placeholderText="Seleciona una fecha"
+                />
+              </div>
+              <div className="mb-3 ">
+                <label htmlFor="nameInput" className="form-label">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="nameInput"
+                  aria-describedby="nameHelp"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="startInput" className="form-label">
+                  Inicio
+                </label>
+                <AutoComplete id="startInput" pokemon="inicio" />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="endInput" className="form-label">
+                  Final
+                </label>
+                <AutoComplete id="endInput" />
+              </div>
+              <div className="d-flex justify-content-center">
+                <button type="button" className="btn " onClick={submitEvent}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mb-3">
-            <label htmlFor="nameInput" className="form-label">
-              Nombre
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="nameInput"
-              aria-describedby="nameHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="startInput" className="form-label">
-              Inicio
-            </label>
-            <AutoComplete id="startInput" pokemon="inicio" />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="endInput" className="form-label">
-              Final
-            </label>
-            <AutoComplete id="endInput" />
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={submitEvent}
-          >
-            Buscar
-          </button>
-        </form>
+        </div>
         <div>
           <h1 className="text-white title-container">Todos los eventos</h1>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { ShowPost } from "../component/post/showPosts";
@@ -6,13 +6,12 @@ import { ShowPost } from "../component/post/showPosts";
 const UserHome = () => {
   let navigate = useNavigate();
 
-  useEffect(()=>{
-    if (!localStorage.getItem("token"))
-      navigate("/")
-  },[])
-  
+  useEffect(() => {
+    if (!localStorage.getItem("token")) navigate("/");
+  }, []);
+
   return (
-    <div className="home">
+    <div className="home ">
       <Navbar />
       <ShowPost />
     </div>
