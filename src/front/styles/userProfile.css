@@ -60,7 +60,7 @@ h2{
     border: none;
     border-radius: 50%;
     background: transparent;
-    transition: transform 300ms ease-out;
+    transition: transform 500ms ease-out;
 }
 .pencilPhoto{
     position: absolute;
@@ -70,14 +70,18 @@ h2{
     border: none;
     border-radius: 50%;
     padding: 1px;
-    transition: transform 300ms ease-out;
+    transition: transform 500ms ease-out;
 }
 .pencil:hover, .pencilPhoto:hover{
     background-color: transparent;
-    transform: rotate(360deg) scale(1.7, 1.7);
+    transform: rotate(720deg) scale(1.7, 1.7);
+    color: green;
 }
 .svgPencil{
     margin: 3px;
+}
+.svgPencil:hover{
+    color:green;
 }
 
 #form{

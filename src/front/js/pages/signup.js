@@ -34,7 +34,7 @@ const signUp = () => {
 
   return (
     <div className="">
-      <div className="d-flex justify-content-center align-items-center mt-5 flex-column">
+      <div className="d-flex justify-content-center align-items-center mt-2 flex-column">
         <div>
           <h1 className="logo text-white">*Riders|Crew*</h1>
         </div>

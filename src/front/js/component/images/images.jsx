@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Images = () => {
   const { store, actions } = useContext(Context);
   const [page, setPage] = useState(1);
+  const [bool, setBool] = useState(false);
   const maxPage = Math.ceil(store.amountUserImage / store.topImagePerPage);
   let navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Images = () => {
       navigate("/");
     }
     actions.getImages(page);
-  }, []);
+  }, [,bool]);
 
   useEffect(() => {
     if (page === 1) {
@@ -66,13 +67,16 @@ const Images = () => {
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
+                width="20"
+                height="20"
                 fill="currentColor"
-                className="bi bi-trash myTrashImage myPositionImageTrash"
-                onClick={() => {
-                  actions.updateProfile({ profile_picture: image.id });
-                  actions.getProfilePicture(image.id);
+                className="bi bi-trash myTrashImage myPositionImageTrash text-danger"
+                onClick={async() => {
+                  await actions.deleteImage(image.id);
+                  if (image.id === store.userData.profile_picture){
+                    actions.setProfilePicture();
+                  }
+                  setBool(prev => !prev);
                 }}
                 viewBox="0 0 16 16"
               >

@@ -16,10 +16,10 @@ const AllMyPosts = () => {
           return(
             <div className="post" key={index}>
               <div className="postText">
-                <p className="text-white">{post.text}</p>
+                <p>{post.text}</p>
               </div>
               <img className="postImage" src={post.image}></img>
-              <p className="text-white">{post.date}</p>
+              <p className="text-secondary text-end">{post.date}</p>
             </div>
           )
         }) 
