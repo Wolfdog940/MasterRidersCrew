@@ -53,7 +53,7 @@ const ModalNewEvent = () => {
             <form id="formulario" onSubmit={submitEvent}>
               <div>
                 <DatePicker
-                  className="mb-2"
+                  className="mb-2 w-100"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   minDate={new Date()}
@@ -121,7 +121,7 @@ const ModalNewEvent = () => {
             <button
               type="submit"
               form="formulario"
-              className="btn btn-primary"
+              className="btn btn-primary rounded-pill"
               data-bs-dismiss="modal"
             >
               Enviar

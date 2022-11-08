@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <div className="div-container">
-      <div className="d-flex justify-content-center align-items-center mt-5 flex-column">
+      <div className="d-flex justify-content-center align-items-center mt-2 flex-column">
         <div>
           <h1 className="logo text-white">*Riders|Crew*</h1>
         </div>
@@ -61,10 +61,10 @@ const Login = () => {
               required=""
             />
           </div>
-          <div className="form-group w-25 my-2">
+          <div className="form-group my-2">
             <button
               type="submit"
-              className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-200"
+              className="form-control btn btn-light submit rounded-pill bg-transparent text-white"
             >
               Entrar
             </button>

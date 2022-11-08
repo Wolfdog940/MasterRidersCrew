@@ -159,4 +159,7 @@
     width: 30px;
     height: 30px;
   }
+  .input-button {
+    font-size: small;
+  }
 }

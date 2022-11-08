@@ -34,7 +34,7 @@ const signUp = () => {
 
   return (
     <div className="">
-      <div className="d-flex justify-content-center align-items-center mt-5 flex-column">
+      <div className="d-flex justify-content-center align-items-center mt-2 flex-column">
         <div>
           <h1 className="logo text-white">*Riders|Crew*</h1>
         </div>
@@ -47,9 +47,6 @@ const signUp = () => {
           onSubmit={handleSubmit}
           className=" signup_form d-flex flex-column align-items-center border-start border-bottom  border-white"
         >
-          <div className="div_logo">
-            <h1 className="text-white my-3 logo">R|C</h1>
-          </div>
           <h3 className="text-white my-3 signup">Sign Up</h3>
           <h4 className="text-white border-bottom">Crea una nueva cuenta</h4>
           <div className="form-group d-flex justify-content-center">

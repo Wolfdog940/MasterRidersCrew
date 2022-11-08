@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
+import "../../../styles/searchEvent.css"
 registerLocale("es", es);
 
 const SearchEvents = () => {
@@ -20,10 +21,10 @@ const SearchEvents = () => {
   let eventsLength = null;
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
-  },[])
+  }, []);
 
   useEffect(() => {
     if (page > 1) {
@@ -130,74 +131,78 @@ const SearchEvents = () => {
     return (
       <div>
         <Navbar />
-        <form onSubmit={submitEvent}>
+        <div className="d-flex justify-content-center">
+          <div className="card ">
+            <form onSubmit={submitEvent}>
+              <div>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  minDate={new Date()}
+                  maxDate={lastDate}
+                  dateFormat="dd/MM/yyy"
+                  locale="es"
+                  placeholderText="Seleciona una fecha"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="nameInput" className="form-label">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="nameInput"
+                  aria-describedby="nameHelp"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="startInput" className="form-label">
+                  Inicio
+                </label>
+                <AutoComplete id="startInput" pokemon="inicio" />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="endInput" className="form-label">
+                  Final
+                </label>
+                <AutoComplete id="endInput" />
+              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={submitEvent}
+              >
+                Buscar
+              </button>
+            </form>
+          </div>
           <div>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              minDate={new Date()}
-              maxDate={lastDate}
-              dateFormat="dd/MM/yyy"
-              locale="es"
-              placeholderText="Seleciona una fecha"
-            />
+            <h1 className="text-white title-container">Todos los eventos</h1>
           </div>
-          <div className="mb-3">
-            <label htmlFor="nameInput" className="form-label">
-              Nombre
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="nameInput"
-              aria-describedby="nameHelp"
-            />
+          <div className="event-container event-scroll">
+            {events.map((item, i) => (
+              <IndividualAllEvents item={item} key={i} />
+            ))}
           </div>
-          <div className="mb-3">
-            <label htmlFor="startInput" className="form-label">
-              Inicio
-            </label>
-            <AutoComplete id="startInput" pokemon="inicio" />
+          <div className="w-100 d-flex justify-content-center mt-5">
+            {page >= 1 && page < Math.ceil(eventsLength / 5) ? (
+              <button
+                className="btn btn-primary mx-5"
+                onClick={() => setPage(page + 1)}
+              >
+                Siguiente
+              </button>
+            ) : null}
+            {page > 1 && page <= Math.ceil(eventsLength / 5) ? (
+              <button
+                className="btn btn-primary mx-5"
+                onClick={() => setPage(page - 1)}
+              >
+                Anterior
+              </button>
+            ) : null}
           </div>
-          <div className="mb-3">
-            <label htmlFor="endInput" className="form-label">
-              Final
-            </label>
-            <AutoComplete id="endInput" />
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={submitEvent}
-          >
-            Buscar
-          </button>
-        </form>
-        <div>
-          <h1 className="text-white title-container">Todos los eventos</h1>
-        </div>
-        <div className="event-container event-scroll">
-          {events.map((item, i) => (
-            <IndividualAllEvents item={item} key={i} />
-          ))}
-        </div>
-        <div className="w-100 d-flex justify-content-center mt-5">
-          {page >= 1 && page < Math.ceil(eventsLength / 5) ? (
-            <button
-              className="btn btn-primary mx-5"
-              onClick={() => setPage(page + 1)}
-            >
-              Siguiente
-            </button>
-          ) : null}
-          {page > 1 && page <= Math.ceil(eventsLength / 5) ? (
-            <button
-              className="btn btn-primary mx-5"
-              onClick={() => setPage(page - 1)}
-            >
-              Anterior
-            </button>
-          ) : null}
         </div>
       </div>
     );

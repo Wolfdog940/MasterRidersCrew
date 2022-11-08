@@ -54,6 +54,7 @@ export const AutoComplete = (props) => {
   return (
     <div className="d-flex justify-content-center text-dark">
       <input
+        className="w-100"
         type="text"
         id={props.id}
         list="list"

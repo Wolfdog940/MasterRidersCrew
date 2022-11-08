@@ -564,7 +564,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Peticion invalida/Invalid request");
           else if (resp.status === 200) setStore({ userData: data });
           if (data.profile_picture)
-          /* debugger; */
             getActions().getProfilePicture(data.profile_picture);
         } catch (error) {
           console.log(error);
