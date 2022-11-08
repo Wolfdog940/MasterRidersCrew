@@ -196,6 +196,19 @@ a:hover {
   text-decoration: none;
 }
 
+.svgPencilPost{
+  transition: transform 300ms ease-out;
+}
+.svgPencilPost:hover{
+  transform: rotate(360deg) scale(1.7, 1.7);
+}
+.svgTrashPost{
+  transition: transform 300ms ease-out;
+}
+.svgTrashPost:hover{
+  transform: rotate(360deg) scale(1.7, 1.7);
+}
+
 @media screen and (max-width: 480px) {
   .event-post {
     width: 90%;

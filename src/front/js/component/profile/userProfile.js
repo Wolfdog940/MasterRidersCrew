@@ -147,8 +147,8 @@ const UserProfile2 = () => {
         <div className="userData">
           <div className="userDescription d-flex justify-content-between">
             <div className="ms-4">
-              <h3 className="text-white">{`${store?.userData?.name} ${store?.userData?.last_name}`}</h3>
-              <p className="text-white">{store?.userData?.address}</p>
+              <h3 className="text-secondary">{`${store?.userData?.name} ${store?.userData?.last_name}`}</h3>
+              <p className="text-secondary">{store?.userData?.address}</p>
             </div>
             <button
               type="button"

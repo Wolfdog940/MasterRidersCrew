@@ -53,10 +53,8 @@
 }
 .myTrashImage {
   transition: transform 300ms ease-out;
-  color:white;
 }
 .myTrashImage:hover {
-  background-color: rgba(255, 0, 0, 0.5);
   border-radius: 50%;
   transform: rotate(360deg) scale(1.5, 1.5);
   

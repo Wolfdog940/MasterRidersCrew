@@ -136,6 +136,11 @@
   border-radius: 2px;
   width: 20px;
 }
+
+.custom-file-input{
+  width: 100%;
+}
+
 #prevButtonPost, #nextButtonPost{
   border-radius: 50%;
   background-color: rgba(67, 132, 156,.7);
@@ -149,5 +154,9 @@
 @media screen and (max-width: 480px){
   .pagination-container{
     width: 90%;
+  }
+  .image > img {
+    width: 30px;
+    height: 30px;
   }
 }
