@@ -44,10 +44,10 @@ form {
 }
 input {
   font-family: "Oswald", sans-serif;
+  font-size: medium;
 }
 input[type="email"]::placeholder {
   color: white;
-
   font-size: medium;
 }
 input[type="password"]::placeholder {

@@ -657,6 +657,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log(error);
         }
       },
+      deleteImage: async (id) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/user/image/delete/" + id,
+          {
+            method:"DELETE",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          });
+          const data = await resp.json();
+          if (resp.status === 400) alert(data.msg)
+          else if (resp.status !== 200) throw new Error("Invalid Request");
+          else if (resp.status === 200) alert(data.msg)
+        }
+        catch (error){
+          console.log(error);
+        }
+      },
 
       setNews: async () => {
         try {
