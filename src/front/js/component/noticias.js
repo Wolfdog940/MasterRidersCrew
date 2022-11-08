@@ -10,8 +10,8 @@ export const Noticias = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     actions.setNews();
   }, []);

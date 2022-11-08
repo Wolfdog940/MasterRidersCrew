@@ -5,7 +5,7 @@ body {
   font-family: "Bebas Neue";
   margin: 0;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
 
   background: linear-gradient(
     45deg,
@@ -220,5 +220,8 @@ a:hover {
   }
   .logo-rc {
     margin-top: 60px;
+  }
+  .boton-log {
+    width: auto;
   }
 }

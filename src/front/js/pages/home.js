@@ -64,7 +64,7 @@ const Login = () => {
           <div className="form-group w-25 my-2">
             <button
               type="submit"
-              className="form-control btn btn-light submit rounded-pill bg-transparent text-white w-200"
+              className="form-control btn btn-light submit rounded-pill bg-transparent text-white  boton-log"
             >
               Entrar
             </button>
