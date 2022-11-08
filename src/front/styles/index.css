@@ -5,6 +5,8 @@ body {
   font-family: "Bebas Neue";
   margin: 0;
   width: 100%;
+  overflow: hidden;
+
   background: linear-gradient(
     45deg,
     rgba(252, 97, 13, 1) 11%,
@@ -22,7 +24,7 @@ section {
   height: 800px;
 }
 
-form {
+.login-form {
   margin: 2rem auto;
   color: white(0, 0, 0, 0.5);
 
@@ -87,7 +89,8 @@ input[type="last_name"]::placeholder {
 .signup {
   font-family: "Bebas Neue";
 }
-.logo {
+.logo,
+.logo-rc {
   font-family: "Monoton";
 }
 .nav {
@@ -199,5 +202,23 @@ a:hover {
 @media screen and (max-width: 480px) {
   .event-post {
     width: 90%;
+  }
+  .login-form {
+    margin-top: 30px;
+    margin-bottom: 30%;
+
+    width: 80%;
+  }
+  .signup_form {
+    margin-top: 125px;
+    margin-bottom: 30%;
+    height: 400px;
+    width: 80%;
+  }
+  .section-init {
+    height: 500px;
+  }
+  .logo-rc {
+    margin-top: 60px;
   }
 }

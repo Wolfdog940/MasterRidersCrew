@@ -39,17 +39,15 @@ const signUp = () => {
           <h1 className="logo text-white">*Riders|Crew*</h1>
         </div>
         <div className="logo">
-          <h2 className="text-white mt-5 mb-0">Bienvenidos</h2>
+          <h2 className="text-white mt-2 mb-0">Bienvenidos</h2>
         </div>
       </div>
-      <section className="d-flex justify-content-center align-items-center ">
+
+      <section className="d-flex justify-content-center align-items-center section-init ">
         <form
           onSubmit={handleSubmit}
           className=" signup_form d-flex flex-column align-items-center border-start border-bottom  border-white"
         >
-          <div className="div_logo">
-            <h1 className="text-white my-3 logo">R|C</h1>
-          </div>
           <h3 className="text-white my-3 signup">Sign Up</h3>
           <h4 className="text-white border-bottom">Crea una nueva cuenta</h4>
           <div className="form-group d-flex justify-content-center">
