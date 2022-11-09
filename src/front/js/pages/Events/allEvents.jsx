@@ -38,7 +38,7 @@ const AllEvents = (props) => {
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item, i) => (
-            <div style={{ width: "700px" }} key={i}>
+            <div style={{ width: "100%" }} key={i}>
               <IndividualAllEvents item={item} deleteEvent={deleteEvent} />
             </div>
           ))}
