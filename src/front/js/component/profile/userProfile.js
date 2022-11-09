@@ -54,6 +54,9 @@ const UserProfile2 = () => {
     let button = document.querySelector("#actualizar");
     //button.disabled = true;
     alert("Datos Actualizados");
+    document.getElementById("name").value = "";
+    document.getElementById("last_name").value = "";
+    document.getElementById("address").value = "";
   }
 
   return (

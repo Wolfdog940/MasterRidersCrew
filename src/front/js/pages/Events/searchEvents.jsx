@@ -135,10 +135,7 @@ const SearchEvents = () => {
         <Navbar />
         <div className="d-flex justify-content-center">
           <div className="card ">
-
-
             {" "}
-
             <form onSubmit={submitEvent}>
               <div>
                 <DatePicker
@@ -153,10 +150,7 @@ const SearchEvents = () => {
                 />
               </div>
 
-              
-
               <div className="mb-3 ">
-
                 <label htmlFor="nameInput" className="form-label">
                   Nombre
                 </label>
@@ -179,7 +173,7 @@ const SearchEvents = () => {
                 </label>
                 <AutoComplete id="endInput" />
               </div>
-              
+
               <div className="d-flex justify-content-center">
                 <button type="button" className="btn " onClick={submitEvent}>
                   <svg
@@ -222,7 +216,6 @@ const SearchEvents = () => {
               Anterior
             </button>
           ) : null}
-
         </div>
       </div>
     );
