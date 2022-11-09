@@ -186,16 +186,34 @@ class Image(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(5000), unique=False, nullable=True)
-    image = db.Column(db.String(), unique=False, nullable=True)
+
     created_at = db.Column(DateTime, nullable=False,
                            default=datetime.datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    image_id = db.Column(db.Integer, db.ForeignKey('image.id'), nullable=True)
+
+    def serialize_image(self):
+        if self.image_id is None:
+            return self.serialize()
+
+        image = Image.query.get(self.image_id)
+        image = image.serialize()
+
+        return {
+            "id": self.id,
+            "text": self.text,
+            "image": image["image"],
+            "image_id": self.image_id,
+            "date": self.created_at,
+            "user_id": self.user_id
+
+        }
 
     def serialize(self):
         return {
             "id": self.id,
             "text": self.text,
-            "image": self.image,
+
             "date": self.created_at,
             "user_id": self.user_id
         }

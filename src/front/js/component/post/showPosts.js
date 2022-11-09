@@ -110,7 +110,7 @@ export const ShowPost = () => {
       <div className="createPostContainer">
         <div className="profile-image-container">
           <div className="image">
-            <img clasName="img-profile" src={store.profilePicture} />
+            <img className="img-profile" src={store.profilePicture} />
           </div>
         </div>
         <div className="new-post-input">
@@ -314,7 +314,9 @@ export const ShowPost = () => {
                       alt="Post image"
                     />
                   ) : null}
-                  <p className="postDate text-secondary text-end">{post.date}</p>
+                  <p className="postDate text-secondary text-end">
+                    {post.date}
+                  </p>
                 </div>
               );
             })

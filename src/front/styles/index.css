@@ -222,6 +222,7 @@ a:hover {
 @media screen and (max-width: 480px) {
   .event-post {
     width: 90%;
+    padding: 5px;
   }
   .login-form {
     margin-top: 30px;
@@ -248,5 +249,14 @@ a:hover {
   }
   .boton-log {
     width: auto;
+  }
+  .hidden {
+    display: none;
+  }
+  .post-text {
+    float: left;
+  }
+  .event-container {
+    width: 90%;
   }
 }
