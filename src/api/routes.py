@@ -443,20 +443,25 @@ def leave_event():
 
 
 @api.route("/searchevent/<name>/<start>/<end>/<date>/<int:page>", methods=["GET"])
-def search_event(name, start, date, end, page):
+def search_event(name, start, end, date, page):
     searchQuery = ""
     if name != "any":
         searchQuery = ".filter_by(name = name)"
     if start != "any":
+        start.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(start = start)"
     if date != "any":
         searchQuery = searchQuery + ".filter_by(date = date)"
     if end != "any":
+        end.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(end = end)"
+        print(searchQuery)
     if date != "any":
         date.replace("%", " ")
-        searchQuery = ".filter_by(date = date)"
+        searchQuery = searchQuery + ".filter_by(date = date)"
     per_page = 5
+    print("@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(searchQuery)
     amount_participation = eval(
         "Event.query.order_by(Event.id.desc())"+searchQuery+".count()")
     all_events = eval("Event.query.order_by(Event.id.desc())" +
@@ -513,8 +518,6 @@ def create_post():
         image_id=image,
         user_id=current_user_id
     )
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(new_post.serialize())
     db.session.add(new_post)
     db.session.commit()
     return jsonify(Post.serialize(new_post)), 200
@@ -692,9 +695,15 @@ def post_image():
 @api.route("/user/image/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_image(id):
+    current_user_id = get_jwt_identity()
     image = Image.query.get(id)
     if image is None:
         return jsonify({"msg": "no picture to delete"}), 400
+    if image.owner_id != current_user_id:
+        return jsonify({"msg": "not the user"}), 400
+    checkPost = Post.query.filter_by(image_id=id)
+    if checkPost is not None:
+        return jsonify({"msg": "delete the post before"}), 401
     db.session.delete(image)
     db.session.commit()
     return jsonify({"msg": "picture has been erased"}), 200

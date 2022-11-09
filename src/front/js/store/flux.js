@@ -586,13 +586,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (resp.status === 200) {
             setStore({ userData: data });
             return true;
-          } else return false; 
+          } else return false;
         } catch (error) {
           console.log(error);
         }
       },
       setProfilePicture: () => {
-        setStore({profilePicture: null});
+        setStore({ profilePicture: null });
         getActions().getProfile();
       },
       uploadImage: async (image) => {
@@ -661,21 +661,24 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       deleteImage: async (id) => {
-        try{
-          const resp = await fetch(process.env.BACKEND_URL + "/api/user/image/delete/" + id,
-          {
-            method:"DELETE",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token")
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/user/image/delete/" + id,
+            {
+              method: "DELETE",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
             }
-          });
+          );
           const data = await resp.json();
-          if (resp.status === 400) console.log(data.msg)
+          if (data.msg == "delete the post before")
+            alert("Borra primero el post");
+          if (resp.status === 400) console.log(data.msg);
           else if (resp.status !== 200) throw new Error("Invalid Request");
-          else if (resp.status === 200) console.log(data.msg)
-        }
-        catch (error){
+          else if (resp.status === 200) console.log(data.msg);
+        } catch (error) {
           console.log(error);
         }
       },
