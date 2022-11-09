@@ -11,8 +11,8 @@ const AllEvents = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     if (props.noParams) {
       page = 1;
@@ -38,7 +38,7 @@ const AllEvents = (props) => {
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item, i) => (
-            <div key={i}>
+            <div style={{ width: "700px" }} key={i}>
               <IndividualAllEvents item={item} deleteEvent={deleteEvent} />
             </div>
           ))}

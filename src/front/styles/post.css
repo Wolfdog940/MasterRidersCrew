@@ -137,12 +137,12 @@
   width: 20px;
 }
 
-.custom-file-input{
+.custom-file-input {
   width: 100%;
 }
 
-#prevButtonPost, #nextButtonPost{
-
+#prevButtonPost,
+#nextButtonPost {
   border-radius: 50%;
   background-color: rgba(67, 132, 156, 0.7);
   transition: transform 300ms ease-out;
@@ -165,4 +165,3 @@
     font-size: small;
   }
 }
-
