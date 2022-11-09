@@ -16,13 +16,14 @@ const Images = () => {
       navigate("/");
     }
     actions.getImages(page);
-  }, [,bool]);
+  }, [, bool]);
 
   useEffect(() => {
     if (page === 1) {
       let prevButton = document.querySelector("#prevButton");
       prevButton.disabled = true;
-    } else if (page >= maxPage) {
+    }
+    if (page >= maxPage) {
       let nextButton = document.querySelector("#nextButton");
       nextButton.disabled = true;
     }
@@ -71,12 +72,12 @@ const Images = () => {
                 height="20"
                 fill="currentColor"
                 className="bi bi-trash myTrashImage myPositionImageTrash text-danger"
-                onClick={async() => {
+                onClick={async () => {
                   await actions.deleteImage(image.id);
-                  if (image.id === store.userData.profile_picture){
+                  if (image.id === store.userData.profile_picture) {
                     actions.setProfilePicture();
                   }
-                  setBool(prev => !prev);
+                  setBool((prev) => !prev);
                 }}
                 viewBox="0 0 16 16"
               >

@@ -485,7 +485,7 @@ def get_all_post(page, per_page):
 
     all_post = list(map(lambda x: x.serialize_image(), all_post))
 
-    return jsonify(all_post), 200
+    return jsonify(all_post, count_all_posts), 200
 
 
 @api.route("/all_user_posts", methods=["GET"])

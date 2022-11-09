@@ -6,12 +6,11 @@ export const ShowPost = () => {
   const { store, actions } = useContext(Context);
   const [form, setForm] = useState();
   const [page, setPage] = useState(1);
+  const [imageToStore, setImageToStore] = useState();
   const formToEdit = useRef();
   const maxPage = 5;
   let navigate = useNavigate();
-
-  const [imageToStore, setImageToStore] = useState();
-
+  const maxPageControl = Math.ceil(store.amountAllPosts / maxPage);
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/");
@@ -27,7 +26,11 @@ export const ShowPost = () => {
     } else {
       prevButton.disabled = false;
     }
-    nextButton.disabled = false;
+    if (page >= maxPageControl) {
+      nextButton.disabled = false;
+    } else {
+      nextButton.disabled = true;
+    }
   }, [page]);
 
   const getAllPosts = async (page, maxPage) => {
@@ -37,7 +40,7 @@ export const ShowPost = () => {
   const prevImages = async () => {
     await actions.getPosts(page - 1, maxPage);
     await actions.updateMaxPosts();
-    setPage((page) => page - 1);
+    setPage(page - 1);
   };
 
   const nextImages = async () => {
@@ -46,7 +49,7 @@ export const ShowPost = () => {
       let nextButton = document.querySelector("#nextButtonPost");
       nextButton.disabled = true;
     } else {
-      setPage((page) => page + 1);
+      setPage(page + 1);
     }
   };
 
@@ -82,13 +85,15 @@ export const ShowPost = () => {
     id = await actions.uploadImage(imageToStore);
     let postToCreate = null;
     postToCreate = {
-      text: form.textarea,
+      text: document.getElementById("exampleFormControlTextarea1").value,
       image: id,
     };
     await actions.createPost(postToCreate);
     await getAllPosts(page, maxPage);
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
+    setImageToStore();
+    form.textarea = null;
   };
 
   const handleImage = (file) => {
@@ -104,7 +109,8 @@ export const ShowPost = () => {
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.type]: e.target.value });
   };
-
+  let language = `${navigator.language}-${navigator.language.toUpperCase()}`;
+  debugger;
   return (
     <div className="post-container ">
       <div className="createPostContainer">
@@ -153,7 +159,6 @@ export const ShowPost = () => {
                   <div className="form-group">
                     <label>Texto</label>
                     <textarea
-                      onChange={handleInputChange}
                       className="form-control"
                       id="exampleFormControlTextarea1"
                       rows="3"
@@ -254,6 +259,14 @@ export const ShowPost = () => {
             <p className="noPostAvailable">No hay post disponibles</p>
           ) : (
             store.allPosts.map((post, key) => {
+              try {
+                const date = new Date(post.date);
+                const dateTransformation = new Intl.DateTimeFormat(language, {
+                  dateStyle: "full",
+                  timeStyle: "medium",
+                }).format(date);
+                post.date = dateTransformation;
+              } catch {}
               return (
                 <div key={key} className="post d-flex flex-column">
                   <div className="postText">

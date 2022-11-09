@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       nextPage: 0,
       originCoords: { lon: null, lat: null },
       destinationCoords: { lon: null, lat: null },
+      amountAllPosts: 0,
     },
     actions: {
       setOriginCoords: (lon, lat) => {
@@ -125,7 +126,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const data = await resp.json();
-          setStore({ allPosts: data });
+          debugger;
+          setStore({ allPosts: data[0] });
+          setStore({ amountAllPosts: data[1] });
           return data;
         } catch (error) {
           setStore({ maxPosts: true });

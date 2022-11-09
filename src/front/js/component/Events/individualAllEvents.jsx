@@ -35,7 +35,6 @@ const IndividualAllEvents = (props) => {
     var id = params.eventId;
     actions.unsubscribeEvent(id);
   };
-  debugger;
 
   return (
     <div className="event-post container">
