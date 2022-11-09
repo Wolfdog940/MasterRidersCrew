@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { Weather } from "../weather.jsx";
-
 const IndividualAllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
@@ -10,32 +9,28 @@ const IndividualAllEvents = (props) => {
   const nav = useNavigate();
 
   useEffect(() => {
-    const synchEffect = async () => {
-      setEvent(props.item);
-      await actions.listEvents();
-      setEventParticipation(actions.searchEvent(props.item.id));
-    };
-    synchEffect();
+    setEvent(props.item);
+    actions.listEvents();
+    setEventParticipation(actions.searchEvent(event.id));
   }, []);
 
   useEffect(() => {
     if (store.userEventParticipation.length > 0) {
-      setEventParticipation(actions.searchEvent(props.item.id));
+      setEventParticipation(actions.searchEvent(event.id));
     }
   }, [store.eventParticipation]);
 
-  const subscribe = async (e) => {
+  const subscribe = (e) => {
     e.preventDefault();
-    await actions.joinEvent(props.item.id);
-    await actions.listEvents();
-    setEventParticipation(actions.searchEvent(props.item.id));
+
+    var id = event.id;
+    actions.joinEvent(id);
   };
 
-  const unsubscribe = async (e) => {
+  const unsubscribe = (e) => {
     e.preventDefault();
-    await actions.unsubscribeEvent(props.item.id);
-    await actions.listEvents();
-    setEventParticipation(actions.searchEvent(props.item.id));
+    var id = params.eventId;
+    actions.unsubscribeEvent(id);
   };
 
   return (
@@ -53,7 +48,7 @@ const IndividualAllEvents = (props) => {
         </div>
         <div>
           <div className="d-flex">
-            <label htmlFor="date" className="text-secondary">
+            <label htmlFor="date" className="text-secondary hidden">
               Fecha
             </label>
             <p id="date" className="postText justify-content-end">
@@ -61,7 +56,7 @@ const IndividualAllEvents = (props) => {
             </p>
           </div>
           <div className="d-flex">
-            <label htmlFor="start" className="text-secondary">
+            <label htmlFor="start" className="text-secondary hidden">
               Origen
             </label>
             <p id="start" className="postText justify-content-end">
@@ -76,7 +71,7 @@ const IndividualAllEvents = (props) => {
             )}
           </div>
           <div className="d-flex">
-            <label htmlFor="end" className="text-secondary">
+            <label htmlFor="end" className="text-secondary hidden">
               Destino
             </label>
             <p id="end" className="postText justify-content-end">
@@ -94,7 +89,7 @@ const IndividualAllEvents = (props) => {
             )}
           </div>
           <div className="d-flex justify-content-between">
-            <label htmlFor="description" className="text-secondary">
+            <label htmlFor="description" className="text-secondary hidden">
               Descripcion
             </label>
             <p id="description" className="postText justify-content-end pEvent">
@@ -104,11 +99,17 @@ const IndividualAllEvents = (props) => {
         </div>
         <div className="d-flex justify-content-evenly">
           {eventParticipation ? (
-            <button onClick={unsubscribe} className="btn btn-outline-warning leaveBtn">
+            <button
+              onClick={unsubscribe}
+              className="btn btn-outline-warning leaveBtn"
+            >
               Abandonar evento
             </button>
           ) : (
-            <button onClick={subscribe} className="btn btn-outline-success enterBtn">
+            <button
+              onClick={subscribe}
+              className="btn btn-outline-success enterBtn"
+            >
               Inscribirse en el evento
             </button>
           )}

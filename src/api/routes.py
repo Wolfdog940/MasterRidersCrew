@@ -481,12 +481,9 @@ def get_all_post(page, per_page):
     all_post = Post.query.order_by(Post.id.desc()).paginate(
         page=page, per_page=per_page)
 
-    for post in all_post:
-        image = Image.query.get(post.image)
-        post.image = image.image
-        post_array.append(post)
+    all_post = list(map(lambda x: x.serialize_image(), all_post))
 
-    return jsonify([Post.serialize(post) for post in all_post]), 200
+    return jsonify(all_post), 200
 
 
 @api.route("/all_user_posts", methods=["GET"])
@@ -499,12 +496,9 @@ def get_by_user():
     if len(all_post) == 0:
         return jsonify({"msg": "You don't have any posts"}), 404
 
-    for post in all_post:
-        image = Image.query.get(post.image)
-        post.image = image.image
-        post_array.append(post)
+    all_post = list(map(lambda x: x.serialize_image(), all_post))
 
-    return jsonify([Post.serialize(post) for post in all_post]), 200
+    return jsonify(all_post), 200
 
 
 @api.route("/create_post", methods=["POST"])
@@ -516,9 +510,11 @@ def create_post():
 
     new_post = Post(
         text=text,
-        image=image,
+        image_id=image,
         user_id=current_user_id
     )
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(new_post.serialize())
     db.session.add(new_post)
     db.session.commit()
     return jsonify(Post.serialize(new_post)), 200

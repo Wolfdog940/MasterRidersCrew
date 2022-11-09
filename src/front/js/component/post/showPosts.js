@@ -314,7 +314,9 @@ export const ShowPost = () => {
                       alt="Post image"
                     />
                   ) : null}
-                  <p className="postDate text-secondary text-end">{post.date}</p>
+                  <p className="postDate text-secondary text-end">
+                    {post.date}
+                  </p>
                 </div>
               );
             })
