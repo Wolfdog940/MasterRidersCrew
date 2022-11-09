@@ -89,6 +89,7 @@ export const ShowPost = () => {
     await getAllPosts(page, maxPage);
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
+  
   };
 
   const handleImage = (file) => {
