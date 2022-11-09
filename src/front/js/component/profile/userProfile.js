@@ -13,8 +13,8 @@ const UserProfile2 = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     actions.getProfile();
   }, [, store.profilePicture]);
@@ -61,8 +61,7 @@ const UserProfile2 = () => {
       <Navbar />
       <h2 className="text-white m-auto mt-4 text-center">Mis Datos</h2>
       <div className="userContainer">
-        <div className="userBackground">
-        </div>
+        <div className="userBackground"></div>
         <div className="userPhoto">
           {store.profilePicture ? (
             <img src={store.profilePicture} className="picture" />
@@ -227,6 +226,8 @@ const UserProfile2 = () => {
                       className="btn btn-primary rounded-pill"
                       id="update"
                       disabled={true}
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
                     >
                       Cambiar
                     </button>
@@ -239,7 +240,7 @@ const UserProfile2 = () => {
       </div>
       <h2 className="text-white m-auto text-center">Mis Post</h2>
       <AllMyPosts />
-      <AllEvents noNavBar={true} noParams={true}/>
+      <AllEvents noNavBar={true} noParams={true} />
     </>
   );
 };

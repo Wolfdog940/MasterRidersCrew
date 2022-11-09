@@ -12,8 +12,8 @@ const AllPublicEvents = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     actions.getPublicEvents(page, per_page);
   }, [, page]);
@@ -93,9 +93,11 @@ const AllPublicEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
-            <div key={i}>
-              <IndividualAllEvents item={item} deleteEvent={deleteEvent} />
-            </div>
+            <IndividualAllEvents
+              key={i}
+              item={item}
+              deleteEvent={deleteEvent}
+            />
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

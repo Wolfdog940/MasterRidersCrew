@@ -134,9 +134,9 @@ a:hover {
   margin-bottom: 10px;
 }
 
-.event-scroll {
+/* .event-scroll {
   overflow-y: auto;
-}
+} */
 
 .event-container {
   display: flex;
@@ -213,6 +213,10 @@ a:hover {
 }
 .svgTrashPost:hover {
   transform: rotate(360deg) scale(1.7, 1.7);
+}
+
+.post-margin {
+  width: 100%;
 }
 
 @media screen and (max-width: 480px) {

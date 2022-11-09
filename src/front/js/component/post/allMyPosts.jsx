@@ -11,25 +11,23 @@ const AllMyPosts = () => {
 
   return (
     <ul className="listaPost">
-      {store.postByUser && store.postByUser.length ? ( 
-        store.postByUser.map((post, index)=>{
-          return(
+      {store.postByUser && store.postByUser.length ? (
+        store.postByUser.map((post, index) => {
+          return (
             <div className="post" key={index}>
               <div className="postText">
                 <p>{post.text}</p>
               </div>
               <img className="postImage" src={post.image}></img>
-              <p className="text-secondary text-end">{post.date}</p>
+              <p className="text-secondary text-end mt-4">{post.date}</p>
             </div>
-          )
-        }) 
+          );
+        })
       ) : (
         <p>Nada que mostrar</p>
-      )
-      }
+      )}
     </ul>
   );
 };
-
 
 export default AllMyPosts;
