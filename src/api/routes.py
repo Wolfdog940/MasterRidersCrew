@@ -455,13 +455,10 @@ def search_event(name, start, end, date, page):
     if end != "any":
         end.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(end = end)"
-        print(searchQuery)
     if date != "any":
         date.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(date = date)"
     per_page = 5
-    print("@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(searchQuery)
     amount_participation = eval(
         "Event.query.order_by(Event.id.desc())"+searchQuery+".count()")
     all_events = eval("Event.query.order_by(Event.id.desc())" +
@@ -518,6 +515,7 @@ def create_post():
         image_id=image,
         user_id=current_user_id
     )
+
     db.session.add(new_post)
     db.session.commit()
     return jsonify(Post.serialize(new_post)), 200

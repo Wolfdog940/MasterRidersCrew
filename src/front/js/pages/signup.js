@@ -20,15 +20,25 @@ const signUp = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    actions.signup(valores);
-    nav("/");
+
+    if (validado) {
+      actions.signup(valores);
+      nav("/");
+    } else {
+      document.getElementById("password").value = "";
+      document.getElementById("password2").value = "";
+    }
   }
 
   function validarPwd() {
-    let input1 = document.getElementById("password1");
-    let input2 = document.getElementById("password2");
-    if (input1 != null && input2 != null) {
-      if (input1.value == input2.value) setValidado(true);
+    let input1 = document.getElementById("password").value;
+    let input2 = document.getElementById("password2").value;
+    if (input1.length > 0 && input2.length > 0) {
+      if (input1.value == input2.value) {
+        setValidado(true);
+      }
+    } else {
+      setValidado(false);
     }
   }
 
@@ -93,6 +103,7 @@ const signUp = () => {
 
           <div className="form-group d-flex justify-content-center">
             <input
+              id="password2"
               type={showpwd ? "text" : "password"}
               className="form-control rounded-pill bg-transparent my-2 text-center text-white"
               placeholder="validar Password"
