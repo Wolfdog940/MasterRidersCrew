@@ -110,7 +110,7 @@ export const ShowPost = () => {
       <div className="createPostContainer">
         <div className="profile-image-container">
           <div className="image">
-            <img clasName="img-profile" src={store.profilePicture} />
+            <img className="img-profile" src={store.profilePicture} />
           </div>
         </div>
         <div className="new-post-input">
