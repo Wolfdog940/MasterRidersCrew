@@ -142,6 +142,7 @@ const SearchEvents = () => {
             <form onSubmit={submitEvent}>
               <div>
                 <DatePicker
+                  className="datePickerLong"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   minDate={new Date()}

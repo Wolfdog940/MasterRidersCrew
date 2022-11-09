@@ -221,7 +221,7 @@ a:hover {
 
 @media screen and (max-width: 480px) {
   .event-post {
-    width: 90%;
+    width: 78%;
     padding: 5px;
   }
   .login-form {
@@ -230,10 +230,10 @@ a:hover {
 
     width: 80%;
   }
-
+/* 
   form {
     width: 80%;
-  }
+  } */
   .signup_form {
     margin-top: 1rem;
 
