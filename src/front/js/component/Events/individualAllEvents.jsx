@@ -10,8 +10,11 @@ const IndividualAllEvents = (props) => {
 
   useEffect(() => {
     setEvent(props.item);
-    actions.listEvents();
-    setEventParticipation(actions.searchEvent(event.id));
+    let synchEffect = async () => {
+      await actions.listEvents();
+      setEventParticipation(actions.searchEvent(event.id));
+    };
+    synchEffect;
   }, []);
 
   useEffect(() => {

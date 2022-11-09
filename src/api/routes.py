@@ -443,19 +443,21 @@ def leave_event():
 
 
 @api.route("/searchevent/<name>/<start>/<end>/<date>/<int:page>", methods=["GET"])
-def search_event(name, start, date, end, page):
+def search_event(name, start, end, date, page):
     searchQuery = ""
     if name != "any":
         searchQuery = ".filter_by(name = name)"
     if start != "any":
+        start.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(start = start)"
     if date != "any":
         searchQuery = searchQuery + ".filter_by(date = date)"
     if end != "any":
+        end.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(end = end)"
     if date != "any":
         date.replace("%", " ")
-        searchQuery = ".filter_by(date = date)"
+        searchQuery = searchQuery + ".filter_by(date = date)"
     per_page = 5
     amount_participation = eval(
         "Event.query.order_by(Event.id.desc())"+searchQuery+".count()")
@@ -483,7 +485,7 @@ def get_all_post(page, per_page):
 
     all_post = list(map(lambda x: x.serialize_image(), all_post))
 
-    return jsonify(all_post), 200
+    return jsonify(all_post, count_all_posts), 200
 
 
 @api.route("/all_user_posts", methods=["GET"])
@@ -691,9 +693,15 @@ def post_image():
 @api.route("/user/image/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_image(id):
+    current_user_id = get_jwt_identity()
     image = Image.query.get(id)
     if image is None:
         return jsonify({"msg": "no picture to delete"}), 400
+    if image.owner_id != current_user_id:
+        return jsonify({"msg": "not the user"}), 400
+    checkPost = Post.query.filter_by(image_id=id)
+    if checkPost is not None:
+        return jsonify({"msg": "delete the post before"}), 401
     db.session.delete(image)
     db.session.commit()
     return jsonify({"msg": "picture has been erased"}), 200
