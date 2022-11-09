@@ -513,8 +513,7 @@ def create_post():
         image_id=image,
         user_id=current_user_id
     )
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(new_post.serialize())
+
     db.session.add(new_post)
     db.session.commit()
     return jsonify(Post.serialize(new_post)), 200
