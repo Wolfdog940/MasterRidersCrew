@@ -62,7 +62,7 @@ const UserProfile2 = () => {
   return (
     <>
       <Navbar />
-      <h2 className="text-white m-auto mt-4 text-center">Mis Datos</h2>
+      <h2 className="text-white m-auto mt-2 text-center">Mis Datos</h2>
       <div className="userContainer">
         <div className="userBackground"></div>
         <div className="userPhoto">
