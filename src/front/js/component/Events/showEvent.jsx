@@ -61,25 +61,25 @@ const ShowEvent = () => {
     <div>
       <Navbar />
       <div className="event-container event-scroll">
-        <iframe src={event.map} width="800" height="600"></iframe>
+        <iframe src={event.map} style={{"width":"80%", "max-width":"700px", "height":"500px"}}></iframe>
         <div className="event-post">
-          <label for="name">Nombre del evento</label>
+          <label htmlFor="name">Nombre del evento</label>
           <h5 id="name" className="card-title">
             {event.name}
           </h5>
-          <label for="date">Fecha</label>
+          <label htmlFor="date">Fecha</label>
           <p id="date" className="postText">
             {event.date} a las {event.hours}:{event.minutes}
           </p>
-          <label for="start">Ciudad de inicio</label>
+          <label htmlFor="start">Ciudad de inicio</label>
           <p id="start" className="postText">
             {event.start}
           </p>
-          <label for="end">Ciudad de destino</label>
+          <label htmlFor="end">Ciudad de destino</label>
           <p id="end" className="postText">
             {event.end}
           </p>
-          <label for="description">Descripcion</label>
+          <label htmlFor="description">Descripcion</label>
           <p id="description" className="postText">
             {event.description}
           </p>

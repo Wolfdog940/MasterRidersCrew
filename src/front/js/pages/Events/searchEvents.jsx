@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 
-import "../../../styles/searhevents.css";
+import "../../../styles/searchEvent.css";
 
 registerLocale("es", es);
 
@@ -148,6 +148,7 @@ const SearchEvents = () => {
             <form onSubmit={submitEvent}>
               <div>
                 <DatePicker
+                  className="datePickerLong"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   minDate={new Date()}
@@ -189,7 +190,7 @@ const SearchEvents = () => {
                     width="16"
                     height="16"
                     fill="currentColor"
-                    class="bi bi-search"
+                    className="bi bi-search"
                     viewBox="0 0 16 16"
                   >
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />

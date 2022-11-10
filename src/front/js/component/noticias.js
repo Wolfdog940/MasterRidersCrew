@@ -19,7 +19,7 @@ export const Noticias = () => {
   return (
     <div className="container-fluid m-0  ">
       <Navbar />
-      <div className="scroll d-flex flex-column align-items-center overflow-auto">
+      <div className="scroll d-flex flex-column align-items-center overflow-auto mt-2">
         {store.newsPage
           ? store.newsPage.map((item, i) => <NewsCard key={i} item={item} />)
           : null}

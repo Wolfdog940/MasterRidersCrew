@@ -62,7 +62,7 @@ const UserProfile2 = () => {
   return (
     <>
       <Navbar />
-      <h2 className="text-white m-auto mt-4 text-center">Mis Datos</h2>
+      <h2 className="text-white m-auto mt-2 text-center">Mis Datos</h2>
       <div className="userContainer">
         <div className="userBackground"></div>
         <div className="userPhoto">
@@ -199,7 +199,6 @@ const UserProfile2 = () => {
                           id="name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -208,7 +207,6 @@ const UserProfile2 = () => {
                           id="last_name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -217,7 +215,6 @@ const UserProfile2 = () => {
                           id="address"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                     </form>
