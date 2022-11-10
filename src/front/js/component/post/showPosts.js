@@ -255,7 +255,7 @@ export const ShowPost = () => {
         </div>
         {/* listar todos los posts */}
         <ul>
-          {store.allPosts.msg ? (
+          {store.allPosts <= 0 ? (
             <p className="noPostAvailable">No hay post disponibles</p>
           ) : (
             store.allPosts.map((post, key) => {
