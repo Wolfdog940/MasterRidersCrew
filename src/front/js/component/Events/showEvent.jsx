@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../navbar";
+import "../../../"
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
@@ -61,7 +62,7 @@ const ShowEvent = () => {
     <div>
       <Navbar />
       <div className="event-container event-scroll">
-        <iframe src={event.map} style={{"width":"80%", "max-width":"700px", "height":"500px"}}></iframe>
+        <iframe src={event.map} style={{"width":"80%", "maxWidth":"700px", "height":"500px"}}></iframe>
         <div className="event-post">
           <label htmlFor="name">Nombre del evento</label>
           <h5 id="name" className="card-title">

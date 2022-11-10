@@ -23,14 +23,10 @@ export const ShowPost = () => {
     let nextButton = document.querySelector("#nextButtonPost");
     if (page === 1) {
       prevButton.disabled = true;
-    } else {
-      prevButton.disabled = false;
     }
-    if (page >= maxPageControl) {
-      nextButton.disabled = false;
-    } else {
+    else if (page >= maxPageControl) {
       nextButton.disabled = true;
-    }
+    } 
   }, [page]);
 
   const getAllPosts = async (page, maxPage) => {
@@ -44,13 +40,14 @@ export const ShowPost = () => {
   };
 
   const nextImages = async () => {
-    await actions.getPosts(page + 1, maxPage);
+    if (page < maxPage){
+      await actions.getPosts(page + 1, maxPage);
+      setPage(page + 1);
+    }
     if (store.maxPosts) {
       let nextButton = document.querySelector("#nextButtonPost");
       nextButton.disabled = true;
-    } else {
-      setPage(page + 1);
-    }
+    } 
   };
 
   const handleUpdate = async () => {

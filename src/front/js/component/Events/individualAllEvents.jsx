@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { Weather } from "../weather.jsx";
-
 const IndividualAllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
   const [eventParticipation, setEventParticipation] = useState(true);
+  const nav = useNavigate();
 
   useEffect(() => {
-    /* debugger; */
     setEvent(props.item);
     let synchEffect = async () => {
       await actions.listEvents();
@@ -19,7 +18,6 @@ const IndividualAllEvents = (props) => {
   }, []);
 
   useEffect(() => {
-    /* debugger; */
     if (store.userEventParticipation.length > 0) {
       setEventParticipation(actions.searchEvent(event.id));
     }
@@ -27,14 +25,14 @@ const IndividualAllEvents = (props) => {
 
   const subscribe = (e) => {
     e.preventDefault();
-    debugger;
+
     var id = event.id;
     actions.joinEvent(id);
   };
-  
+
   const unsubscribe = (e) => {
     e.preventDefault();
-    var id = event.id;
+    var id = params.eventId;
     actions.unsubscribeEvent(id);
   };
 
