@@ -7,6 +7,7 @@ export const ShowPost = () => {
   const [form, setForm] = useState();
   const [page, setPage] = useState(1);
   const [imageToStore, setImageToStore] = useState();
+  const [imageToStore, setImageToStore] = useState();
   const formToEdit = useRef();
   const maxPage = 5;
   let navigate = useNavigate();
@@ -92,12 +93,8 @@ export const ShowPost = () => {
     await getAllPosts(page, maxPage);
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
-<<<<<<< HEAD
-  
-=======
     setImageToStore();
     form.textarea = null;
->>>>>>> 8d7ceca13917aaa8f370551bdb69e977b2e161e5
   };
 
   const handleImage = (file) => {
