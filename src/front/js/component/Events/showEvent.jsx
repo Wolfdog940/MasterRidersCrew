@@ -61,7 +61,7 @@ const ShowEvent = () => {
     <div>
       <Navbar />
       <div className="event-container event-scroll">
-        <iframe src={event.map} width="800" height="600"></iframe>
+        <iframe src={event.map} style={{"width":"80%", "max-width":"700px", "height":"500px"}}></iframe>
         <div className="event-post">
           <label htmlFor="name">Nombre del evento</label>
           <h5 id="name" className="card-title">

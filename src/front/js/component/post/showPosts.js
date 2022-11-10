@@ -92,7 +92,7 @@ export const ShowPost = () => {
     await getAllPosts(page, maxPage);
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
-    setImageToStore();
+    setImageToStore(null);
     form.textarea = null;
   };
 
@@ -110,7 +110,6 @@ export const ShowPost = () => {
     setForm({ ...form, [e.target.type]: e.target.value });
   };
   let language = `${navigator.language}-${navigator.language.toUpperCase()}`;
-  debugger;
   return (
     <div className="post-container ">
       <div className="createPostContainer">
