@@ -97,6 +97,7 @@ const AllPublicEvents = () => {
               key={i}
               item={item}
               deleteEvent={deleteEvent}
+              updateMethod={actions.getPublicEvents}
             />
           ))}
         </div>

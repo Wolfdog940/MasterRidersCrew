@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { Weather } from "../weather.jsx";
 const IndividualAllEvents = (props) => {
@@ -12,15 +12,19 @@ const IndividualAllEvents = (props) => {
     setEvent(props.item);
     let synchEffect = async () => {
       await actions.listEvents();
-      setEventParticipation(actions.searchEvent(event.id));
+      setEventParticipation(actions.searchEvent(props.item.id));
     };
-    synchEffect;
+    synchEffect();
   }, []);
 
   useEffect(() => {
-    if (store.userEventParticipation.length > 0) {
-      setEventParticipation(actions.searchEvent(event.id));
-    }
+    let synchEffect = async () => {
+      if (store.userEventParticipation.length > 0) {
+        await actions.listEvents();
+        setEventParticipation(actions.searchEvent(props.item.id));
+      }
+    };
+    synchEffect();
   }, [store.eventParticipation]);
 
   const subscribe = (e) => {
@@ -28,12 +32,16 @@ const IndividualAllEvents = (props) => {
 
     var id = event.id;
     actions.joinEvent(id);
+    props.updateMethod(1, 5);
   };
 
   const unsubscribe = (e) => {
     e.preventDefault();
-    var id = params.eventId;
+    var id = event.id;
     actions.unsubscribeEvent(id);
+    props.updateMethod != null
+      ? props.updateMethod(1, 5)
+      : nav("/allpublicevents/1/5");
   };
 
   return (
