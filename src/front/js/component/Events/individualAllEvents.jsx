@@ -9,7 +9,6 @@ const IndividualAllEvents = (props) => {
   const [eventParticipation, setEventParticipation] = useState(true);
   const nav =useNavigate();
   useEffect(() => {
-    /* debugger; */
     setEvent(props.item);
     let synchEffect = async () => {
       await actions.listEvents();
@@ -30,7 +29,6 @@ const IndividualAllEvents = (props) => {
 
   const subscribe = (e) => {
     e.preventDefault();
-    debugger;
     var id = event.id;
     actions.joinEvent(id);
     props.updateMethod != null
