@@ -199,7 +199,6 @@ const UserProfile2 = () => {
                           id="name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -208,7 +207,6 @@ const UserProfile2 = () => {
                           id="last_name"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                       <div className="formGroup my-2">
@@ -217,7 +215,6 @@ const UserProfile2 = () => {
                           id="address"
                           onChange={handleInputChange}
                           className="form-control rounded-pill mb-2"
-                          /* required */
                         ></input>
                       </div>
                     </form>

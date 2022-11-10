@@ -699,7 +699,7 @@ def delete_image(id):
         return jsonify({"msg": "no picture to delete"}), 400
     if image.owner_id != current_user_id:
         return jsonify({"msg": "not the user"}), 400
-    checkPost = Post.query.filter_by(image_id=id)
+    checkPost = Post.query.filter_by(image_id=id).first()
     if checkPost is not None:
         return jsonify({"msg": "delete the post before"}), 401
     db.session.delete(image)

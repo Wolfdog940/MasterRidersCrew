@@ -19,9 +19,9 @@ export const ShowVideo = () => {
           height="315"
           src="https://www.youtube.com/embed/u1JIqo52UzQ"
           title="YouTube video player"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowFullScreen
         ></iframe>
       </div>
       <div className="d-flex justify-content-center aling-items-center mt-3">
