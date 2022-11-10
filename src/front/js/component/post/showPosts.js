@@ -124,7 +124,7 @@ export const ShowPost = () => {
             data-bs-target="#staticBackdrop"
             className="input-button text-secondary"
           >
-            En que estas pensando ?
+            Crear publicación
           </div>
         </div>
       </div>
