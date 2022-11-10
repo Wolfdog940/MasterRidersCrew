@@ -33,7 +33,9 @@ const IndividualAllEvents = (props) => {
     debugger;
     var id = event.id;
     actions.joinEvent(id);
-    props.updateMethod(1, 5);
+    props.updateMethod != null
+      ? props.updateMethod(1, 5)
+      : nav("/allpublicevents/1/5");
   };
 
   const unsubscribe = (e) => {
