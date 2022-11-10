@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { Weather } from "../weather.jsx";
 
@@ -7,7 +7,7 @@ const IndividualAllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
   const [eventParticipation, setEventParticipation] = useState(true);
-
+  const nav =useNavigate();
   useEffect(() => {
     /* debugger; */
     setEvent(props.item);
