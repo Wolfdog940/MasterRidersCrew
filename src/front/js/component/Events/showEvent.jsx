@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../navbar";
-import "../../../"
+import "../../../styles/showEvent.css"
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);

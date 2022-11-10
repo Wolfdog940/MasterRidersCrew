@@ -90,7 +90,7 @@ export const ShowPost = () => {
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
     setImageToStore(null);
-    form.textarea = null;
+    /* form.textarea = null; */
   };
 
   const handleImage = (file) => {
