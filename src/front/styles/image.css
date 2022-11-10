@@ -85,3 +85,8 @@
     overflow-y: scroll;
   }
 }
+@media (orientation: landscape) {
+  .imageContainer {
+    overflow-y: scroll;
+  }
+}
