@@ -52,7 +52,7 @@ const IndividualAllEvents = (props) => {
       <div>
         <div>
           <Link to={"/showevent/" + event.id} className="link-light">
-            <h5 id="name" className="card-title text-center">
+            <h5 id="name" className="card-title text-center mb-4">
               {event.name}
             </h5>
           </Link>
