@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 
-import "../../../styles/searhevents.css";
+import "../../../styles/searchEvent.css";
 
 registerLocale("es", es);
 
