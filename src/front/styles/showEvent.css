@@ -1,0 +1,31 @@
+.mapaShowEvent{
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 700px;
+    height: 500px;
+    border-radius: 10px;
+}
+.divShowEvent{
+    display: flex;
+    justify-content: space-between;
+}
+.showFooterBtnAddMap{
+    margin-left: 5px;
+}
+.showFooterBtnParticipation{
+    width: 100%;
+    max-width: 300px;
+}
+
+@media screen and (max-width: 480px){
+    .mapaShowEvent {
+    width: 78%;
+    height: 300px;
+    }
+    .labelShowEvent{
+        display: none;
+    }
+    .showFooterInput{
+        width: 100%;
+    }
+}
