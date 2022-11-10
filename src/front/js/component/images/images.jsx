@@ -23,7 +23,7 @@ const Images = () => {
       let prevButton = document.querySelector("#prevButton");
       prevButton.disabled = true;
     }
-    if (page >= maxPage) {
+    else if (page >= maxPage) {
       let nextButton = document.querySelector("#nextButton");
       nextButton.disabled = true;
     }
@@ -31,9 +31,7 @@ const Images = () => {
 
   const prevImages = () => {
     actions.getImages(page - 1);
-    setPage((page) => page - 1);
-    let button = document.querySelector("#prevButton");
-    button.disabled = false;
+    setPage(page => page - 1);
     let nextButton = document.querySelector("#nextButton");
     nextButton.disabled = false;
   };
