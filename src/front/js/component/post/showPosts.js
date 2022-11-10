@@ -7,7 +7,6 @@ export const ShowPost = () => {
   const [form, setForm] = useState();
   const [page, setPage] = useState(1);
   const [imageToStore, setImageToStore] = useState();
-  const [imageToStore, setImageToStore] = useState();
   const formToEdit = useRef();
   const maxPage = 5;
   let navigate = useNavigate();
