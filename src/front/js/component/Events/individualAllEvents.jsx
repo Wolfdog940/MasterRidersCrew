@@ -34,7 +34,7 @@ const IndividualAllEvents = (props) => {
 
   const unsubscribe = (e) => {
     e.preventDefault();
-    var id = params.eventId;
+    var id = event.id;
     actions.unsubscribeEvent(id);
   };
 
