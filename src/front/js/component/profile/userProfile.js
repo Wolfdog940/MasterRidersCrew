@@ -210,7 +210,7 @@ const UserProfile2 = () => {
                         ></input>
                       </div>
                       <div className="formGroup my-2">
-                        <label className="text-muted">Dirección:</label>
+                        <label className="text-muted">Direccion:</label>
                         <input
                           id="address"
                           onChange={handleInputChange}
@@ -238,7 +238,7 @@ const UserProfile2 = () => {
           </div>
         </div>
       </div>
-      <h2 className="text-white m-auto text-center">Todos mis Post</h2>
+      <h2 className="text-white m-auto text-center">Mis Post</h2>
       <AllMyPosts />
       <AllEvents noNavBar={true} noParams={true} />
     </>

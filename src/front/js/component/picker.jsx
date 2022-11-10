@@ -7,14 +7,14 @@ registerLocale("es", es);
 
 export const Picker = () => {
   const [startDate, setStartDate] = useState(null);
- /*  let lastDate = Date.now() + Number.MAX_SAFE_INTEGER; */
+  let lastDate = Date.now() + 864000000;
 
   return (
     <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
-      /* minDate={new Date()} */
-      /* maxDate={lastDate} */
+      minDate={new Date()}
+      maxDate={lastDate}
       dateFormat="dd/MM/yyy"
       locale="es"
       placeholderText="Seleciona una fecha"

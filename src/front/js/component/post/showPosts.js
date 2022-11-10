@@ -23,10 +23,14 @@ export const ShowPost = () => {
     let nextButton = document.querySelector("#nextButtonPost");
     if (page === 1) {
       prevButton.disabled = true;
+    } else {
+      prevButton.disabled = false;
     }
-    else if (page >= maxPageControl) {
+    if (page >= maxPageControl) {
+      nextButton.disabled = false;
+    } else {
       nextButton.disabled = true;
-    } 
+    }
   }, [page]);
 
   const getAllPosts = async (page, maxPage) => {
@@ -40,14 +44,13 @@ export const ShowPost = () => {
   };
 
   const nextImages = async () => {
-    if (page < maxPage){
-      await actions.getPosts(page + 1, maxPage);
-      setPage(page + 1);
-    }
+    await actions.getPosts(page + 1, maxPage);
     if (store.maxPosts) {
       let nextButton = document.querySelector("#nextButtonPost");
       nextButton.disabled = true;
-    } 
+    } else {
+      setPage(page + 1);
+    }
   };
 
   const handleUpdate = async () => {
@@ -90,7 +93,7 @@ export const ShowPost = () => {
     document.getElementById("exampleFormControlTextarea1").value = null;
     document.getElementById("inputGroupFile01Edit").value = null;
     setImageToStore(null);
-    /* form.textarea = null; */
+    form.textarea = null;
   };
 
   const handleImage = (file) => {
@@ -121,7 +124,7 @@ export const ShowPost = () => {
             data-bs-target="#staticBackdrop"
             className="input-button text-secondary"
           >
-            Crear publicación
+            En que estas pensando ?
           </div>
         </div>
       </div>

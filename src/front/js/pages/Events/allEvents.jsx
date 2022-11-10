@@ -31,7 +31,7 @@ const AllEvents = (props) => {
 
   if (store.allEvents) {
     return (
-      <div className="mt-3">
+      <div>
         <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
         <div>
           <h1 className="text-white title-container">Todos mis eventos</h1>
