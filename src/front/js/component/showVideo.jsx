@@ -1,13 +1,13 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "../../styles/showvideo.css";
 import { Link, useNavigate } from "react-router-dom";
 
 export const ShowVideo = () => {
-  let navigate = useNavigate(); 
+  let navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
   }, []);
 
@@ -15,12 +15,13 @@ export const ShowVideo = () => {
     <div className="d-flex justify-content-center aling-items-center mt-5 flex-column">
       <div className="d-flex justify-content-center aling-items-center mt-5 ">
         <iframe
-          className="video"
           width="560"
           height="315"
-          src="https://www.youtube.com/embed/eJRSVIBVXw8"
+          src="https://www.youtube.com/embed/u1JIqo52UzQ"
           title="YouTube video player"
+          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
         ></iframe>
       </div>
       <div className="d-flex justify-content-center aling-items-center mt-3">

@@ -11,17 +11,17 @@ const ShowEvent = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
     getEventAndList();
     setEventParticipation(actions.searchEvent(params.eventId));
   }, []);
 
-  const getEventAndList = async ()=>{
+  const getEventAndList = async () => {
     await actions.getEvent(params.eventId);
     await actions.listEvents();
-  }
+  };
 
   useEffect(() => {
     setEvent(store.event);

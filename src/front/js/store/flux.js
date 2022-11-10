@@ -126,9 +126,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           );
           const data = await resp.json();
-          debugger;
-          setStore({ allPosts: data[0] });
-          setStore({ amountAllPosts: data[1] });
+          if (data.length) {
+            setStore({ allPosts: data[0] });
+            setStore({ amountAllPosts: data[1] });
+          }
           return data;
         } catch (error) {
           setStore({ maxPosts: true });
