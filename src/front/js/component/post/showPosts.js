@@ -23,13 +23,9 @@ export const ShowPost = () => {
     let nextButton = document.querySelector("#nextButtonPost");
     if (page === 1) {
       prevButton.disabled = true;
-    } else {
-      prevButton.disabled = false;
-    }
-    if (page >= maxPageControl) {
+    } else if (page >= maxPageControl) {
       nextButton.disabled = true;
-    } else {
-      nextButton.disabled = false;
+      prevButton.disabled = false;
     }
   }, [page]);
 
@@ -38,18 +34,22 @@ export const ShowPost = () => {
   };
 
   const prevImages = async () => {
+    let nextButton = document.querySelector("#nextButtonPost");
     await actions.getPosts(page - 1, maxPage);
     await actions.updateMaxPosts();
     setPage(page - 1);
+    nextButton.disabled = false;
   };
 
   const nextImages = async () => {
-    await actions.getPosts(page + 1, maxPage);
-    if (store.maxPosts) {
-      let nextButton = document.querySelector("#nextButtonPost");
-      nextButton.disabled = true;
+    if (page < maxPageControl) {
+      await actions.getPosts(page + 1, maxPage);
+      setPage((page) => page + 1);
+      let prevButton = document.querySelector("#prevButton");
+      prevButton.disabled = false;
     } else {
-      setPage(page + 1);
+      let nextButton = document.querySelector("#nextButton");
+      nextButton.disabled = false;
     }
   };
 
