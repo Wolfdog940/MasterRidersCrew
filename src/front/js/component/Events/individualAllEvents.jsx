@@ -136,7 +136,7 @@ const IndividualAllEvents = (props) => {
               htmlFor="amountParticipants"
               className="text-secondary hidden"
             >
-              Descripcion
+              Cantidad de participantes
             </label>
             <p
               id="amountParticipants"
