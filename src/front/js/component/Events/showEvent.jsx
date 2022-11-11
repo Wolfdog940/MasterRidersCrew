@@ -120,3 +120,4 @@ const ShowEvent = () => {
     </div>
   );
 };
+export default ShowEvent;
