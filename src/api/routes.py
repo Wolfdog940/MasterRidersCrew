@@ -449,9 +449,7 @@ def search_event(name, start, end, date, page):
         searchQuery = ".filter_by(name = name)"
     if start != "any":
         start.replace("%", " ")
-        searchQuery = searchQuery + ".filter_by(start = start)"
-    if date != "any":
-        searchQuery = searchQuery + ".filter_by(date = date)"
+        searchQuery = searchQuery + ".filter_by(start = start)"    
     if end != "any":
         end.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(end = end)"
