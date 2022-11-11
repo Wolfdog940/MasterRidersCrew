@@ -27,9 +27,9 @@ export const ShowPost = () => {
       prevButton.disabled = false;
     }
     if (page >= maxPageControl) {
-      nextButton.disabled = false;
-    } else {
       nextButton.disabled = true;
+    } else {
+      nextButton.disabled = false;
     }
   }, [page]);
 
