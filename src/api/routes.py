@@ -464,6 +464,12 @@ def search_event(name, start, end, date, page):
     all_events = list(map(lambda x: x.serialize(), all_events))
     return jsonify(all_events, amount_participation), 200
 
+@api.route("/listParticipants/<int:event_id>", methods=["GET"])
+def list_participants(event_id):
+    all_participants = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
+        event_id=event_id).count()
+    return jsonify({"participantsAmount": all_participants}), 200
+
 ################################################################################
 #                           POST CRUD                                          #
 ################################################################################
