@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { Weather } from "../weather.jsx";
 
@@ -7,12 +7,15 @@ const IndividualAllEvents = (props) => {
   const { store, actions } = useContext(Context);
   const [event, setEvent] = useState({});
   const [eventParticipation, setEventParticipation] = useState(true);
-  const nav =useNavigate();
+  const [eventParticipants, setEventParticipants] = useState(0);
+  const nav = useNavigate();
+
   useEffect(() => {
     setEvent(props.item);
     let synchEffect = async () => {
       await actions.listEvents();
       setEventParticipation(actions.searchEvent(props.item.id));
+      await getEventParticipants();
     };
     synchEffect();
   }, []);
@@ -22,10 +25,30 @@ const IndividualAllEvents = (props) => {
       if (store.userEventParticipation.length > 0) {
         await actions.listEvents();
         setEventParticipation(actions.searchEvent(props.item.id));
+        getEventParticipants();
       }
     };
     synchEffect();
   }, [store.eventParticipation]);
+
+  const getEventParticipants = async () => {
+    const opts = {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+      },
+    };
+    try {
+      const resp = await fetch(
+        process.env.BACKEND_URL + "/api/listParticipants/" + props.item.id,
+        opts
+      );
+      const data = await resp.json();
+      setEventParticipants(data.participantsAmount);
+      return data;
+    } catch (error) {
+      console.error("There has been an error retrieving data");
+    }
+  };
 
   const subscribe = (e) => {
     e.preventDefault();
@@ -106,6 +129,20 @@ const IndividualAllEvents = (props) => {
             </label>
             <p id="description" className="postText justify-content-end pEvent">
               {event.description}
+            </p>
+          </div>
+          <div className="d-flex justify-content-between">
+            <label
+              htmlFor="amountParticipants"
+              className="text-secondary hidden"
+            >
+              Descripcion
+            </label>
+            <p
+              id="amountParticipants"
+              className="postText justify-content-end pEvent"
+            >
+              {eventParticipants}
             </p>
           </div>
         </div>
