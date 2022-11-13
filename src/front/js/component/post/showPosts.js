@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 export const ShowPost = () => {
   const { store, actions } = useContext(Context);
@@ -329,6 +330,7 @@ export const ShowPost = () => {
                   <p className="postDate text-secondary text-end">
                     {post.date}
                   </p>
+                  <AllComments item_id={post.id} type="Post" />
                 </div>
               );
             })
