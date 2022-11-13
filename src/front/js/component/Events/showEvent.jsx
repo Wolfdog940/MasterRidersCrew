@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../navbar";
 import "../../../styles/showEvent.css";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
@@ -165,6 +166,7 @@ const ShowEvent = () => {
               </button>
             )}
           </div>
+          <AllComments item_id={params.eventId} type="Event" />
         </div>
       </div>
     </div>
