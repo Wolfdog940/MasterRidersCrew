@@ -24,6 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       originCoords: { lon: null, lat: null },
       destinationCoords: { lon: null, lat: null },
       amountAllPosts: 0,
+      findFriends: [],
     },
     actions: {
       setOriginCoords: (lon, lat) => {
@@ -724,6 +725,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
+        }
+      },
+
+      getFriend: async (name) => {
+        console.log(name);
+
+        const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify(name),
+        });
+        const data = await resp.json();
+        if (resp.status === 200) {
+          {
+            console.log(data);
+            return data;
+          }
+        } else {
+          throw new Error("No se pudo actualizar/Unable to update");
         }
       },
     },

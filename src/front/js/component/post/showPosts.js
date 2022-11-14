@@ -129,6 +129,7 @@ export const ShowPost = () => {
           </div>
         </div>
       </div>
+
       <div className="posts">
         {/* creacion de post */}
         <div

@@ -68,25 +68,20 @@ def login():
     access_token = create_access_token(
         identity=user.id, expires_delta=datetime.timedelta(days=10))
     return jsonify({"token": access_token, "user_id": user.id}), 200
-################################################################################
-#                            CRUD de user/friend                                      #
-################################################################################
 
-@api.route('/users', methods=['GET'])
+
+################################################################################
+#                            CRUD de friends                                      #
+################################################################################
+@api.route('/findData', methods=['POST'])
 @jwt_required()
-def get_users():
-    allUsers = User.query.all()
-    serializer = list(map(lambda x: x.serialize(), allUsers))
-    print(allUsers)
-    if allUsers is None:
-        return({"msg":"bad request"})  
+def get_allData():
+    
+    name = request.json.get("name", None)
+    userSearch = User_Data.query.filter_by(name=name).all()
+    serializer = list(map(lambda x: x.serialize(), userSearch))
+
     return jsonify({"data": serializer}), 200
-
-
-
-
-
-
 ################################################################################
 #                            CRUD de group                                      #
 ################################################################################
