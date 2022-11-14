@@ -292,6 +292,11 @@ def remove_event(event_id):
     for event_part in eventsParticipation:
         db.session.delete(event_part)
         db.session.commit()
+    comments_to_delete = Event_comments.query.filter_by(
+        event_id=event_id).all()
+    for comment in comments_to_delete:
+        db.session.delete(comment)
+        db.session.commit()
     db.session.delete(event_to_delete)
     db.session.commit()
     return jsonify({"msg": "Event has been removed"}), 200
