@@ -23,10 +23,7 @@ export const AllComments = (props) => {
         opts
       );
       const data = await resp.json();
-      debugger;
-
       setComments(data);
-
       return true;
     } catch (error) {
       console.error("There has been an error retrieving data");
@@ -56,7 +53,6 @@ export const AllComments = (props) => {
       }
       const data = await resp.json();
       let aux = comments;
-      debugger;
       setComments([data, ...comments]);
 
       aux = comments;
@@ -70,8 +66,6 @@ export const AllComments = (props) => {
     await newComment();
     document.getElementById("comment").value = null;
   };
-
-  debugger;
   return (
     <div className="comment-container ">
       <div className="d-flex flex-column">

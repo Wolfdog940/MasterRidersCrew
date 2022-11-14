@@ -575,6 +575,11 @@ def delete_post():
     if current_user_id != post_deleted.user_id:
         return jsonify({"msg": "Not the owner of the post"}), 400
 
+    comments_to_delete = Post_comments.query.filter_by(post_id=post_id).all()
+    for comment in comments_to_delete:
+        db.session.delete(comment)
+        db.session.commit()
+
     db.session.delete(post_deleted)
     db.session.commit()
     return jsonify({"msg": "post deleted"}), 200
