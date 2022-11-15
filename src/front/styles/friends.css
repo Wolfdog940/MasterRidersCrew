@@ -1,10 +1,9 @@
 .find {
   width: 250px;
-  height: 200px;
+
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
-  border-radius: 5%;
 }
 #name {
   background-color: rgba(255, 255, 255, 0.3);
@@ -27,7 +26,7 @@
 .find {
   position: absolute;
   margin-left: 16vw;
-  margin-top: 6vw;
+  margin-top: 3vw;
 }
 .icono {
   border-left: 2px solid gray;

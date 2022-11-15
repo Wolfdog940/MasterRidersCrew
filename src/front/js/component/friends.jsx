@@ -15,11 +15,11 @@ export const Friends = () => {
   };
 
   return (
-    <div className="find ">
+    <div className="find rounded ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
         {" "}
         <button
-          className="button me-2 ms-2  rounded-pill bg-transparent  text-center"
+          className="button   rounded-pill bg-transparent  text-center mx-2 mb-2"
           onClick={() => actions.getFriend(name)}
         >
           <input
@@ -43,7 +43,7 @@ export const Friends = () => {
           </svg>
         </button>
       </div>
-      <div className="d-flex flex-column">
+      <div className="d-flex flex-column ">
         {store.findFriends.map((item, i) => (
           <FriendsFinder key={i} item={item} index={i} />
         ))}

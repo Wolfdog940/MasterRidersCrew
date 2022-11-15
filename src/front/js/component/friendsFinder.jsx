@@ -6,7 +6,7 @@ export const FriendsFinder = (props) => {
   const { store, actions } = useContext(Context);
 
   return (
-    <div className="finderCard d-flex flex-row aling-items-center ms-2 mt-2">
+    <div className="finderCard d-flex flex-row aling-items-center ms-2 mt-2 mb-2">
       <div className="me-2 mt-1">
         <img className="search_picture" src={item.image} />
       </div>
