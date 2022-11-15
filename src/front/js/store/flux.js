@@ -729,8 +729,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getFriend: async (name) => {
-        console.log(name);
-
         const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
           method: "POST",
           headers: {
@@ -741,10 +739,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         const data = await resp.json();
         if (resp.status === 200) {
-          {
-            console.log(data);
-            return data;
-          }
+          setStore({ findFriends: data.data });
         } else {
           throw new Error("No se pudo actualizar/Unable to update");
         }

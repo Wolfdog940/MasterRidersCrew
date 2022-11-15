@@ -79,7 +79,22 @@ def get_allData():
     
     name = request.json.get("name", None)
     userSearch = User_Data.query.filter_by(name=name).all()
+    ##aplico el serialice a user search para poder entrar a los datos que tiene
     serializer = list(map(lambda x: x.serialize(), userSearch))
+    for user in serializer :
+        #por cada user voy a buscar la imagen dentro de la tabla image
+        pictureSearch=Image.query.get(user["profile_picture"])
+        if pictureSearch is None:
+            continue
+        pictureSearch.serialize()
+        #serializo picturesearch
+        user["image"]=pictureSearch.image
+        #a objeto con la key image la imagen de la tabal image
+   
+
+
+
+
 
     return jsonify({"data": serializer}), 200
 ################################################################################
@@ -613,8 +628,8 @@ def get_user_data():
 def post_user_data(id):
     data = request.get_json()
     new_user_data = User_Data(
-        name=data["name"],
-        last_name=data["last_name"],
+        name=data["name"].strip(),
+        last_name=data["last_name"].strip(),
         address=None,
         user_id=id,
         profile_picture=None  # Por defecto dejo se crea sin profile_picture
