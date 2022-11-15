@@ -8,7 +8,28 @@
 }
 #name {
   background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+
+  border-radius: 30%;
+}
+#name:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  outline: none;
+  border-radius: 30%;
+}
+.button {
+  background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
   border-radius: 30%;
+}
+.find {
+  position: absolute;
+  margin-left: 16vw;
+  margin-top: 6vw;
+}
+.icono {
+  border-left: 2px solid gray;
+  padding-left: 1px;
 }
