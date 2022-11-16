@@ -112,7 +112,7 @@ export const ShowPost = () => {
   };
   let language = `${navigator.language}-${navigator.language.toUpperCase()}`;
   return (
-    <div className="post-container ">
+    <div className="post-container  col-11">
       <div className="createPostContainer">
         <div className="profile-image-container">
           <div className="image">

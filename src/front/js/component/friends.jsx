@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/friends.css";
 import { FriendsFinder } from "./friendsFinder.jsx";
+import { Link } from "react-router-dom";
 
 export const Friends = () => {
   const { store, actions } = useContext(Context);
@@ -13,19 +14,22 @@ export const Friends = () => {
       [event.target.id]: event.target.value.trim(),
     });
   };
-
+  let input = document.getElementById("name");
   return (
-    <div className="find rounded ">
+    <div className="find  col-1  ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
         {" "}
         <button
-          className="button   rounded-pill bg-transparent  text-center mx-2 mb-2"
-          onClick={() => actions.getFriend(name)}
+          className="button   rounded-pill bg-transparent  text-end mb-2"
+          onClick={() => {
+            actions.getFriend(name);
+            input.value = "";
+          }}
         >
           <input
             id="name"
-            className="input-search me-2 ms-2 w-50 rounded-pill bg-transparent  text-center  "
-            placeholder="Buscar amigos"
+            className="input-search me-2 ms-2   bg-transparent  border-end text-center "
+            placeholder="Buscar amigos "
             onChange={handleInputChange}
             autoComplete="off"
           />
@@ -43,9 +47,12 @@ export const Friends = () => {
           </svg>
         </button>
       </div>
-      <div className="d-flex flex-column ">
+
+      <div className="finder ">
         {store.findFriends.map((item, i) => (
-          <FriendsFinder key={i} item={item} index={i} />
+          <Link key={i} to={/publicUserProfile/ + i}>
+            <FriendsFinder item={item} />
+          </Link>
         ))}
       </div>
     </div>

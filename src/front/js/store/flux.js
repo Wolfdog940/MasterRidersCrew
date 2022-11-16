@@ -25,6 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       destinationCoords: { lon: null, lat: null },
       amountAllPosts: 0,
       findFriends: [],
+      friends: [],
     },
     actions: {
       setOriginCoords: (lon, lat) => {

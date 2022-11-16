@@ -1,6 +1,13 @@
 .find {
   width: 250px;
-
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: fit-content;
+  margin-left: 1vw;
+  margin-top: 3vw;
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
@@ -8,8 +15,7 @@
 #name {
   background-color: rgba(255, 255, 255, 0.3);
   border: none;
-
-  border-radius: 30%;
+  width: 150px;
 }
 #name:focus {
   background-color: rgba(255, 255, 255, 0.3);
@@ -17,18 +23,20 @@
   outline: none;
   border-radius: 30%;
 }
+#name::placeholder {
+  text-align: start;
+}
 .button {
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
   border-radius: 30%;
 }
-.find {
-  position: absolute;
-  margin-left: 16vw;
-  margin-top: 3vw;
+.finder {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
 }
-.icono {
-  border-left: 2px solid gray;
-  padding-left: 1px;
+a {
+  text-decoration: none;
 }

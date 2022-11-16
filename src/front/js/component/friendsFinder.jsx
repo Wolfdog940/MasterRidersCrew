@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/userSearch.css";
+
 export const FriendsFinder = (props) => {
   const { item, index } = props;
   const { store, actions } = useContext(Context);
