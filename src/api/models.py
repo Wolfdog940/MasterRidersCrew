@@ -49,6 +49,7 @@ class Post_comments(db.Model):
     def serialize(self):
         user_data = User_Data.query.filter_by(user_id=self.user_id).first()
         user_data = user_data.serialize()
+        image = Image.query.get(user_data["profile_picture"])
         return {
             "id": self.id,
             "user_id": self.user_id,
@@ -56,7 +57,11 @@ class Post_comments(db.Model):
             "comment": self.comment,
             "creation_date": self.creation_date,
             "user_name": user_data["name"],
+<<<<<<< HEAD
             "profile_picture": user_data["profile_picture"]
+=======
+            "profile_picture": image.image
+>>>>>>> d85f742 (More fixes)
         }
 
 

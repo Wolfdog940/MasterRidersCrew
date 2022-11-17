@@ -3,21 +3,22 @@ import { Context } from "../store/appContext";
 
 export const AutoComplete = (props) => {
   const [complete, setComplete] = useState([]);
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [cities, setCities] = useState([]);
 
   const setData = (e) => {
-    document.getElementById(props.id).value = e.target[e.target.value].text;
+    let city = cities.find((x) => x.place_id == e.target.value);
+    document.querySelector("#" + props.id).value = city.address.county
+      ? city.address.name +
+        ", " +
+        city.address.county +
+        ", " +
+        city.address.country
+      : city.address.name + " ," + city.address.country;
     if (props.pokemon == "inicio") {
-      actions.setOriginCoords(
-        cities[parseInt(e.target.value)].lon,
-        cities[parseInt(e.target.value)].lat
-      );
+      actions.setOriginCoords(city.lon, city.lat);
     } else {
-      actions.setDestinationCoords(
-        cities[parseInt(e.target.value)].lon,
-        cities[parseInt(e.target.value)].lat
-      );
+      actions.setDestinationCoords(city.lon, city.lat);
     }
   };
 
@@ -41,14 +42,18 @@ export const AutoComplete = (props) => {
     }
   };
 
-  const handleInputChange = (event) => {
-    setComplete({
-      ...complete,
+  const handleInputChange = async (event) => {
+    await c(event);
 
-      [event.target.id]: event.target.value.trim(),
-    });
     let key = props.id;
     getCities(complete[key]);
+  };
+
+  const c = async (event) => {
+    setComplete({
+      ...complete,
+      [event.target.id]: event.target.value.trim(),
+    });
   };
 
   return (
@@ -56,8 +61,8 @@ export const AutoComplete = (props) => {
       <input
         className="w-100"
         type="text"
-        id={props.id}
         list="list"
+        id={props.id}
         autoComplete="off"
         onChange={handleInputChange}
       />
@@ -68,18 +73,11 @@ export const AutoComplete = (props) => {
         onChange={(e) => {
           setData(e);
         }}
-        id={props.id}
       >
         {cities.map((city, index) => {
           if (city.address.county) {
             return (
-              <option
-                onClick={(e) => {
-                  setData(e);
-                }}
-                key={index}
-                value={index}
-              >
+              <option key={city.place_id} value={city.place_id}>
                 {city.address.name +
                   ", " +
                   city.address.county +
@@ -88,10 +86,9 @@ export const AutoComplete = (props) => {
               </option>
             );
           } else {
-            <option
-              key={index}
-              value={city.address.name + " ," + city.address.country}
-            ></option>;
+            <option key={city.place_id} value={city.place_id}>
+              {city.address.name + " ," + city.address.country}
+            </option>;
           }
         })}
       </select>

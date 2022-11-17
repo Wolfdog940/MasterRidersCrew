@@ -700,6 +700,17 @@ def get_images(page, per_page):
     return jsonify(all_images, amount_all_images)
 
 
+@api.route("/user/image_by_user", methods=["GET"])
+@jwt_required()
+def get_profile_picture_by_user():
+    current_user_id = get_jwt_identity()
+    data = User_Data.query.filter_by(user_id=current_user_id).first()
+    image_profile_user = Image.query.get(data.profile_picture)
+    if image_profile_user is None:
+        return jsonify({"msg": "this user has not profile picture yet"}), 400
+    return jsonify({"data": image_profile_user.serialize()}), 200
+
+
 @api.route("/user/image/<int:id>", methods=["GET"])
 @jwt_required()
 def get_profile_picture(id):
