@@ -57,11 +57,7 @@ class Post_comments(db.Model):
             "comment": self.comment,
             "creation_date": self.creation_date,
             "user_name": user_data["name"],
-<<<<<<< HEAD
-            "profile_picture": user_data["profile_picture"]
-=======
             "profile_picture": image.image
->>>>>>> d85f742 (More fixes)
         }
 
 
