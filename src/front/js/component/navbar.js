@@ -94,7 +94,7 @@ export const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {store.userData.profile_picture ? (
+                  {store.profilePicture ? (
                     <img className="nav-picture" src={picture}></img>
                   ) : (
                     <svg

@@ -112,7 +112,7 @@ const SearchEvents = () => {
           {events.map((item, i) => (
             <IndividualAllEvents
               item={item}
-              key={i}
+              key={item.id}
               deleteEvent={deleteEvent}
               updateMethod={null}
             />
@@ -205,8 +205,12 @@ const SearchEvents = () => {
         </div>
         <div className="event-container event-scroll">
           {events.map((item, i) => (
-            <IndividualAllEvents item={item} key={i} deleteEvent={deleteEvent}
-            updateMethod={null}/>
+            <IndividualAllEvents
+              item={item}
+              key={i}
+              deleteEvent={deleteEvent}
+              updateMethod={null}
+            />
           ))}
         </div>
         <div className="w-100 d-flex justify-content-center mt-5">

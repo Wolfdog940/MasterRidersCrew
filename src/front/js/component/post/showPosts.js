@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 export const ShowPost = () => {
   const { store, actions } = useContext(Context);
@@ -51,15 +52,6 @@ export const ShowPost = () => {
       let nextButton = document.querySelector("#nextButton");
       nextButton.disabled = false;
     }
-    /* await actions.getPosts(page + 1, maxPage);
-    if (store.maxPosts) {
-      let nextButton = document.querySelector("#nextButtonPost");
-      nextButton.disabled = true;
-      let prevButton = document.querySelector("#prevButtonPost");
-      prevButton.disabled = false;
-    } else {
-      setPage(page + 1);
-    } */
   };
 
   const handleUpdate = async () => {
@@ -276,7 +268,7 @@ export const ShowPost = () => {
                 post.date = dateTransformation;
               } catch {}
               return (
-                <div key={key} className="post d-flex flex-column">
+                <div key={post.id} className="post d-flex flex-column">
                   <div className="postText">
                     <h2 className="w-100">{post.text}</h2>
                     <div className="relative mb-5">
@@ -338,6 +330,7 @@ export const ShowPost = () => {
                   <p className="postDate text-secondary text-end">
                     {post.date}
                   </p>
+                  <AllComments item_id={post.id} type="Post" />
                 </div>
               );
             })

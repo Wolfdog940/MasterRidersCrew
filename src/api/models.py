@@ -6,6 +6,62 @@ import datetime
 db = SQLAlchemy()
 
 
+class Event_comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'),
+                         nullable=False)
+    comment = db.Column(db.String(), unique=False, nullable=False)
+    creation_date = db.Column(DateTime, nullable=False, unique=False,
+                              default=datetime.datetime.utcnow())
+
+    def __repr__(self):
+        return f'<Event_comments {self.id}>'
+
+    def serialize(self):
+        user_data = User_Data.query.filter_by(user_id=self.user_id).first()
+        user_data = user_data.serialize()
+        image = Image.query.get(user_data["profile_picture"])
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "event_id": self.event_id,
+            "comment": self.comment,
+            "creation_date": self.creation_date,
+            "user_name": user_data["name"],
+            "profile_picture": image["image"]
+        }
+
+
+class Post_comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'),
+                        nullable=False)
+    comment = db.Column(db.String(), unique=False, nullable=False)
+    creation_date = db.Column(DateTime, nullable=False, unique=False,
+                              default=datetime.datetime.utcnow())
+
+    def __repr__(self):
+        return f'<Post_comments {self.id}>'
+
+    def serialize(self):
+        user_data = User_Data.query.filter_by(user_id=self.user_id).first()
+        user_data = user_data.serialize()
+        image = Image.query.get(user_data["profile_picture"])
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "post_id": self.post_id,
+            "comment": self.comment,
+            "creation_date": self.creation_date,
+            "user_name": user_data["name"],
+            "profile_picture": image.image
+        }
+
+
 class Group_participation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
