@@ -82,7 +82,7 @@ const IndividualAllEvents = (props) => {
           <iframe src={event.map} width="100%" height="auto"></iframe>
         </div>
         <div>
-          <div className="d-flex">
+          <div className="d-flex pt-2 border-top border-opacity-25 mb-1">
             <label htmlFor="date" className="text-secondary hidden">
               Fecha
             </label>
@@ -90,7 +90,7 @@ const IndividualAllEvents = (props) => {
               {event.date} a las {event.hours}:{event.minutes}
             </p>
           </div>
-          <div className="d-flex">
+          <div className="d-flex pt-2 border-top border-opacity-25">
             <label htmlFor="start" className="text-secondary hidden">
               Origen
             </label>
@@ -105,7 +105,7 @@ const IndividualAllEvents = (props) => {
               <span>datos del tiempo no han cargado</span>
             )}
           </div>
-          <div className="d-flex">
+          <div className="d-flex pt-2 border-top">
             <label htmlFor="end" className="text-secondary hidden">
               Destino
             </label>
@@ -123,7 +123,7 @@ const IndividualAllEvents = (props) => {
               <span>datos del tiempo no han cargado</span>
             )}
           </div>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between pt-2 border-top">
             <label htmlFor="description" className="text-secondary hidden">
               Descripcion
             </label>
@@ -131,7 +131,7 @@ const IndividualAllEvents = (props) => {
               {event.description}
             </p>
           </div>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between pt-2 border-top">
             <label
               htmlFor="amountParticipants"
               className="text-secondary hidden"

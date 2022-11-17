@@ -74,7 +74,7 @@ export const AutoComplete = (props) => {
           setData(e);
         }}
       >
-        {cities.map((city, index) => {
+        {cities.map((city) => {
           if (city.address.county) {
             return (
               <option key={city.place_id} value={city.place_id}>
