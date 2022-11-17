@@ -111,6 +111,19 @@ def post_New_Friend():
     db.session.commit()
     return jsonify(new_friend.serialize()), 200
 
+
+@api.route("/deleteFriend/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_frienship(id):
+    friend = Form_friendship.query.get(id)
+    if friend is None:
+        return jsonify({"msg": "Friend does not exist"})
+
+    db.session.delete(friend)
+    db.session.commit()
+
+    return jsonify({"msg": "friend has been deleted"}), 200
+
 ################################################################################
 #                            CRUD de group                                      #
 ################################################################################
