@@ -76,27 +76,41 @@ def login():
 @api.route('/findData', methods=['POST'])
 @jwt_required()
 def get_allData():
-    
+
     name = request.json.get("name", None)
     userSearch = User_Data.query.filter_by(name=name).all()
-    ##aplico el serialice a user search para poder entrar a los datos que tiene
+    # aplico el serialice a user search para poder entrar a los datos que tiene
     serializer = list(map(lambda x: x.serialize(), userSearch))
-    for user in serializer :
-        #por cada user voy a buscar la imagen dentro de la tabla image
-        pictureSearch=Image.query.get(user["profile_picture"])
+    for user in serializer:
+        # por cada user voy a buscar la imagen dentro de la tabla image
+        pictureSearch = Image.query.get(user["profile_picture"])
         if pictureSearch is None:
             continue
         pictureSearch.serialize()
-        #serializo picturesearch
-        user["image"]=pictureSearch.image
-        #a objeto con la key image la imagen de la tabal image
-   
-
-
-
-
-
+        # serializo picturesearch
+        user["image"] = pictureSearch.image
+        # a objeto con la key image la imagen de la tabal image
     return jsonify({"data": serializer}), 200
+
+
+@api.route("/addFriend", methods=["POST"])
+@jwt_required()
+def post_New_Friend():
+    main_friend_id = get_jwt_identity()
+    secondary_friend_id = request.json.get("secondary_friend_id", None)
+    data_friend = Form_friendship.query.filter_by(
+        secondary_friend_id=secondary_friend_id).all()
+
+    new_friend = Form_friendship(
+        main_friend_id=main_friend_id,
+        secondary_friend_id=secondary_friend_id
+    )
+
+    print(new_friend)
+    db.session.add(new_friend)
+    db.session.commit()
+    return jsonify(new_friend.serialize()), 200
+
 ################################################################################
 #                            CRUD de group                                      #
 ################################################################################
