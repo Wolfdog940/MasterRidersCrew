@@ -57,7 +57,6 @@ class Post_comments(db.Model):
             "creation_date": self.creation_date,
             "user_name": user_data["name"],
             "profile_picture": user_data["profile_picture"]
-
         }
 
 

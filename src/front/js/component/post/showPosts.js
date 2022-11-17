@@ -268,7 +268,7 @@ export const ShowPost = () => {
                 post.date = dateTransformation;
               } catch {}
               return (
-                <div key={key} className="post d-flex flex-column">
+                <div key={post.id} className="post d-flex flex-column">
                   <div className="postText">
                     <h2 className="w-100">{post.text}</h2>
                     <div className="relative mb-5">
