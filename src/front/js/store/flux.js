@@ -778,7 +778,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await resp.json();
 
         if (resp.status === 200) {
-          setStore({ friends: data.data });
+          return data.data ;
         } else {
           throw new Error("Unable to update");
         }
