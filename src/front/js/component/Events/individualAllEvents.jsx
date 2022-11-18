@@ -150,14 +150,14 @@ const IndividualAllEvents = (props) => {
           {eventParticipation ? (
             <button
               onClick={unsubscribe}
-              className="btn btn-outline-warning leaveBtn"
+              className="btn btn-outline-warning leaveBtn rounded-pill"
             >
               Abandonar evento
             </button>
           ) : (
             <button
               onClick={subscribe}
-              className="btn btn-outline-success enterBtn"
+              className="btn btn-outline-success enterBtn rounded-pill"
             >
               Inscribirse en el evento
             </button>
