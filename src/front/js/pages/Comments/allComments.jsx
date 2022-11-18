@@ -28,6 +28,7 @@ export const AllComments = (props) => {
         opts
       );
       const data = await resp.json();
+
       setComments(data);
       return true;
     } catch (error) {
@@ -58,6 +59,7 @@ export const AllComments = (props) => {
       }
       const data = await resp.json();
       let aux = comments;
+
       setComments([data, ...comments]);
       aux = comments;
       return true;
@@ -70,6 +72,7 @@ export const AllComments = (props) => {
     await newComment();
     document.getElementById("comment").value = null;
   };
+
   return (
     <div className="comment-container ">
       <div className="d-flex flex-column">

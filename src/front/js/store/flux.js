@@ -24,6 +24,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       originCoords: { lon: null, lat: null },
       destinationCoords: { lon: null, lat: null },
       amountAllPosts: 0,
+      findFriends: [],
+      friends: [],
     },
     actions: {
       setOriginCoords: (lon, lat) => {
@@ -724,6 +726,64 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
+        }
+      },
+
+      getFriend: async (name) => {
+        const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify(name),
+        });
+        const data = await resp.json();
+        if (resp.status === 200) {
+          setStore({ findFriends: data.data });
+        } else {
+          throw new Error("No se pudo actualizar/Unable to update");
+        }
+      },
+
+      getFriends: async () => {
+        console.log();
+        const resp = await fetch(
+          process.env.BACKEND_URL + "/api/getFriendList",
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = await resp.json();
+
+        if (resp.status === 200) {
+          setStore({ friends: data.data });
+        } else {
+          throw new Error("Unable to update");
+        }
+      },
+      postFriend: async (secondaryId) => {
+        console.log(secondaryId);
+        const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            secondary_friend_id: secondaryId,
+          }),
+        });
+        const data = await resp.json();
+
+        if (resp.status === 200) {
+          setStore({ friends: [...getStore().friends, data.data] });
+        } else {
+          throw new Error("Unable to update");
         }
       },
     },

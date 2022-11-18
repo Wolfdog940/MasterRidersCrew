@@ -1,0 +1,12 @@
+.search_picture {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.finderCard {
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 3px;
+  margin-right: 5px;
+}
