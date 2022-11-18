@@ -92,7 +92,7 @@ const SearchEvents = () => {
     await actions.deleteEvent(id);
     navigate("/allpublicevents/1/5");
   };
-
+  
   if (eventsLength > 0) {
     return (
       <div>

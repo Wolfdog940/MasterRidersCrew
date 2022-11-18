@@ -7,15 +7,17 @@ export const MyFriends = () => {
   const { store, actions } = useContext(Context);
   const [favorite, setFavorite] = useState(null);
 
+  const asyncEff = async () => setFavorite(await actions.getFriends());
+
   useEffect(() => {
-    actions.getFriends();
+    asyncEff();
   }, []);
 
   return (
     <div className="friends text-center mt-2">
       <span className="text-secondary fs-4">Favoritos</span>
       <div className="finder ">
-        {store.friends.map((item, i) => (
+        {favorite?.map((item, i) => (
           <ShowFriends item={item} key={i} />
         ))}
       </div>

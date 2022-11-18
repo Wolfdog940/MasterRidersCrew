@@ -157,6 +157,23 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error al obtener los posts del usuario actual", error);
         }
       },
+      getPostsSpecificUser: async (id) => {
+        try{
+            const resp = await fetch(process.env.BACKEND_URL + '/api/all_user_posts/' + id, {
+              method: 'GET',
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token")
+              }
+            });
+            const data = await resp.json();
+            if (resp.status === 200) 
+              return data;
+        }
+        catch (error){
+          console.log(error);
+        }
+    },
       createPost: async (post) => {
         try {
           const resp = await fetch(
@@ -761,7 +778,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await resp.json();
 
         if (resp.status === 200) {
-          setStore({ friends: data.data });
+          return data.data ;
         } else {
           throw new Error("Unable to update");
         }
