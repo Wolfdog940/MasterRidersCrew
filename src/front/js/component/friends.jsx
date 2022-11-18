@@ -29,7 +29,7 @@ export const Friends = () => {
           <input
             id="name"
             className="input-search me-2 ms-2   bg-transparent  border-end text-center "
-            placeholder="Buscar amigos "
+            placeholder="Buscar Raiders "
             onChange={handleInputChange}
             autoComplete="off"
           />

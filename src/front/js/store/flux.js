@@ -746,6 +746,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      getFriends: async () => {
+        console.log();
+        const resp = await fetch(
+          process.env.BACKEND_URL + "/api/getFriendList",
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = await resp.json();
+
+        if (resp.status === 200) {
+          setStore({ friends: data.data });
+        } else {
+          throw new Error("Unable to update");
+        }
+      },
       postFriend: async (secondaryId) => {
         console.log(secondaryId);
         const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
@@ -761,7 +781,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await resp.json();
 
         if (resp.status === 200) {
-          setStore({ friends: data });
+          setStore({ friends: [...getStore().friends, data.data] });
         } else {
           throw new Error("Unable to update");
         }

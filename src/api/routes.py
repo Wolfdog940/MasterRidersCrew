@@ -99,38 +99,46 @@ def post_New_Frienship():
     main_friend_id = get_jwt_identity()
     secondary_friend_id = request.json.get("secondary_friend_id", None)
 
-    data_friend = Form_friendship.query.filter_by(
-        secondary_friend_id=secondary_friend_id).all()
+    existFriendship = Form_friendship.query.filter_by(
+        main_friend_id=main_friend_id, secondary_friend_id=secondary_friend_id).first()
+  
 
     new_friend = Form_friendship(
         main_friend_id=main_friend_id,
         secondary_friend_id=secondary_friend_id
     )
 
-    print(secondary_friend_id)
     db.session.add(new_friend)
     db.session.commit()
     return jsonify(new_friend.serialize()), 200
 
 
-@api.route("/postFriendList", methods=["POST"])
+@api.route("/getFriendList", methods=["GET"])
 @jwt_required()
-def post_all_friends():
+def get_all_friends():
 
     friendSearch = Form_friendship.query.filter_by(
         main_friend_id=get_jwt_identity())
 
     serializer = list(map(lambda x: x.serialize(), friendSearch))
+
     for friend_data in serializer:
         userDataSearch = User_Data.query.get(
             friend_data["secondary_friend_id"])
+
+        pictureSearch = Image.query.get(userDataSearch.profile_picture)
+
         if userDataSearch is None:
             continue
         userDataSearch.serialize()
+        
         friend_data["friend_name"] = userDataSearch.name
         friend_data["friend_last_name"] = userDataSearch.last_name
         friend_data["friend_address"] = userDataSearch.address
-
+        if pictureSearch is not None:
+            friend_data["profilePicture"] = pictureSearch.image
+        else :friend_data["profilePicture"]=None
+       
     return jsonify({"data": serializer}), 200
 
 
