@@ -10,8 +10,6 @@ export const AllComments = (props) => {
   useEffect(() => {
     let synchEffect = async () => {
       await getComments(props.item_id);
-      let aux2 = props.item_id;
-      let aux = comments;
     };
     synchEffect();
   }, []);
@@ -58,9 +56,7 @@ export const AllComments = (props) => {
         return false;
       }
       const data = await resp.json();
-      let aux = comments;
       setComments([data, ...comments]);
-      aux = comments;
       return true;
     } catch (error) {
       console.error("There has been an error sending the comment");
@@ -94,7 +90,7 @@ export const AllComments = (props) => {
         aria-expanded="false"
         aria-controls="collapseComments"
       >
-        Mostrar los comentarios
+        Comentarios 
       </button>
       <div className="collapse" id={"collapseComments"+props.item_id}>
         {comments.length && comments.length > 0 ? (
