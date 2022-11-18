@@ -30,7 +30,7 @@ class Event_comments(db.Model):
             "comment": self.comment,
             "creation_date": self.creation_date,
             "user_name": user_data["name"],
-            "profile_picture": image["image"]
+            "profile_picture": image.image
         }
 
 

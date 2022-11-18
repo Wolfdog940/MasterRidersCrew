@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { Comment } from "../../component/Comments/comment.jsx";
 import { Context } from "../../store/appContext";
+import "../../../styles/allComments.css"
 
 export const AllComments = (props) => {
   const [comments, setComments] = useState([]);
@@ -9,8 +10,6 @@ export const AllComments = (props) => {
   useEffect(() => {
     let synchEffect = async () => {
       await getComments(props.item_id);
-      let aux2 = props.item_id;
-      let aux = comments;
     };
     synchEffect();
   }, []);
@@ -58,10 +57,7 @@ export const AllComments = (props) => {
         return false;
       }
       const data = await resp.json();
-      let aux = comments;
-
       setComments([data, ...comments]);
-      aux = comments;
       return true;
     } catch (error) {
       console.error("There has been an error sending the comment");
@@ -70,7 +66,7 @@ export const AllComments = (props) => {
 
   const handleSubmit = async () => {
     await newComment();
-    document.getElementById("comment").value = null;
+    document.getElementById(`comment${props.item_id}`).value = null;
   };
 
   return (
@@ -81,19 +77,30 @@ export const AllComments = (props) => {
         </label>
         <textarea
           id={`comment${props.item_id}`}
-          className="justify-content-end"
-          rows={3}
+          className="justify-content-end text-area-comment"
+          rows={2}
         ></textarea>
       </div>
-      <button className="btn btn-success my-3" onClick={handleSubmit}>
+      <button className="btn btn-outline-success my-3 rounded-pill enterBtn" onClick={handleSubmit}>
         Guardar comentario
       </button>
-
-      {comments.length && comments.length > 0 ? (
-        comments.map((item, i) => <Comment item={item} key={i} />)
-      ) : (
-        <h3>No hay comentarios, se el primero!</h3>
-      )}
+      <button
+        className="btn btn-outline-secondary ms-2 rounded-pill showBtn"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target={"#collapseComments"+props.item_id}
+        aria-expanded="false"
+        aria-controls="collapseComments"
+      >
+        Comentarios 
+      </button>
+      <div className="collapse" id={"collapseComments"+props.item_id}>
+        {comments.length && comments.length > 0 ? (
+          comments.map((item, i) => <Comment item={item} key={i} />)
+        ) : (
+          <h3>No hay comentarios, se el primero!</h3>
+        )}
+      </div>
     </div>
   );
 };

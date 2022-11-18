@@ -69,10 +69,10 @@ const AllPublicEvents = () => {
             </Link>
           </div>
         </div>
-        <div className="d-flex justify-content-center my-2">
+        <div className="d-flex justify-content-center my-4">
           <Link to="/showVideo" className="link">
             {" "}
-            <span className="text-warning ">
+            <span className="text-warning">
               No sabes como crear un evento ?
               <svg
                 xmlns="http://www.w3.org/2000/svg"

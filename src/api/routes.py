@@ -594,11 +594,17 @@ def get_by_user():
         user_id=current_user_id).order_by(Post.id.desc()).all()
     if len(all_post) == 0:
         return jsonify({"msg": "You don't have any posts"}), 404
-
     all_post = list(map(lambda x: x.serialize_image(), all_post))
-
     return jsonify(all_post), 200
 
+@api.route("/all_user_posts/<int:id>", methods=['GET'])
+@jwt_required()
+def get_by_specific_user(id):
+    allPostUser = Post.query.filter_by(user_id=id).all()
+    if allPostUser is None:
+        return jsonify({"msg":"this user has no posts"}), 404
+    allPostUser = list(map(lambda post: post.serialize(), allPostUser))
+    return jsonify(allPostUser),200
 
 @api.route("/create_post", methods=["POST"])
 @jwt_required()

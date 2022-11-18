@@ -15,23 +15,23 @@ export const Comment = (props) => {
     comment.creation_date = dateTransformation;
   } catch {}
   return (
-    <div class="d-flex flex-row p-3">
+    <div className="d-flex flex-row p-3">
       {" "}
       <img
         src={comment.profile_picture}
         width="40"
         height="40"
-        class="rounded-circle mr-3"
+        className="rounded-circle mr-3"
       />
-      <div class="w-100">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="d-flex flex-row align-items-center">
+      <div className="w-100">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex flex-row align-items-center">
             {" "}
-            <span class="mr-2">{comment.user_name}</span>{" "}
+            <span className="mr-2">{comment.user_name}</span>{" "}
           </div>{" "}
           <small>{comment.creation_date}</small>
         </div>
-        <p class="text-justify mb-0">{comment.comment}</p>
+        <p className="text-justify mb-0">{comment.comment}</p>
       </div>
     </div>
   );
