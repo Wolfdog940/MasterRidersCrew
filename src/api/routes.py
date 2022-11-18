@@ -117,7 +117,6 @@ def post_New_Frienship():
 @jwt_required()
 def post_all_friends():
 
-    main_friend_id = get_jwt_identity()
     friendSearch = Form_friendship.query.filter_by(
         main_friend_id=get_jwt_identity())
 
