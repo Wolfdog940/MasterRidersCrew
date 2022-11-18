@@ -745,6 +745,27 @@ const getState = ({ getStore, getActions, setStore }) => {
           throw new Error("No se pudo actualizar/Unable to update");
         }
       },
+
+      postFriend: async (secondaryId) => {
+        console.log(secondaryId);
+        const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            secondary_friend_id: secondaryId,
+          }),
+        });
+        const data = await resp.json();
+
+        if (resp.status === 200) {
+          setStore({ friends: data });
+        } else {
+          throw new Error("Unable to update");
+        }
+      },
     },
   };
 };

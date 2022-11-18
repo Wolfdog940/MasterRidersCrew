@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useParams } from "react-router-dom";
 import "../../styles/publicUserProfile.css";
+import { object } from "prop-types";
 
 export const PublicUserProfile = () => {
   const { store, actions } = useContext(Context);
-  const { posicion } = useParams();
 
-  let objetc = store.findFriends[parseInt(posicion)];
+  const { posicion } = useParams();
+  let object = store.findFriends[parseInt(posicion)];
 
   return (
     <div>
@@ -17,13 +18,13 @@ export const PublicUserProfile = () => {
       <div className="userContainer">
         <div className="userBackground"></div>
         <div className="userPhoto">
-          <img src={objetc?.image} className="picture" />
+          <img src={object?.image} className="picture" />
         </div>
         <div className="userData">
           <div className="userDescription d-flex justify-content-between">
             <div className="ms-4">
-              <h3 className="text-secondary">{`${objetc?.name} ${objetc?.last_name}`}</h3>
-              <p className="text-secondary">{objetc?.address}</p>
+              <h3 className="text-secondary">{`${object?.name} ${object?.last_name}`}</h3>
+              <p className="text-secondary">{object?.address}</p>
             </div>
           </div>
         </div>
@@ -44,7 +45,16 @@ export const PublicUserProfile = () => {
             </svg>
           </button>
         </Link>
-        <button className="btn btn-success">Agregar</button>
+        <Link to={"/userHome"}>
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              actions.postFriend(parseInt(object.user_id));
+            }}
+          >
+            Agregar
+          </button>
+        </Link>
       </div>
     </div>
   );
