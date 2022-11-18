@@ -94,7 +94,7 @@ const AllPublicEvents = () => {
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
             <IndividualAllEvents
-              key={i}
+              key={item.id}
               item={item}
               deleteEvent={deleteEvent}
               updateMethod={actions.getPublicEvents}

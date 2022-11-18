@@ -38,7 +38,7 @@ const AllEvents = (props) => {
         </div>
         <div className="event-container event-scroll">
           {store.allEvents.map((item, i) => (
-            <div className="post-margin" key={i}>
+            <div className="post-margin" key={item.id}>
               <IndividualAllEvents
                 item={item}
                 deleteEvent={deleteEvent}

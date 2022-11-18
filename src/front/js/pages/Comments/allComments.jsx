@@ -7,7 +7,12 @@ export const AllComments = (props) => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    getComments(props.item_id);
+    let synchEffect = async () => {
+      await getComments(props.item_id);
+      let aux2 = props.item_id;
+      let aux = comments;
+    };
+    synchEffect();
   }, []);
 
   const getComments = async () => {
@@ -25,7 +30,6 @@ export const AllComments = (props) => {
       const data = await resp.json();
 
       setComments(data);
-
       return true;
     } catch (error) {
       console.error("There has been an error retrieving data");
@@ -40,7 +44,7 @@ export const AllComments = (props) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        comment: document.getElementById("comment").value,
+        comment: document.querySelector(`#comment${props.item_id}`).value,
         item_id: props.item_id,
       }),
     };
@@ -57,7 +61,6 @@ export const AllComments = (props) => {
       let aux = comments;
 
       setComments([data, ...comments]);
-
       aux = comments;
       return true;
     } catch (error) {
@@ -77,7 +80,7 @@ export const AllComments = (props) => {
           Nuevo comentario
         </label>
         <textarea
-          id="comment"
+          id={`comment${props.item_id}`}
           className="justify-content-end"
           rows={3}
         ></textarea>
