@@ -101,7 +101,8 @@ def post_New_Frienship():
 
     existFriendship = Form_friendship.query.filter_by(
         main_friend_id=main_friend_id, secondary_friend_id=secondary_friend_id).first()
-  
+    if existFriendship is not None :
+        return jsonify({"msg":"allready exist"}),404
 
     new_friend = Form_friendship(
         main_friend_id=main_friend_id,

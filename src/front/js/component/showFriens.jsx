@@ -8,9 +8,9 @@ export const ShowFriends = (props) => {
 
   return (
     <div className="finderCard d-flex flex-row aling-items-center ms-2 mt-2 mb-2">
-      {/*  <div className="me-2 mt-1">
+      <div className="me-2 mt-1">
         <img className="search_picture" src={item.profilePicture} />
-      </div> */}
+      </div>
       {console.log(item)}
       <div className="me-1 mt-1 text-secondary">{item.friend_name}</div>
       <div className=" me-2 mt-1 text-secondary">{item.friend_last_name}</div>
