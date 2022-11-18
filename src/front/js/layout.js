@@ -23,6 +23,7 @@ import AllPublicEvents from "./pages/Events/allPublicEvents.jsx";
 import SearchEvents from "./pages/Events/searchEvents.jsx";
 import { ShowVideo } from "./component/showVideo.jsx";
 import UserFavorite from "./pages/userFavorite";
+import { PublicUserProfile } from "./component/publicUserProfile.jsx";
 
 //create your first component
 const Layout = () => {
@@ -57,6 +58,10 @@ const Layout = () => {
             <Route element={<Noticias />} path="/noticias" />
             <Route element={<Images />} path="/images" />
             <Route element={<ShowVideo />} path="/showVideo" />
+            <Route
+              element={<PublicUserProfile />}
+              path="/publicUserProfile/:posicion"
+            />
           </Routes>
         </ScrollToTop>
       </BrowserRouter>

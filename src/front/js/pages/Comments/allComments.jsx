@@ -27,6 +27,7 @@ export const AllComments = (props) => {
         opts
       );
       const data = await resp.json();
+
       setComments(data);
       return true;
     } catch (error) {
@@ -67,6 +68,7 @@ export const AllComments = (props) => {
     await newComment();
     document.getElementById(`comment${props.item_id}`).value = null;
   };
+
   return (
     <div className="comment-container ">
       <div className="d-flex flex-column">

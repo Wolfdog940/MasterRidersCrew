@@ -1,0 +1,42 @@
+.find {
+  width: 250px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: fit-content;
+  margin-left: 1vw;
+  margin-top: 3vw;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+  box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
+}
+#name {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  width: 150px;
+}
+#name:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  outline: none;
+  border-radius: 30%;
+}
+#name::placeholder {
+  text-align: start;
+}
+.button {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+  box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
+  border-radius: 30%;
+}
+.finder {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+}
+a {
+  text-decoration: none;
+}

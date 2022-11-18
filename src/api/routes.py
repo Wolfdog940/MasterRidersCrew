@@ -68,24 +68,91 @@ def login():
     access_token = create_access_token(
         identity=user.id, expires_delta=datetime.timedelta(days=10))
     return jsonify({"token": access_token, "user_id": user.id}), 200
-################################################################################
-#                            CRUD de user/friend                                      #
-################################################################################
 
-@api.route('/users', methods=['GET'])
+
+################################################################################
+#                            CRUD de friends                                      #
+################################################################################
+@api.route('/findData', methods=['POST'])
 @jwt_required()
-def get_users():
-    allUsers = User.query.all()
-    serializer = list(map(lambda x: x.serialize(), allUsers))
-    print(allUsers)
-    if allUsers is None:
-        return({"msg":"bad request"})  
+def get_allData():
+
+    name = request.json.get("name", None)
+    userSearch = User_Data.query.filter_by(name=name).all()
+    # aplico el serialice a user search para poder entrar a los datos que tiene
+    serializer = list(map(lambda x: x.serialize(), userSearch))
+    for user in serializer:
+        # por cada user voy a buscar la imagen dentro de la tabla image
+        pictureSearch = Image.query.get(user["profile_picture"])
+        if pictureSearch is None:
+            continue
+        pictureSearch.serialize()
+        # serializo picturesearch
+        user["image"] = pictureSearch.image
+        # a objeto con la key image la imagen de la tabal image
     return jsonify({"data": serializer}), 200
 
 
+@api.route("/addFriend", methods=["POST"])
+@jwt_required()
+def post_New_Frienship():
+    main_friend_id = get_jwt_identity()
+    secondary_friend_id = request.json.get("secondary_friend_id", None)
+
+    existFriendship = Form_friendship.query.filter_by(
+        main_friend_id=main_friend_id, secondary_friend_id=secondary_friend_id).first()
+  
+
+    new_friend = Form_friendship(
+        main_friend_id=main_friend_id,
+        secondary_friend_id=secondary_friend_id
+    )
+
+    db.session.add(new_friend)
+    db.session.commit()
+    return jsonify(new_friend.serialize()), 200
 
 
+@api.route("/getFriendList", methods=["GET"])
+@jwt_required()
+def get_all_friends():
 
+    friendSearch = Form_friendship.query.filter_by(
+        main_friend_id=get_jwt_identity())
+
+    serializer = list(map(lambda x: x.serialize(), friendSearch))
+
+    for friend_data in serializer:
+        userDataSearch = User_Data.query.get(
+            friend_data["secondary_friend_id"])
+
+        pictureSearch = Image.query.get(userDataSearch.profile_picture)
+
+        if userDataSearch is None:
+            continue
+        userDataSearch.serialize()
+        
+        friend_data["friend_name"] = userDataSearch.name
+        friend_data["friend_last_name"] = userDataSearch.last_name
+        friend_data["friend_address"] = userDataSearch.address
+        if pictureSearch is not None:
+            friend_data["profilePicture"] = pictureSearch.image
+        else :friend_data["profilePicture"]=None
+       
+    return jsonify({"data": serializer}), 200
+
+
+@api.route("/deleteFriend/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_frienship(id):
+    friend = Form_friendship.query.get(id)
+    if friend is None:
+        return jsonify({"msg": "Friend does not exist"})
+
+    db.session.delete(friend)
+    db.session.commit()
+
+    return jsonify({"msg": "friend has been deleted"}), 200
 
 ################################################################################
 #                            CRUD de group                                      #
@@ -634,8 +701,8 @@ def get_user_data():
 def post_user_data(id):
     data = request.get_json()
     new_user_data = User_Data(
-        name=data["name"],
-        last_name=data["last_name"],
+        name=data["name"].strip(),
+        last_name=data["last_name"].strip(),
         address=None,
         user_id=id,
         profile_picture=None  # Por defecto dejo se crea sin profile_picture

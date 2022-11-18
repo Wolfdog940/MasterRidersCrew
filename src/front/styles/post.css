@@ -1,9 +1,8 @@
 .post-container {
-  margin: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 70%;
+  width: 65%;
 }
 .createPostContainer {
   display: flex;

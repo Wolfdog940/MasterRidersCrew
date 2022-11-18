@@ -1,0 +1,11 @@
+.friends {
+  width: 250px;
+  height: fit-content;
+  border-radius: 10px;
+
+  margin-left: 1vw;
+  margin-top: 3vw;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+  box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
+}
