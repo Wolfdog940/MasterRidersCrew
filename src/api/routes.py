@@ -603,7 +603,7 @@ def get_by_specific_user(id):
     allPostUser = Post.query.filter_by(user_id=id).all()
     if allPostUser is None:
         return jsonify({"msg":"this user has no posts"}), 404
-    allPostUser = list(map(lambda post: post.serialize(), allPostUser))
+    allPostUser = list(map(lambda post: post.serialize_image(), allPostUser))
     return jsonify(allPostUser),200
 
 @api.route("/create_post", methods=["POST"])
@@ -693,10 +693,25 @@ def get_user_data():
     current_user_id = get_jwt_identity()
     current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if current_user is None:
-
         return jsonify({"msg": "The user data does not exist"}), 400
     return jsonify(current_user.serialize()), 200
 
+@api.route("/user/data/info/<int:id>", methods=["GET"])
+@jwt_required()
+def get_user_data_favorite(id):
+    favorite_user = User_Data.query.filter_by(user_id = id).first()
+    if favorite_user is None:
+        return jsonify({"msg": "The user data does not exist"}), 400
+    favorite_user = favorite_user.serialize()
+    if favorite_user["profile_picture"] is None:
+        favorite_user["image"]=None
+    else: 
+        favorite_profile_picture = Image.query.get(favorite_user["profile_picture"])
+        if favorite_profile_picture is None:
+            favorite_user["image"]=None
+        else:
+            favorite_user["image"]=favorite_profile_picture.image
+    return jsonify({"data": favorite_user}), 200
 
 @api.route("/user/<int:id>/data", methods=["POST"])
 def post_user_data(id):
@@ -792,7 +807,6 @@ def get_profile_picture(id):
     if image_profile_user is None:
         return jsonify({"msg": "this user has not profile picture yet"}), 400
     return jsonify({"data": image_profile_user.serialize()}), 200
-
 
 @api.route("/user/image", methods=["POST"])
 @jwt_required()

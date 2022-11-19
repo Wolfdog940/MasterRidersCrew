@@ -1,13 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Navbar } from "../component/navbar.js";
 import AllFavoriteUserPosts from "../component/favorites/allFavoriteUserPosts.jsx";
 
-const UserFavorite = (props) => {
+const UserFavorite = () => {
+
+  const {user_id} = useParams();
+  const [user, setUser] = useState({});
 
   useEffect(()=>{
     if (!localStorage.getItem("token")) {
       navigate("/");
     }
+    getFavoriteProfile(user_id);
   },[])
+
+  const getFavoriteProfile = async (user_id) => {
+    try {
+      const resp = await fetch(
+        process.env.BACKEND_URL + "/api/user/data/info/" + user_id,
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const {data} = await resp.json();
+      if (resp.status !== 200){
+        alert("Peticion invalida/Invalid request");
+        return false;
+      }
+      setUser(data);
+      return true;
+    } catch (error) {    }
+  }
 
   return (
     <>
@@ -18,8 +46,8 @@ const UserFavorite = (props) => {
       <div className="userContainer">
         <div className="userBackground"></div>
         <div className="userPhoto">
-          {props.profilePicture ? (
-            <img src={props.profilePicture} className="picture" />
+          {user.image ? (
+            <img src={user.image} className="picture" />
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,14 +68,14 @@ const UserFavorite = (props) => {
         <div className="userData">
           <div className="userDescription d-flex justify-content-between">
             <div className="ms-4">
-              <h3 className="text-secondary">{`${props.name} ${props.last_name}`}</h3>
-              <p className="text-secondary">{props.address}</p>
+              <h3 className="text-secondary">{`${user.name} ${user.last_name}`}</h3>
+              <p className="text-secondary">{user.address}</p>
             </div>
           </div>
         </div>
       </div>
       <h2 className="text-white m-auto text-center">Sus Posts</h2>
-      <AllFavoriteUserPosts props={props.user_id} />
+      <AllFavoriteUserPosts user_id={user_id} />
       {/* <AllEvents noNavBar={true} noParams={true} /> */}
     </>
   );
