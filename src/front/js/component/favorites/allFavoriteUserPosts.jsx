@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../../store/appContext";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 
 const AllFavoriteUserPosts = ({ user_id }) => {
@@ -24,6 +25,7 @@ const AllFavoriteUserPosts = ({ user_id }) => {
               </div>
               <img className="postImage" src={post.image}></img>
               <p className="text-secondary text-end mt-4">{post.date}</p>
+              <AllComments item_id={post.id} type="Post" />
             </div>
           );
         })
