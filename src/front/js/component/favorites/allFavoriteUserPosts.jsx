@@ -6,13 +6,13 @@ const AllFavoriteUserPosts = ({ user_id }) => {
     const{ actions } = useContext(Context);
   const [allPosts, setAllPosts] = useState(null);
 
-  useEffect(() => {
-    let posts = null;
-    let asyncPost = async () => posts = await actions.getPostsSpecificUser(user_id);
-    asyncPost();
-    setAllPosts(posts);
-  }, []);
+  const asyncPost = async () => setAllPosts(await actions.getPostsSpecificUser(user_id))
 
+  useEffect(() => {
+    asyncPost();
+  }, []);
+  
+  console.log(allPosts)
   return (
     <ul className="listaPost">
       {allPosts && allPosts.length ? (
