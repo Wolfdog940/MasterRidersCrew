@@ -4,9 +4,10 @@ import "../../styles/userSearch.css";
 import { Link } from "react-router-dom";
 
 export const ShowFriends = (props) => {
-  const { item } = props;
+  const { item, changeFavorite } = props;
   const { store, actions } = useContext(Context);
-console.log(item)
+
+
   return (
     <div className="finderCard d-flex flex-row aling-items-center ms-2 mt-2 mb-2">
       <div className="me-2 mt-1">
@@ -37,8 +38,8 @@ console.log(item)
       <div className="d-flex">
         <button
           className="border-0 bg-transparent trash "
-          onClick={() => {
-            actions.deleteFriend(item.id);
+          onClick={async() => {
+            changeFavorite(await actions.deleteFriend(item.id));
           }}
         >
           <svg
@@ -46,7 +47,7 @@ console.log(item)
             width="16"
             height="16"
             fill="currentColor"
-            ClassName="bi bi-trash trash"
+            className="bi bi-trash trash"
             viewBox="0 0 16 16"
             color="red"
           >

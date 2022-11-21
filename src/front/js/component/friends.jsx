@@ -19,7 +19,9 @@ export const Friends = () => {
     <div className="find  col-1  ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
         {" "}
-        <button className="button   rounded-pill bg-transparent  text-end mb-2">
+        <button
+          className="button   rounded-pill bg-transparent  text-end mb-2"
+        >
           <input
             id="name"
             className="input-search me-2 ms-2   bg-transparent   border-end text-center "
@@ -27,7 +29,6 @@ export const Friends = () => {
             onChange={handleInputChange}
             autoComplete="off"
           />
-
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
