@@ -12,17 +12,17 @@
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
 }
-#name {
+#favorite {
   background-color: rgba(255, 255, 255, 0.3);
   border: none;
   width: 150px;
 }
-#name:focus {
+#favorite:focus {
   background-color: rgba(255, 255, 255, 0.3);
   border: none;
   outline: none;
 }
-#name::placeholder {
+#favorite::placeholder {
   text-align: start;
 }
 .button {
