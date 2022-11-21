@@ -140,7 +140,7 @@ def delete_frienship(id):
     friends = Form_friendship.query.filter_by(main_friend_id = current_user).all()    
     serializer = list(map(lambda x: x.serialize_delete(), friends))
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("SERIALIZER DELETE")
+    print("SERIALIZER DELETE!!!")
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     print(serializer)
     return jsonify(serializer), 200
