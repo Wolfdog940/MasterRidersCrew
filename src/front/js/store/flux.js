@@ -804,6 +804,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           throw new Error("Unable to update");
         }
       },
+
+      deleteFriend: async (secondaryId) => {
+        const resp = await fetch(
+          process.env.BACKEND_URL + "/api/deleteFriend/" + secondaryId,
+          {
+            method: "DELETE",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify(secondaryId),
+          }
+        );
+        const data = await resp.json();
+        if (resp.status === 200) return data;
+        else {
+          throw new Error("Unable to delete");
+        }
+      },
     },
   };
 };

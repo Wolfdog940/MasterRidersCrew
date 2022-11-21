@@ -10,3 +10,21 @@
   padding: 3px;
   margin-right: 5px;
 }
+.trash:hover {
+  transform: rotate(720deg) scale(1.7, 1.7);
+}
+.trash {
+  transition: transform 500ms ease-out;
+}
+.accordion-button {
+  color: white;
+
+  display: flex;
+}
+.accordion-button:focus {
+  border: none;
+  display: none;
+}
+.accordion-button ::after {
+  background-color: white;
+}
