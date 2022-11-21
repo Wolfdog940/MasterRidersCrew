@@ -8,6 +8,7 @@ export const MyFriends = () => {
   const [favorite, setFavorite] = useState([]);
 
   const asyncEff = async () => setFavorite(await actions.getFriends());
+
   useEffect(() => {
     asyncEff();
   }, []);
@@ -22,7 +23,7 @@ export const MyFriends = () => {
         <div className="accordion-item bg-transparent">
           <h2 className="accordion-header" id="headingOne">
             <button
-              className="accordion-button bg-transparent text-white btn btn-light"
+              className="accordion-button bg-transparent text-white border-0  px-0"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseOne"
@@ -39,9 +40,11 @@ export const MyFriends = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body finder">
+
               {favorite && favorite.length ? 
               favorite.map((item) => (
                     <ShowFriends item={item} key={item.id} changeFavorite={changeFavorite} />
+
                   ))
                 : "No tienes favoritos"}
             </div>
