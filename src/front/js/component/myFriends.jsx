@@ -36,9 +36,11 @@ export const MyFriends = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body finder">
-              {favorite?.map((item, i) => (
-                <ShowFriends item={item} key={i} />
-              ))}
+              {favorite?.length > 0
+                ? favorite?.map((item, i) => (
+                    <ShowFriends item={item} key={i} />
+                  ))
+                : "No tienes favoritos"}
             </div>
           </div>
         </div>
