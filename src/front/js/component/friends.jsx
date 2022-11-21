@@ -19,21 +19,15 @@ export const Friends = () => {
     <div className="find  col-1  ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
         {" "}
-        <button
-          className="button   rounded-pill bg-transparent  text-end mb-2"
-          onClick={() => {
-            actions.getFriend(name);
-            input.value = "";
-          }}
-        >
+        <button className="button   rounded-pill bg-transparent  text-end mb-2">
           <input
-            id="favorite"
-            className="input-search me-2 ms-2   bg-transparent  border-end text-center "
+            id="name"
+            className="input-search me-2 ms-2   bg-transparent   border-end text-center "
             placeholder="Buscar Raiders "
             onChange={handleInputChange}
             autoComplete="off"
           />
-          {console.log(store.findFriends)}
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -42,6 +36,10 @@ export const Friends = () => {
             className="bi bi-search  icono"
             viewBox="0 0 16 16"
             color="gray"
+            onClick={() => {
+              actions.getFriend(name);
+              input.value = "";
+            }}
           >
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
           </svg>
@@ -50,7 +48,7 @@ export const Friends = () => {
 
       <div className="finder ">
         {store.findFriends.map((item, i) => (
-          <Link key={i} to={/publicUserProfile/ + i}>
+          <Link key={item.id} to={/publicUserProfile/ + i}>
             <FriendsFinder item={item} />
           </Link>
         ))}
