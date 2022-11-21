@@ -119,28 +119,12 @@ def post_New_Frienship():
 def get_all_friends():
 
     friendSearch = Form_friendship.query.filter_by(
-        main_friend_id=get_jwt_identity())
+        main_friend_id=get_jwt_identity()).all()
 
-    serializer = list(map(lambda x: x.serialize(), friendSearch))
-
-    for friend_data in serializer:
-        userDataSearch = User_Data.query.get(
-            friend_data["secondary_friend_id"])
-
-        pictureSearch = Image.query.get(userDataSearch.profile_picture)
-
-        if userDataSearch is None:
-            continue
-        userDataSearch.serialize()
-        
-        friend_data["friend_name"] = userDataSearch.name
-        friend_data["friend_last_name"] = userDataSearch.last_name
-        friend_data["friend_address"] = userDataSearch.address
-        if pictureSearch is not None:
-            friend_data["profilePicture"] = pictureSearch.image
-        else :friend_data["profilePicture"]=None
-       
-    return jsonify({"data": serializer}), 200
+    serializer = list(map(lambda x: x.serialize_list_friend(), friendSearch))
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")   
+    print(serializer)
+    return jsonify(serializer), 200
 
 
 @api.route("/deleteFriend/<int:id>", methods=["DELETE"])
@@ -148,12 +132,18 @@ def get_all_friends():
 def delete_frienship(id):
     friend = Form_friendship.query.get(id)
     if friend is None:
-        return jsonify({"msg": "Friend does not exist"})
+        return jsonify({"msg": "Friend does not exist"}), 400
 
     db.session.delete(friend)
     db.session.commit()
-
-    return jsonify({"msg": "friend has been deleted"}), 200
+    current_user = get_jwt_identity()
+    friends = Form_friendship.query.filter_by(main_friend_id = current_user).all()    
+    serializer = list(map(lambda x: x.serialize_delete(), friends))
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    print("SERIALIZER DELETE")
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(serializer)
+    return jsonify(serializer), 200
 
 ################################################################################
 #                            CRUD de group                                      #

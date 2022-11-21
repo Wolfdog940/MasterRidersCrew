@@ -5,13 +5,16 @@ import { ShowFriends } from "./showFriens.jsx";
 
 export const MyFriends = () => {
   const { store, actions } = useContext(Context);
-  const [favorite, setFavorite] = useState(null);
+  const [favorite, setFavorite] = useState([]);
 
   const asyncEff = async () => setFavorite(await actions.getFriends());
-  const asyncEff2 = async () => setList(await store.friends);
   useEffect(() => {
     asyncEff();
   }, []);
+
+  const changeFavorite = (list) => {
+    setFavorite(list);
+  }
 
   return (
     <div className="friends text-center mt-2">
@@ -36,9 +39,11 @@ export const MyFriends = () => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body finder">
-              {favorite?.map((item, i) => (
-                <ShowFriends item={item} key={i} />
-              ))}
+              {favorite && favorite.length ? 
+              favorite.map((item) => (
+                    <ShowFriends item={item} key={item.id} changeFavorite={changeFavorite} />
+                  ))
+                : "No tienes favoritos"}
             </div>
           </div>
         </div>

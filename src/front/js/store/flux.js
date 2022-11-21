@@ -748,80 +748,89 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getFriend: async (name) => {
-        const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: JSON.stringify(name),
-        });
-        const data = await resp.json();
-        if (resp.status === 200) {
-          setStore({ findFriends: data.data });
-        } else {
-          throw new Error("No se pudo actualizar/Unable to update");
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify(name),
+          });
+          const data = await resp.json();
+          if (resp.status === 200) {
+            setStore({ findFriends: data.data });
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
         }
+        catch (error){}
       },
 
       getFriends: async () => {
-        console.log();
-        const resp = await fetch(
-          process.env.BACKEND_URL + "/api/getFriendList",
-          {
-            method: "GET",
+        try{
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/getFriendList",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) {
+            return data;
+          } else {
+            throw new Error("Unable to update");
+          }
+        }
+        catch(error){}
+      },
+      postFriend: async (secondaryId) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
+            method: "POST",
             headers: {
               "content-type": "application/json",
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
+            body: JSON.stringify({
+              secondary_friend_id: secondaryId,
+            }),
+          });
+          const data = await resp.json();
+
+          if (resp.status === 200) {
+            setStore({ friends: [...getStore().friends, data.data] });
+          } else {
+            throw new Error("Unable to update");
           }
-        );
-        const data = await resp.json();
-
-        if (resp.status === 200) {
-          return data.data;
-        } else {
-          throw new Error("Unable to update");
         }
-      },
-      postFriend: async (secondaryId) => {
-        console.log(secondaryId);
-        const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            secondary_friend_id: secondaryId,
-          }),
-        });
-        const data = await resp.json();
-
-        if (resp.status === 200) {
-          setStore({ friends: [...getStore().friends, data.data] });
-        } else {
-          throw new Error("Unable to update");
-        }
+        catch(error){}
       },
 
       deleteFriend: async (secondaryId) => {
-        const resp = await fetch(
-          process.env.BACKEND_URL + "/api/deleteFriend/" + secondaryId,
-          {
-            method: "DELETE",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-            body: JSON.stringify(secondaryId),
+        try{
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/deleteFriend/" + secondaryId,
+            {
+              method: "DELETE",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(secondaryId),
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) return data;
+          else {
+            throw new Error("Unable to delete");
           }
-        );
-        const data = await resp.json();
-        if (resp.status === 200) return data;
-        else {
-          throw new Error("Unable to delete");
         }
+        catch (error){}
       },
     },
   };
