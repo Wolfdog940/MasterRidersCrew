@@ -19,7 +19,7 @@ export const MyFriends = () => {
         <div className="accordion-item bg-transparent">
           <h2 className="accordion-header" id="headingOne">
             <button
-              className="accordion-button bg-transparent text-white btn btn-light"
+              className="accordion-button bg-transparent text-white btn btn-light px-0"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseOne"
