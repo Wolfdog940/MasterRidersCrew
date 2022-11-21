@@ -14,7 +14,7 @@ export const Friends = () => {
       [event.target.id]: event.target.value.trim(),
     });
   };
-  let input = document.getElementById("name");
+  let input = document.getElementById("favorite");
   return (
     <div className="find  col-1  ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
@@ -27,7 +27,7 @@ export const Friends = () => {
           }}
         >
           <input
-            id="name"
+            id="favorite"
             className="input-search me-2 ms-2   bg-transparent  border-end text-center "
             placeholder="Buscar Raiders "
             onChange={handleInputChange}
