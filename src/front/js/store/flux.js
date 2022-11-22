@@ -814,7 +814,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       removeFindFriends: (id) => {
         let filterFindFriends = getStore().findFriends.filter(item => item.user_id !== id);
-        console.log(filterFindFriends)
         setStore({ findFriends: filterFindFriends})
       },
 

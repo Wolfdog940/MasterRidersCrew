@@ -21,7 +21,7 @@ export const ShowFriends = (props) => {
           width="25"
           height="25"
           fill="currentColor"
-          className="bi bi-box-arrow-in-right"
+          className="bi bi-box-arrow-in-right toProfile"
           viewBox="0 0 17 15"
         >
           <path
@@ -34,7 +34,6 @@ export const ShowFriends = (props) => {
           />
         </svg>
       </Link>
-      <div className=" me-2 mt-1 text-secondary">{item.friend_address}</div>
       <div className="d-flex">
         <button
           className="border-0 bg-transparent trash "
