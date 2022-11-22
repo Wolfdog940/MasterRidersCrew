@@ -424,6 +424,19 @@ def update_event(event_id):
     db.session.commit()
     return jsonify(event.serialize()), 200
 
+@api.route("/events/<int:user_id>/<int:page>/<int:per_page>", methods=["GET"])
+@jwt_required()
+def get_events_user_favorite(user_id,page, per_page):
+    amount_participation = Event_participation.query.filter_by(
+        user_id=user_id).count()
+    all_events = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
+        user_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_events = list(map(lambda x: x.return_event(), all_events))
+
+    if all_events is None:
+        return jsonify({"msg": "Event not found"}), 404
+    return jsonify(all_events, amount_participation)
 
 @api.route("/events/<int:page>/<int:per_page>", methods=["GET"])
 @jwt_required()

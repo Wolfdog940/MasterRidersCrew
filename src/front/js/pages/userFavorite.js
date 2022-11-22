@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../component/navbar.js";
 import AllFavoriteUserPosts from "../component/favorites/allFavoriteUserPosts.jsx";
+import AllEventsUserFavorite from "../component/favorites/allEventsUserFavorite.jsx"
 
 const UserFavorite = () => {
 
@@ -76,7 +77,7 @@ const UserFavorite = () => {
       </div>
       <h2 className="text-white m-auto text-center">Sus Posts</h2>
       <AllFavoriteUserPosts user_id={user_id} />
-      {/* <AllEvents noNavBar={true} noParams={true} /> */}
+      <AllEventsUserFavorite noNavBar={true} noParams={true} user_id={user_id} />
     </>
   );
 };
