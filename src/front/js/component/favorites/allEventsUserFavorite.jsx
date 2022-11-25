@@ -46,7 +46,6 @@ const AllEventsUserFavorite = (props) => {
     }
   };
 
-  console.log(events)
   if (events) {
     return (
       <div>
@@ -63,10 +62,11 @@ const AllEventsUserFavorite = (props) => {
             </div>
           ))}
         </div>
-        {/* <div className="w-100 d-flex justify-content-center mt-5">
+        <div className="w-100 d-flex justify-content-center mt-5">
           {page >= 1 && page < Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="nextButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) + 1}/${per_page}`)
               }
@@ -77,6 +77,7 @@ const AllEventsUserFavorite = (props) => {
           {page > 1 && page <= Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="prevButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) - 1}/${per_page}`)
               }
@@ -84,7 +85,7 @@ const AllEventsUserFavorite = (props) => {
               Anterior
             </button>
           ) : null}
-        </div> */}
+        </div>
       </div>
     );
   } else {
