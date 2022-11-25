@@ -25,7 +25,7 @@ const UserHome = () => {
               <MyFriends />
             </div>
             <ShowPost />
-        </div>{" "}
+        </div>
       </div>
     </div>
   );
