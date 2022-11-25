@@ -3,6 +3,7 @@ import { Context } from "../../store/appContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../navbar";
 import "../../../styles/showEvent.css";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 const ShowEvent = () => {
   const { store, actions } = useContext(Context);
@@ -89,7 +90,7 @@ const ShowEvent = () => {
       <div className="event-container event-scroll">
         <iframe src={event.map} className="mapaShowEvent"></iframe>
         <div className="event-post">
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label htmlFor="name" className="text-secondary labelShowEvent">
               Nombre del evento
             </label>
@@ -97,7 +98,7 @@ const ShowEvent = () => {
               {event.name}
             </h5>
           </div>
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label htmlFor="date" className="text-secondary labelShowEvent">
               Fecha
             </label>
@@ -105,19 +106,19 @@ const ShowEvent = () => {
               {event.date} a las {event.hours}:{event.minutes}
             </p>
           </div>
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label htmlFor="start" className="text-secondary labelShowEvent">
               Ciudad de inicio
             </label>
             <p id="start">{event.start}</p>
           </div>
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label htmlFor="end" className="text-secondary labelShowEvent">
               Ciudad de destino
             </label>
             <p id="end">{event.end}</p>
           </div>
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label
               htmlFor="description"
               className="text-secondary labelShowEvent"
@@ -126,7 +127,7 @@ const ShowEvent = () => {
             </label>
             <p id="description">{event.description}</p>
           </div>
-          <div className="divShowEvent">
+          <div className="divShowEvent border-top border-opacity-25 pt-2">
             <label
               htmlFor="amountParticipants"
               className="text-secondary labelShowEvent"
@@ -135,7 +136,7 @@ const ShowEvent = () => {
             </label>
             <p id="amountParticipants">{eventParticipants}</p>
           </div>
-          <div className="showFooter d-flex flex-column">
+          <div className="showFooter d-flex flex-column border-top border-opacity-25 pt-2">
             <div className="d-flex">
               <input
                 id="mapInput"
@@ -144,7 +145,7 @@ const ShowEvent = () => {
               ></input>
               <button
                 onClick={sendMap}
-                className="btn btn-outline-secondary enterBtn showFooterBtnAddMap"
+                className="btn btn-outline-secondary enterBtn showFooterBtnAddMap rounded-pill"
               >
                 Enviar mapa
               </button>
@@ -152,19 +153,20 @@ const ShowEvent = () => {
             {eventParticipation ? (
               <button
                 onClick={unsubscribe}
-                className="btn btn-outline-warning mt-2 leaveBtn showFooterBtnParticipation"
+                className="btn btn-outline-warning mt-2 leaveBtn showFooterBtnParticipation rounded-pill"
               >
                 Borrarse del evento
               </button>
             ) : (
               <button
                 onClick={subscribe}
-                className="btn btn-outline-success mt-2 enterBtn showFooterBtnParticipation"
+                className="btn btn-outline-success mt-2 enterBtn showFooterBtnParticipation rounded-pill"
               >
                 Inscribirse en el evento
               </button>
             )}
           </div>
+          <AllComments item_id={params.eventId} type="Event" />
         </div>
       </div>
     </div>

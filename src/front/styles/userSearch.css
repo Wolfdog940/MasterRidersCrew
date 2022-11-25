@@ -1,0 +1,38 @@
+.search_picture {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.finderCard {
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 3px;
+  margin-right: 5px;
+}
+.trash:hover {
+  transform: rotate(180deg) scale(1.3, 1.3);
+}
+.trash {
+  transition: transform 300ms ease-out;
+}
+.accordion-button {
+  color: white;
+
+  display: flex;
+}
+.accordion-button:focus {
+  border: none;
+  display: none;
+}
+.accordion-button ::after {
+  background-color: white;
+}
+.toProfile:hover {
+  transform: scale(1.2, 1.2);
+  color:gray;
+}
+.toProfile {
+  color:white;
+  transition: transform 300ms ease-out;
+}

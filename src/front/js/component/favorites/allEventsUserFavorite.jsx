@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { Navbar } from "../../component/navbar";
-import IndividualAllEvents from "../../component/Events/individualAllEvents.jsx";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import IndividualAllEventsUserFavorite from "../favorites/individualAllEventsUserFavorite.jsx"
 
-const AllEvents = (props) => {
-  const { store, actions } = useContext(Context);
+const AllEventsUserFavorite = (props) => {
+  const [events, setEvents] = useState([]);
+  const [count, setCount] = useState(0);
   let { page, per_page } = useParams();
 
   const navigate = useNavigate();
@@ -21,28 +20,44 @@ const AllEvents = (props) => {
   }, []);
 
   useEffect(() => {
-    actions.getEvents(page, per_page);
+    getEventsUserFavorite(props.user_id, page, per_page);
   }, [page]);
 
-  const deleteEvent = async (id) => {
-    await actions.deleteEvent(id);
-    navigate("/allpublicevents/1/5");
+  const getEventsUserFavorite = async (user_id, page, per_page) => {
+    try {
+      const resp = await fetch(
+        process.env.BACKEND_URL + "/api/events/"+ user_id + "/" + page + "/" + per_page,{
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + localStorage.token
+        }
+      }
+      );
+      const data = await resp.json();
+      if (resp.status !== 200){
+        alert("Peticion invalida/Invalid request");
+        return false;
+      }
+      setEvents(data[0]);
+      setCount(data[1]);
+      return true;
+    } catch (error) {
+      console.error("There has been an error retrieving data");
+    }
   };
 
-  if (store.allEvents) {
+  if (events) {
     return (
       <div>
         <div>{props.noNavBar ? <div></div> : <Navbar />}</div>
         <div>
-          <h1 className="text-white title-container">Todos mis eventos</h1>
+          <h1 className="text-white title-container">Todos sus eventos</h1>
         </div>
         <div className="event-container event-scroll">
-          {store.allEvents.map((item, i) => (
+          {events.map((item) => (
             <div className="post-margin" key={item.id}>
-              <IndividualAllEvents
+              <IndividualAllEventsUserFavorite
                 item={item}
-                deleteEvent={deleteEvent}
-                updateMethod={actions.getEvents}
               />
             </div>
           ))}
@@ -78,4 +93,4 @@ const AllEvents = (props) => {
   }
 };
 
-export default AllEvents;
+export default AllEventsUserFavorite;

@@ -6,6 +6,62 @@ import datetime
 db = SQLAlchemy()
 
 
+class Event_comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'),
+                         nullable=False)
+    comment = db.Column(db.String(), unique=False, nullable=False)
+    creation_date = db.Column(DateTime, nullable=False, unique=False,
+                              default=datetime.datetime.utcnow())
+
+    def __repr__(self):
+        return f'<Event_comments {self.id}>'
+
+    def serialize(self):
+        user_data = User_Data.query.filter_by(user_id=self.user_id).first()
+        user_data = user_data.serialize()
+        image = Image.query.get(user_data["profile_picture"])
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "event_id": self.event_id,
+            "comment": self.comment,
+            "creation_date": self.creation_date,
+            "user_name": user_data["name"],
+            "profile_picture": image.image
+        }
+
+
+class Post_comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'),
+                        nullable=False)
+    comment = db.Column(db.String(), unique=False, nullable=False)
+    creation_date = db.Column(DateTime, nullable=False, unique=False,
+                              default=datetime.datetime.utcnow())
+
+    def __repr__(self):
+        return f'<Post_comments {self.id}>'
+
+    def serialize(self):
+        user_data = User_Data.query.filter_by(user_id=self.user_id).first()
+        user_data = user_data.serialize()
+        image = Image.query.get(user_data["profile_picture"])
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "post_id": self.post_id,
+            "comment": self.comment,
+            "creation_date": self.creation_date,
+            "user_name": user_data["name"],
+            "profile_picture": image.image
+        }
+
+
 class Group_participation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
@@ -55,6 +111,39 @@ class Form_friendship(db.Model):
 
     def __repr__(self):
         return f'<Form_friendship {self.id}>'
+
+    def serialize_list_friend(self):
+        profile_picture = None
+        favorite = User_Data.query.filter_by(user_id = self.secondary_friend_id).first()
+        if favorite.profile_picture is not None:
+            favorite_profile_picture = Image.query.get(favorite.profile_picture)
+            profile_picture = favorite_profile_picture.image
+
+        return{
+            "id": self.id,
+            "main_friend_id": self.main_friend_id,
+            "secondary_friend_id": self.secondary_friend_id,
+            "profilePicture": profile_picture,
+            "friend_name": favorite.name,
+            "friend_last_name": favorite.last_name,
+            "address": favorite.address
+        }        
+
+    def serialize_delete(self):
+        profile_picture = None
+        user = User_Data.query.filter_by(user_id = self.secondary_friend_id).first()
+        if user.profile_picture is not None:
+            user_profile_picture = Image.query.get(user.profile_picture)
+            profile_picture = user_profile_picture.image
+        return{
+            "id": self.id,
+            "main_friend_id": self.main_friend_id,
+            "secondary_friend_id": self.secondary_friend_id,
+            "profilePicture": profile_picture,
+            "friend_name": user.name,
+            "friend_last_name": user.last_name,
+            "address": user.address
+        }
 
     def serialize(self):
         return {

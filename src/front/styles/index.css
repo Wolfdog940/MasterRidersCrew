@@ -134,10 +134,6 @@ a:hover {
   margin-bottom: 10px;
 }
 
-/* .event-scroll {
-  overflow-y: auto;
-} */
-
 .event-container {
   display: flex;
   align-items: center;
@@ -218,6 +214,11 @@ a:hover {
 .post-margin {
   width: 100%;
 }
+.rigth-container {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
 
 @media screen and (max-width: 480px) {
   .event-post {
@@ -230,15 +231,7 @@ a:hover {
 
     width: 80%;
   }
-<<<<<<< HEAD
-/* 
-  form {
-=======
 
-  /* form {
->>>>>>> aba4b6fcc8008fe9f6298dce1406076b7a397812
-    width: 80%;
-  } */
   .signup_form {
     margin-top: 1rem;
 

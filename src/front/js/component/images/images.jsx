@@ -22,8 +22,7 @@ const Images = () => {
     if (page === 1) {
       let prevButton = document.querySelector("#prevButton");
       prevButton.disabled = true;
-    }
-    else if (page >= maxPage) {
+    } else if (page >= maxPage) {
       let nextButton = document.querySelector("#nextButton");
       nextButton.disabled = true;
     }
@@ -31,7 +30,7 @@ const Images = () => {
 
   const prevImages = () => {
     actions.getImages(page - 1);
-    setPage(page => page - 1);
+    setPage((page) => page - 1);
     let nextButton = document.querySelector("#nextButton");
     nextButton.disabled = false;
   };
@@ -55,7 +54,7 @@ const Images = () => {
       <div className="imageContainer">
         {store.userImages.map((image, index) => {
           return (
-            <div key={index} className="myCardImage overflow-hidden">
+            <div key={image.id} className="myCardImage overflow-hidden">
               <img
                 className="myImage"
                 src={image.image}

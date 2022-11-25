@@ -69,10 +69,10 @@ const AllPublicEvents = () => {
             </Link>
           </div>
         </div>
-        <div className="d-flex justify-content-center my-2">
+        <div className="d-flex justify-content-center my-4">
           <Link to="/showVideo" className="link">
             {" "}
-            <span className="text-warning ">
+            <span className="text-warning">
               No sabes como crear un evento ?
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ const AllPublicEvents = () => {
         <div className="event-container event-scroll">
           {store.allPublicEvents.map((item, i) => (
             <IndividualAllEvents
-              key={i}
+              key={item.id}
               item={item}
               deleteEvent={deleteEvent}
               updateMethod={actions.getPublicEvents}
@@ -106,6 +106,7 @@ const AllPublicEvents = () => {
           page < Math.ceil(store.allPublicEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="nextButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) + 1}/${per_page}`)
               }
@@ -117,6 +118,7 @@ const AllPublicEvents = () => {
           page <= Math.ceil(store.allPublicEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="prevButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) - 1}/${per_page}`)
               }

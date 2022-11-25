@@ -31,11 +31,11 @@ export const Navbar = () => {
 
   return (
     <div className="container nav d-flex justify-content-around border-bottom  sticky-top">
-      <div className="">
+      <Link to="/userHome" className="brand">
         <h4 className="text-white mt-3 me-5 logo">R|C</h4>
-      </div>
+      </Link>
       <nav className="navbar navbar-expand-lg  ">
-        <div className="container  ">
+        <div className="container">
           <button
             className="navbar-toggler"
             type="button"
@@ -63,7 +63,7 @@ export const Navbar = () => {
             <ol className="navbar-nav  ">
               <li className="nav-item">
                 <Link
-                  className="nav-link text-light"
+                  className="nav-link text-light link-home"
                   onClick={handlePost}
                   to="/userHome"
                 >
@@ -71,30 +71,30 @@ export const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item link-news">
                 <Link className="nav-link text-light" to="/Noticias">
                   Noticias
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item link-photos">
                 <Link className="nav-link text-light" to="/images">
                   Mis Fotos
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item link-events">
                 <Link className="nav-link text-light" to="/allpublicevents/1/5">
                   Eventos
                 </Link>
               </li>
               <li className="nav-item dropdown">
                 <a
-                  className="nav-link dropdown-toggle "
+                  className="nav-link dropdown-toggle text-white"
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {store.userData.profile_picture ? (
+                  {store.profilePicture ? (
                     <img className="nav-picture" src={picture}></img>
                   ) : (
                     <svg
@@ -113,10 +113,10 @@ export const Navbar = () => {
                     </svg>
                   )}
                 </a>
-                <ol className="dropdown-menu">
+                <ol className="dropdown-menu dropdown-menu-end animate slideIn">
                   <li>
                     <Link
-                      className="nav-link text-light dropdown-item text-black ps-3"
+                      className="nav-link dropdown-item text-black ps-3 link-perfil"
                       to="/userprofile"
                     >
                       perfil
@@ -124,7 +124,7 @@ export const Navbar = () => {
                   </li>
                   <li>
                     <button
-                      className=" dropdown-item  btn "
+                      className="dropdown-item btn"
                       onClick={borrar_token}
                     >
                       logout

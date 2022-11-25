@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
+import { AllComments } from "../../pages/Comments/allComments.jsx";
 
 export const ShowPost = () => {
   const { store, actions } = useContext(Context);
@@ -111,7 +112,7 @@ export const ShowPost = () => {
   };
   let language = `${navigator.language}-${navigator.language.toUpperCase()}`;
   return (
-    <div className="post-container ">
+    <div className="post-container  col-11">
       <div className="createPostContainer">
         <div className="profile-image-container">
           <div className="image">
@@ -124,10 +125,11 @@ export const ShowPost = () => {
             data-bs-target="#staticBackdrop"
             className="input-button text-secondary"
           >
-            En que estas pensando ?
+            Crear publicación
           </div>
         </div>
       </div>
+
       <div className="posts">
         {/* creacion de post */}
         <div
@@ -267,7 +269,7 @@ export const ShowPost = () => {
                 post.date = dateTransformation;
               } catch {}
               return (
-                <div key={key} className="post d-flex flex-column">
+                <div key={post.id} className="post d-flex flex-column">
                   <div className="postText">
                     <h2 className="w-100">{post.text}</h2>
                     <div className="relative mb-5">
@@ -329,6 +331,7 @@ export const ShowPost = () => {
                   <p className="postDate text-secondary text-end">
                     {post.date}
                   </p>
+                  <AllComments item_id={post.id} type="Post" />
                 </div>
               );
             })

@@ -1,0 +1,25 @@
+.friend {
+  margin: 1rem auto;
+  width: 70%;
+  max-width: 700px;
+  height: 275px;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
+
+  background-color: rgba(26, 126, 184, 0.3);
+}
+.user_name {
+  display: flex;
+  flex-direction: row;
+}
+.text {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.picture {
+  border: 3px solid white;
+}

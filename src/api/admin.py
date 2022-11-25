@@ -1,7 +1,11 @@
 
 import os
 from flask_admin import Admin
-from .models import db, User, Event_participation, User_Data, Image, Post, Event
+
+from .models import db, User, Event_participation, User_Data, Image, Post, Event,Form_friendship,Post_comments
+
+
+
 from flask_admin.contrib.sqla import ModelView
 
 
@@ -19,3 +23,8 @@ def setup_admin(app):
     admin.add_view(MyModel(User_Data, db.session))
     admin.add_view(MyModel(Image, db.session))
     admin.add_view(MyModel(Event, db.session))
+
+    admin.add_view(MyModel(Form_friendship, db.session))
+
+    admin.add_view(MyModel(Post_comments, db.session))
+

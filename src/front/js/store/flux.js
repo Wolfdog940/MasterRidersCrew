@@ -24,6 +24,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       originCoords: { lon: null, lat: null },
       destinationCoords: { lon: null, lat: null },
       amountAllPosts: 0,
+      findFriends: [],
+      friends: [],
     },
     actions: {
       setOriginCoords: (lon, lat) => {
@@ -153,6 +155,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log("Error al obtener los posts del usuario actual", error);
+        }
+      },
+      getPostsSpecificUser: async (id) => {
+        try {
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/all_user_posts/" + id,
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) return data;
+        } catch (error) {
+          console.log(error);
         }
       },
       createPost: async (post) => {
@@ -528,7 +548,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getProfilePicture: async (id) => {
         try {
           const resp = await fetch(
-            process.env.BACKEND_URL + "/api/user/image/" + id,
+            process.env.BACKEND_URL + "/api/user/image_by_user/",
             {
               method: "GET",
               headers: {
@@ -725,6 +745,98 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log("Peticion invalida/Invalid request");
         }
+      },
+
+      getFriend: async (name) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/findData", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify(name),
+          });
+          const data = await resp.json();
+          if (resp.status === 200) {
+            setStore({ findFriends: data.data });
+          } else {
+            throw new Error("No se pudo actualizar/Unable to update");
+          }
+        }
+        catch (error){}
+      },
+
+      getFriends: async () => {
+        try{
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/getFriendList",
+            {
+              method: "GET",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) {
+            return data;
+          } else {
+            throw new Error("Unable to update");
+          }
+        }
+        catch(error){}
+      },
+
+      postFriend: async (secondaryId) => {
+        try{
+          const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              secondary_friend_id: secondaryId,
+            }),
+          });
+          const data = await resp.json();
+
+          if (resp.status === 200) {
+            return data.data;
+          } else {
+            throw new Error("Unable to update");
+          }
+        }
+        catch(error){}
+      },
+
+      removeFindFriends: (id) => {
+        let filterFindFriends = getStore().findFriends.filter(item => item.user_id !== id);
+        setStore({ findFriends: filterFindFriends})
+      },
+
+      deleteFriend: async (secondaryId) => {
+        try{
+          const resp = await fetch(
+            process.env.BACKEND_URL + "/api/deleteFriend/" + secondaryId,
+            {
+              method: "DELETE",
+              headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+              body: JSON.stringify(secondaryId),
+            }
+          );
+          const data = await resp.json();
+          if (resp.status === 200) return data;
+          else {
+            throw new Error("Unable to delete");
+          }
+        }
+        catch (error){}
       },
     },
   };

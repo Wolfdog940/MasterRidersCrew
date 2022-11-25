@@ -1,0 +1,11 @@
+.showBtn{
+    transition: transform 300ms ease-out;
+}
+.showBtn:hover {
+    transform: scale(0.8, 0.8);
+}
+
+.text-area-comment{
+    background-color: rgb(201, 201, 201);
+    border-radius: 1rem;
+}

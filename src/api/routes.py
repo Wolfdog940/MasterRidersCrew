@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import datetime
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Event, User_Data, Group, Image, Post, Group_participation, Event_participation, Form_friendship
+from api.models import db, User, Event, User_Data, Group, Image, Post, Group_participation, Event_participation, Form_friendship, Event_comments, Post_comments
 from api.utils import generate_sitemap, APIException
 from sqlalchemy.sql import text
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, get_jwt
@@ -68,6 +68,82 @@ def login():
     access_token = create_access_token(
         identity=user.id, expires_delta=datetime.timedelta(days=10))
     return jsonify({"token": access_token, "user_id": user.id}), 200
+
+
+################################################################################
+#                            CRUD de friends                                      #
+################################################################################
+@api.route('/findData', methods=['POST'])
+@jwt_required()
+def get_allData():
+
+    name = request.json.get("name", None)
+    userSearch = User_Data.query.filter_by(name=name).all()
+    # aplico el serialice a user search para poder entrar a los datos que tiene
+    serializer = list(map(lambda x: x.serialize(), userSearch))
+    for user in serializer:
+        # por cada user voy a buscar la imagen dentro de la tabla image
+        pictureSearch = Image.query.get(user["profile_picture"])
+        if pictureSearch is None:
+            continue
+        pictureSearch.serialize()
+        # serializo picturesearch
+        user["image"] = pictureSearch.image
+        # a objeto con la key image la imagen de la tabal image
+    return jsonify({"data": serializer}), 200
+
+
+@api.route("/addFriend", methods=["POST"])
+@jwt_required()
+def post_New_Frienship():
+    main_friend_id = get_jwt_identity()
+    secondary_friend_id = request.json.get("secondary_friend_id", None)
+
+    existFriendship = Form_friendship.query.filter_by(
+        main_friend_id=main_friend_id, secondary_friend_id=secondary_friend_id).first()
+    if existFriendship is not None :
+        return jsonify({"msg":"allready exist"}),404
+
+    new_friend = Form_friendship(
+        main_friend_id=main_friend_id,
+        secondary_friend_id=secondary_friend_id
+    )
+
+    db.session.add(new_friend)
+    db.session.commit()
+    return jsonify(new_friend.serialize()), 200
+
+
+@api.route("/getFriendList", methods=["GET"])
+@jwt_required()
+def get_all_friends():
+
+    friendSearch = Form_friendship.query.filter_by(
+        main_friend_id=get_jwt_identity()).all()
+
+    serializer = list(map(lambda x: x.serialize_list_friend(), friendSearch))
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")   
+    #print(serializer)
+    return jsonify(serializer), 200
+
+
+@api.route("/deleteFriend/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_frienship(id):
+    friend = Form_friendship.query.get(id)
+    if friend is None:
+        return jsonify({"msg": "Friend does not exist"}), 400
+
+    db.session.delete(friend)
+    db.session.commit()
+    current_user = get_jwt_identity()
+    friends = Form_friendship.query.filter_by(main_friend_id = current_user).all()    
+    serializer = list(map(lambda x: x.serialize_delete(), friends))
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print("SERIALIZER DELETE!!!")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print(serializer)
+    return jsonify(serializer), 200
 
 ################################################################################
 #                            CRUD de group                                      #
@@ -292,6 +368,11 @@ def remove_event(event_id):
     for event_part in eventsParticipation:
         db.session.delete(event_part)
         db.session.commit()
+    comments_to_delete = Event_comments.query.filter_by(
+        event_id=event_id).all()
+    for comment in comments_to_delete:
+        db.session.delete(comment)
+        db.session.commit()
     db.session.delete(event_to_delete)
     db.session.commit()
     return jsonify({"msg": "Event has been removed"}), 200
@@ -343,6 +424,19 @@ def update_event(event_id):
     db.session.commit()
     return jsonify(event.serialize()), 200
 
+@api.route("/events/<int:user_id>/<int:page>/<int:per_page>", methods=["GET"])
+@jwt_required()
+def get_events_user_favorite(user_id,page, per_page):
+    amount_participation = Event_participation.query.filter_by(
+        user_id=user_id).count()
+    all_events = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
+        user_id=user_id).paginate(page=page, per_page=per_page)
+
+    all_events = list(map(lambda x: x.return_event(), all_events))
+
+    if all_events is None:
+        return jsonify({"msg": "Event not found"}), 404
+    return jsonify(all_events, amount_participation)
 
 @api.route("/events/<int:page>/<int:per_page>", methods=["GET"])
 @jwt_required()
@@ -449,7 +543,7 @@ def search_event(name, start, end, date, page):
         searchQuery = ".filter_by(name = name)"
     if start != "any":
         start.replace("%", " ")
-        searchQuery = searchQuery + ".filter_by(start = start)"    
+        searchQuery = searchQuery + ".filter_by(start = start)"
     if end != "any":
         end.replace("%", " ")
         searchQuery = searchQuery + ".filter_by(end = end)"
@@ -464,11 +558,13 @@ def search_event(name, start, end, date, page):
     all_events = list(map(lambda x: x.serialize(), all_events))
     return jsonify(all_events, amount_participation), 200
 
+
 @api.route("/listParticipants/<int:event_id>", methods=["GET"])
 def list_participants(event_id):
     all_participants = Event_participation.query.order_by(Event_participation.id.desc()).filter_by(
         event_id=event_id).count()
     return jsonify({"participantsAmount": all_participants}), 200
+
 
 ################################################################################
 #                           POST CRUD                                          #
@@ -501,11 +597,17 @@ def get_by_user():
         user_id=current_user_id).order_by(Post.id.desc()).all()
     if len(all_post) == 0:
         return jsonify({"msg": "You don't have any posts"}), 404
-
     all_post = list(map(lambda x: x.serialize_image(), all_post))
-
     return jsonify(all_post), 200
 
+@api.route("/all_user_posts/<int:id>", methods=['GET'])
+@jwt_required()
+def get_by_specific_user(id):
+    allPostUser = Post.query.filter_by(user_id=id).all()
+    if allPostUser is None:
+        return jsonify({"msg":"this user has no posts"}), 404
+    allPostUser = list(map(lambda post: post.serialize_image(), allPostUser))
+    return jsonify(allPostUser),200
 
 @api.route("/create_post", methods=["POST"])
 @jwt_required()
@@ -573,9 +675,15 @@ def delete_post():
     if current_user_id != post_deleted.user_id:
         return jsonify({"msg": "Not the owner of the post"}), 400
 
+    comments_to_delete = Post_comments.query.filter_by(post_id=post_id).all()
+    for comment in comments_to_delete:
+        db.session.delete(comment)
+        db.session.commit()
+
     db.session.delete(post_deleted)
     db.session.commit()
     return jsonify({"msg": "post deleted"}), 200
+
 
 ################################################################################
 #                           CRUD de User_Data                                  #
@@ -588,17 +696,32 @@ def get_user_data():
     current_user_id = get_jwt_identity()
     current_user = User_Data.query.filter_by(user_id=current_user_id).first()
     if current_user is None:
-
         return jsonify({"msg": "The user data does not exist"}), 400
     return jsonify(current_user.serialize()), 200
 
+@api.route("/user/data/info/<int:id>", methods=["GET"])
+@jwt_required()
+def get_user_data_favorite(id):
+    favorite_user = User_Data.query.filter_by(user_id = id).first()
+    if favorite_user is None:
+        return jsonify({"msg": "The user data does not exist"}), 400
+    favorite_user = favorite_user.serialize()
+    if favorite_user["profile_picture"] is None:
+        favorite_user["image"]=None
+    else: 
+        favorite_profile_picture = Image.query.get(favorite_user["profile_picture"])
+        if favorite_profile_picture is None:
+            favorite_user["image"]=None
+        else:
+            favorite_user["image"]=favorite_profile_picture.image
+    return jsonify({"data": favorite_user}), 200
 
 @api.route("/user/<int:id>/data", methods=["POST"])
 def post_user_data(id):
     data = request.get_json()
     new_user_data = User_Data(
-        name=data["name"],
-        last_name=data["last_name"],
+        name=data["name"].strip(),
+        last_name=data["last_name"].strip(),
         address=None,
         user_id=id,
         profile_picture=None  # Por defecto dejo se crea sin profile_picture
@@ -669,6 +792,17 @@ def get_images(page, per_page):
     return jsonify(all_images, amount_all_images)
 
 
+@api.route("/user/image_by_user", methods=["GET"])
+@jwt_required()
+def get_profile_picture_by_user():
+    current_user_id = get_jwt_identity()
+    data = User_Data.query.filter_by(user_id=current_user_id).first()
+    image_profile_user = Image.query.get(data.profile_picture)
+    if image_profile_user is None:
+        return jsonify({"msg": "this user has not profile picture yet"}), 400
+    return jsonify({"data": image_profile_user.serialize()}), 200
+
+
 @api.route("/user/image/<int:id>", methods=["GET"])
 @jwt_required()
 def get_profile_picture(id):
@@ -676,7 +810,6 @@ def get_profile_picture(id):
     if image_profile_user is None:
         return jsonify({"msg": "this user has not profile picture yet"}), 400
     return jsonify({"data": image_profile_user.serialize()}), 200
-
 
 @api.route("/user/image", methods=["POST"])
 @jwt_required()
@@ -709,3 +842,71 @@ def delete_image(id):
     db.session.delete(image)
     db.session.commit()
     return jsonify({"msg": "picture has been erased"}), 200
+
+
+################################################################################
+#                           CRUD de Comentarios                                  #
+################################################################################
+
+@api.route("/listEventComments/<int:event_id>", methods=["GET"])
+def list_event_comments(event_id):
+    all_comments = Event_comments.query.order_by(Event_comments.id.asc()).filter_by(
+        event_id=event_id).all()
+    all_comments = list(map(lambda x: x.serialize(), all_comments))
+    return jsonify(all_comments), 200
+
+
+@api.route("/listEventComments", methods=["POST"])
+@jwt_required()
+def new_event_comment():
+    user_id = get_jwt_identity()
+    event_id = request.json.get("item_id", None)
+    event = Event.query.get(event_id)
+    if event is None:
+        return jsonify({"msg": "Event not found"}), 404
+    comment = request.json.get("comment", None)
+    if comment is None:
+        return jsonify({"msg": "No comment found"}), 404
+    comment_to_save = Event_comments(
+        user_id=user_id,
+        event_id=event_id,
+        comment=comment
+    )
+    db.session.add(comment_to_save)
+    db.session.commit()
+
+    return jsonify(comment_to_save.serialize()), 200
+
+
+@api.route("/listPostComments/<int:post_id>", methods=["GET"])
+def list_post_comments(post_id):
+    all_comments = Post_comments.query.order_by(Post_comments.id.asc()).filter_by(
+        post_id=post_id).all()
+    if all_comments == None:
+        return jsonify([], 0), 200
+
+    all_comments = list(map(lambda x: x.serialize(), all_comments))
+    return jsonify(all_comments), 200
+
+
+@api.route("/listPostComments", methods=["POST"])
+@jwt_required()
+def new_post_comment():
+    user_id = get_jwt_identity()
+    post_id = request.json.get("item_id", None)
+
+    post = Post.query.get(post_id)
+    if post is None:
+        return jsonify({"msg": "Post not found"}), 404
+    comment = request.json.get("comment", None)
+    if comment is None:
+        return jsonify({"msg": "No comment found"}), 404
+    comment_to_save = Post_comments(
+        user_id=user_id,
+        post_id=post_id,
+        comment=comment
+    )
+    db.session.add(comment_to_save)
+    db.session.commit()
+
+    return jsonify(comment_to_save.serialize()), 200
