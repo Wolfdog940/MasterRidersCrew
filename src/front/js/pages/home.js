@@ -24,7 +24,7 @@ const Login = () => {
   }
 
   return (
-    <div className="div-container">
+    <div className="div-container mt-5">
       <div className="d-flex justify-content-center align-items-center mt-2 flex-column">
         <div>
           <h1 className="logo text-white">*Riders|Crew*</h1>
