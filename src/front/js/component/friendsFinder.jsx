@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
+import React from "react";
 import "../../styles/userSearch.css";
 
 export const FriendsFinder = (props) => {
-  const { item, index } = props;
-  const { store, actions } = useContext(Context);
+  const { item } = props;
 
   return (
     <div className="finderCard d-flex flex-row aling-items-center ms-2 mt-2 mb-2">

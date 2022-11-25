@@ -19,15 +19,13 @@ const UserHome = () => {
     <div className="home ">
       <Navbar />
       <div className="container">
-        <div className="row finder-container w-0">
-          <div className=" rigth-container">
-            <Friends />
-
-            <MyFriends />
-          </div>
-
-          <ShowPost />
-        </div>{" "}
+        <div className="row finder-container">
+            <div className=" rigth-container">
+              <Friends />
+              <MyFriends />
+            </div>
+            <ShowPost />
+        </div>
       </div>
     </div>
   );

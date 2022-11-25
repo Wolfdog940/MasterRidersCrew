@@ -788,6 +788,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
         catch(error){}
       },
+
       postFriend: async (secondaryId) => {
         try{
           const resp = await fetch(process.env.BACKEND_URL + "/api/addFriend", {
@@ -803,12 +804,17 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           if (resp.status === 200) {
-            setStore({ friends: [...getStore().friends, data.data] });
+            return data.data;
           } else {
             throw new Error("Unable to update");
           }
         }
         catch(error){}
+      },
+
+      removeFindFriends: (id) => {
+        let filterFindFriends = getStore().findFriends.filter(item => item.user_id !== id);
+        setStore({ findFriends: filterFindFriends})
       },
 
       deleteFriend: async (secondaryId) => {

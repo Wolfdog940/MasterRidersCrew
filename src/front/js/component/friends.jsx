@@ -14,7 +14,7 @@ export const Friends = () => {
       [event.target.id]: event.target.value.trim(),
     });
   };
-  let input = document.getElementById("favorite");
+  
   return (
     <div className="find  col-1  ">
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
@@ -39,6 +39,7 @@ export const Friends = () => {
             color="gray"
             onClick={() => {
               actions.getFriend(name);
+              let input = document.getElementById("name");
               input.value = "";
             }}
           >

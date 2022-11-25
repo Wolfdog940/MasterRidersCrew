@@ -13,7 +13,6 @@ const AllFavoriteUserPosts = ({ user_id }) => {
     asyncPost();
   }, []);
   
-  console.log(allPosts)
   return (
     <ul className="listaPost">
       {allPosts && allPosts.length ? (

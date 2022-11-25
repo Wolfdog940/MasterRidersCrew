@@ -48,8 +48,9 @@ export const PublicUserProfile = () => {
         <Link to={"/userHome"}>
           <button
             className="btn btn-success"
-            onClick={() => {
-              actions.postFriend(object.user_id);
+            onClick={async () => {
+              await actions.postFriend(object.user_id);
+              actions.removeFindFriends(object.user_id);
             }}
           >
             Agregar
