@@ -51,6 +51,7 @@ const AllEvents = (props) => {
           {page >= 1 && page < Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="nextButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) + 1}/${per_page}`)
               }
@@ -61,6 +62,7 @@ const AllEvents = (props) => {
           {page > 1 && page <= Math.ceil(store.allEventsLength / per_page) ? (
             <button
               className="btn btn-primary mx-5"
+              id="prevButtonPost"
               onClick={() =>
                 navigate(`/allevents/${parseInt(page) - 1}/${per_page}`)
               }

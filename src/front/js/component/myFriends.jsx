@@ -44,7 +44,6 @@ export const MyFriends = () => {
               {favorite && favorite.length ? 
               favorite.map((item) => (
                     <ShowFriends item={item} key={item.id} changeFavorite={changeFavorite} />
-
                   ))
                 : "No tienes favoritos"}
             </div>
