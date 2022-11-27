@@ -219,8 +219,18 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
+.smallRow{
+  display: none;
+}
 
 @media screen and (max-width: 480px) {
+  .bigRow{
+    display: none;
+  }
+  .smallRow{
+    display: flex;
+    flex-direction: column;
+  }
   .event-post {
     width: 78%;
     padding: 5px;
