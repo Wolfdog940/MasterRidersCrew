@@ -92,7 +92,7 @@ const SearchEvents = () => {
     await actions.deleteEvent(id);
     navigate("/allpublicevents/1/5");
   };
-  
+
   if (eventsLength > 0) {
     return (
       <div>
@@ -142,13 +142,13 @@ const SearchEvents = () => {
     return (
       <div>
         <Navbar />
-        <div className="d-flex justify-content-center">
-          <div className="card ">
+        <div className="d-flex align-items-center flex-column mt-2">
+          <div className="card rounded-3 p-3">
             {" "}
             <form onSubmit={submitEvent}>
-              <div>
+              <div className="d-flex justify-content-center">
                 <DatePicker
-                  className="datePickerLong"
+                  className="datePickerLong rounded-pill px-2 mx-auto align-self-center border-0 text-center"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   minDate={new Date()}
@@ -159,18 +159,18 @@ const SearchEvents = () => {
                 />
               </div>
 
-              <div className="mb-3 ">
+              <div className="mb-3 rounded-pill">
                 <label htmlFor="nameInput" className="form-label">
                   Nombre
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control rounded-pill px-2"
                   id="nameInput"
                   aria-describedby="nameHelp"
                 />
               </div>
-              <div className="mb-3">
+              <div className="mb-3 ">
                 <label htmlFor="startInput" className="form-label">
                   Inicio
                 </label>
@@ -184,7 +184,11 @@ const SearchEvents = () => {
               </div>
 
               <div className="d-flex justify-content-center">
-                <button type="button" className="btn " onClick={submitEvent}>
+                <button
+                  type="button"
+                  className="btn mySearch"
+                  onClick={submitEvent}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

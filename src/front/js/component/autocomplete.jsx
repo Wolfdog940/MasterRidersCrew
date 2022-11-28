@@ -59,7 +59,7 @@ export const AutoComplete = (props) => {
   return (
     <div className="d-flex justify-content-center text-dark">
       <input
-        className="w-100"
+        className="w-100 rounded-pill px-2 border-0 me-1"
         type="text"
         list="list"
         id={props.id}
@@ -68,13 +68,13 @@ export const AutoComplete = (props) => {
       />
 
       <select
-        className="form-select"
+        className="form-select rounded-pill px-2"
         aria-label="Default select example"
         onChange={(e) => {
           setData(e);
         }}
       >
-        {cities.map((city,i) => {
+        {cities.map((city, i) => {
           if (city.address.county) {
             return (
               <option key={i} value={city.place_id}>
