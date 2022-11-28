@@ -115,7 +115,7 @@
 
 .postDate {
   position: relative;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .pagination-container {
@@ -163,4 +163,7 @@
   .input-button {
     font-size: small;
   }
+}
+
+.postDate {
 }
