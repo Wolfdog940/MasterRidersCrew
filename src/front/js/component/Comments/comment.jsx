@@ -21,7 +21,7 @@ export const Comment = (props) => {
         src={comment.profile_picture}
         width="40"
         height="40"
-        className="rounded-circle mr-3"
+        className="rounded-circle me-3"
       />
       <div className="w-100">
         <div className="d-flex justify-content-between align-items-center">

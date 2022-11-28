@@ -271,7 +271,7 @@ export const ShowPost = () => {
               return (
                 <div key={post.id} className="post d-flex flex-column">
                   <div className="postText">
-                    <h2 className="w-100">{post.text}</h2>
+                    <h2 className="">{post.text}</h2>
                     <div className="relative mb-5">
                       {Number(localStorage.getItem("user_id")) !==
                       post.user_id ? null : (
@@ -328,9 +328,21 @@ export const ShowPost = () => {
                       alt="Post image"
                     />
                   ) : null}
-                  <p className="postDate text-secondary text-end">
-                    {post.date}
-                  </p>
+                  <div className="postDate text-secondary d-flex justify-content-between w-100 mt-5">
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={post.user_profile_picture}
+                        width="40"
+                        height="40"
+                        className="rounded-circle me-3"
+                      />
+                      <h5 className="mb-0">{post.user_name}</h5>
+                    </div>
+                    <div className="text-secondary text-end my-auto">
+                      {post.date}
+                    </div>
+                  </div>
+
                   <AllComments item_id={post.id} type="Post" />
                 </div>
               );

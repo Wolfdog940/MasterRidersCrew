@@ -114,12 +114,14 @@ class Form_friendship(db.Model):
 
     def serialize_list_friend(self):
         profile_picture = None
-        favorite = User_Data.query.filter_by(user_id = self.secondary_friend_id).first()
+        favorite = User_Data.query.filter_by(
+            user_id=self.secondary_friend_id).first()
         if favorite.profile_picture is not None:
-            favorite_profile_picture = Image.query.get(favorite.profile_picture)
+            favorite_profile_picture = Image.query.get(
+                favorite.profile_picture)
             profile_picture = favorite_profile_picture.image
 
-        return{
+        return {
             "id": self.id,
             "main_friend_id": self.main_friend_id,
             "secondary_friend_id": self.secondary_friend_id,
@@ -127,15 +129,16 @@ class Form_friendship(db.Model):
             "friend_name": favorite.name,
             "friend_last_name": favorite.last_name,
             "address": favorite.address
-        }        
+        }
 
     def serialize_delete(self):
         profile_picture = None
-        user = User_Data.query.filter_by(user_id = self.secondary_friend_id).first()
+        user = User_Data.query.filter_by(
+            user_id=self.secondary_friend_id).first()
         if user.profile_picture is not None:
             user_profile_picture = Image.query.get(user.profile_picture)
             profile_picture = user_profile_picture.image
-        return{
+        return {
             "id": self.id,
             "main_friend_id": self.main_friend_id,
             "secondary_friend_id": self.secondary_friend_id,
@@ -288,14 +291,21 @@ class Post(db.Model):
         image = Image.query.get(self.image_id)
         image = image.serialize()
 
+        user_data = User_Data.query.filter_by(user_id=self.user_id).first()
+        user_profile_picture = None
+        if user_data.profile_picture is not None:
+            user_profile_picture = Image.query.get(
+                user_data.profile_picture).image
+
         return {
             "id": self.id,
             "text": self.text,
             "image": image["image"],
             "image_id": self.image_id,
             "date": self.created_at,
-            "user_id": self.user_id
-
+            "user_id": self.user_id,
+            "user_name": user_data.name+" "+user_data.last_name,
+            "user_profile_picture": user_profile_picture
         }
 
     def serialize(self):
