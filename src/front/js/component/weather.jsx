@@ -32,7 +32,18 @@ export const Weather = (props) => {
   if (dailyweather.weather_icons) {
     return (
       <div className="d-flex">
-        <img className="rounded-circle" style={{"width":"30px", "height":"30px", "position":"relative","top":"-5px"}} src={dailyweather.weather_icons[0]} />
+        <img
+          className="rounded-circle"
+          style={{
+            width: "30px",
+            height: "30px",
+            position: "relative",
+            top: "-5px",
+            "margin-left": "3px",
+            "margin-right": "6px",
+          }}
+          src={dailyweather.weather_icons[0]}
+        />
         <div>{dailyweather.temperature + "°" + "C"}</div>
       </div>
     );
