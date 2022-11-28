@@ -1,13 +1,12 @@
 .find {
-  width: 250px;
+  width: 100%;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   height: fit-content;
-  margin-left: 1vw;
-  margin-top: 3vw;
+  margin-top: 2rem;
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid white;
   box-shadow: 0px 0px 20px 5px rgb(0 0 0 / 30%);
@@ -15,7 +14,7 @@
 .input-search {
   background-color: rgba(255, 255, 255, 0.3);
   border: none;
-  width: 150px;
+  width: 75%;
 }
 .input-search:focus {
   background-color: rgba(255, 255, 255, 0.3);
