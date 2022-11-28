@@ -20,11 +20,11 @@ export const Friends = () => {
       <div className="searchbox mt-2 d-flex justify-content-evenly ">
         {" "}
         <button
-          className="button   rounded-pill bg-transparent  text-end mb-2"
+          className="button d-flex justify-content-between rounded-pill bg-transparent text-end mb-2 mx-2"
         >
           <input
             id="name"
-            className="input-search me-2 ms-2   bg-transparent   border-end text-center "
+            className="input-search bg-transparent border-end text-center "
             placeholder="Buscar Raiders "
             onChange={handleInputChange}
             autoComplete="off"
@@ -34,7 +34,7 @@ export const Friends = () => {
             width="16"
             height="16"
             fill="currentColor"
-            className="bi bi-search  icono"
+            className="bi bi-search me-1 align-self-center"
             viewBox="0 0 16 16"
             color="gray"
             onClick={() => {
