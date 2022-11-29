@@ -134,6 +134,10 @@ a:hover {
   margin-bottom: 10px;
 }
 
+#startInput {
+  border: 1px solid grey;
+}
+
 .event-container {
   display: flex;
   align-items: center;
@@ -219,15 +223,15 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
-.smallRow{
+.smallRow {
   display: none;
 }
 
 @media screen and (max-width: 480px) {
-  .bigRow{
+  .bigRow {
     display: none;
   }
-  .smallRow{
+  .smallRow {
     display: flex;
     flex-direction: column;
   }

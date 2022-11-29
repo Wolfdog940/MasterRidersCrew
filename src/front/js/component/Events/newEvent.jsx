@@ -16,10 +16,10 @@ const NewEvent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")){
-      navigate("/")
+    if (!localStorage.getItem("token")) {
+      navigate("/");
     }
-  },[])
+  }, []);
 
   let lastDate = Date.now() + 864000000;
 
@@ -58,7 +58,7 @@ const NewEvent = () => {
           </span>
         </div>
         <div className="mb-3">
-          <label htmlFor="nameInput" className="form-label">
+          <label htmlFor="nameInput" className="form-label ">
             Nombre
           </label>
           <input
@@ -69,13 +69,13 @@ const NewEvent = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="startInput" className="form-label">
+          <label htmlFor="startInput" className="form-label ">
             Inicio
           </label>
           <AutoComplete id="startInput" pokemon="inicio" />
         </div>
         <div className="mb-3">
-          <label htmlFor="endInput" className="form-label">
+          <label htmlFor="endInput" className="form-label label-1">
             Final
           </label>
           <AutoComplete id="endInput" />

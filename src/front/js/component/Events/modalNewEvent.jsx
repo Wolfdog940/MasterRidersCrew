@@ -80,19 +80,19 @@ const ModalNewEvent = () => {
                 </div>
               </div>
               <div className="mb-3">
-                <label htmlFor="nameInput" className="form-label">
+                <label htmlFor="nameInput" className="form-label ">
                   Nombre
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control "
                   id="nameInput"
                   aria-describedby="nameHelp"
                   autoComplete="off"
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="startInput" className="form-label">
+                <label htmlFor="startInput" className="form-label ">
                   Inicio
                 </label>
                 <AutoComplete id="startInput" pokemon="inicio" />
